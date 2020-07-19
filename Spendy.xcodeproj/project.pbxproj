@@ -1,0 +1,619 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		156938E724C49C4300521D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E624C49C4300521D57 /* AppDelegate.swift */; };
+		156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E824C49C4300521D57 /* SceneDelegate.swift */; };
+		156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */; };
+		156938EE24C49C4300521D57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938ED24C49C4300521D57 /* ContentView.swift */; };
+		156938F024C49C4300521D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 156938EF24C49C4300521D57 /* Assets.xcassets */; };
+		156938F324C49C4300521D57 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 156938F224C49C4300521D57 /* Preview Assets.xcassets */; };
+		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
+		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
+		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		156938FD24C49C4400521D57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 156938DB24C49C4300521D57 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 156938E224C49C4300521D57;
+			remoteInfo = Spendy;
+		};
+		1569390824C49C4400521D57 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 156938DB24C49C4300521D57 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 156938E224C49C4300521D57;
+			remoteInfo = Spendy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		156938E324C49C4300521D57 /* Spendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		156938E624C49C4300521D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		156938E824C49C4300521D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		156938EB24C49C4300521D57 /* Spendy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Spendy.xcdatamodel; sourceTree = "<group>"; };
+		156938ED24C49C4300521D57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		156938EF24C49C4300521D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		156938F224C49C4300521D57 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		156938F524C49C4300521D57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		156938F724C49C4300521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		156938FC24C49C4400521D57 /* SpendyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1569390024C49C4400521D57 /* SpendyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyTests.swift; sourceTree = "<group>"; };
+		1569390224C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1569390724C49C4400521D57 /* SpendyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
+		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		156938E024C49C4300521D57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		156938F924C49C4400521D57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1569390424C49C4400521D57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		156938DA24C49C4300521D57 = {
+			isa = PBXGroup;
+			children = (
+				156938E524C49C4300521D57 /* Spendy */,
+				156938FF24C49C4400521D57 /* SpendyTests */,
+				1569390A24C49C4400521D57 /* SpendyUITests */,
+				156938E424C49C4300521D57 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		156938E424C49C4300521D57 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				156938E324C49C4300521D57 /* Spendy.app */,
+				156938FC24C49C4400521D57 /* SpendyTests.xctest */,
+				1569390724C49C4400521D57 /* SpendyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		156938E524C49C4300521D57 /* Spendy */ = {
+			isa = PBXGroup;
+			children = (
+				156938E624C49C4300521D57 /* AppDelegate.swift */,
+				156938E824C49C4300521D57 /* SceneDelegate.swift */,
+				156938ED24C49C4300521D57 /* ContentView.swift */,
+				156938EF24C49C4300521D57 /* Assets.xcassets */,
+				156938F424C49C4300521D57 /* LaunchScreen.storyboard */,
+				156938F724C49C4300521D57 /* Info.plist */,
+				156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */,
+				156938F124C49C4300521D57 /* Preview Content */,
+			);
+			path = Spendy;
+			sourceTree = "<group>";
+		};
+		156938F124C49C4300521D57 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				156938F224C49C4300521D57 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		156938FF24C49C4400521D57 /* SpendyTests */ = {
+			isa = PBXGroup;
+			children = (
+				1569390024C49C4400521D57 /* SpendyTests.swift */,
+				1569390224C49C4400521D57 /* Info.plist */,
+			);
+			path = SpendyTests;
+			sourceTree = "<group>";
+		};
+		1569390A24C49C4400521D57 /* SpendyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1569390B24C49C4400521D57 /* SpendyUITests.swift */,
+				1569390D24C49C4400521D57 /* Info.plist */,
+			);
+			path = SpendyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		156938E224C49C4300521D57 /* Spendy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1569391024C49C4400521D57 /* Build configuration list for PBXNativeTarget "Spendy" */;
+			buildPhases = (
+				156938DF24C49C4300521D57 /* Sources */,
+				156938E024C49C4300521D57 /* Frameworks */,
+				156938E124C49C4300521D57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Spendy;
+			productName = Spendy;
+			productReference = 156938E324C49C4300521D57 /* Spendy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		156938FB24C49C4400521D57 /* SpendyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1569391324C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyTests" */;
+			buildPhases = (
+				156938F824C49C4400521D57 /* Sources */,
+				156938F924C49C4400521D57 /* Frameworks */,
+				156938FA24C49C4400521D57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				156938FE24C49C4400521D57 /* PBXTargetDependency */,
+			);
+			name = SpendyTests;
+			productName = SpendyTests;
+			productReference = 156938FC24C49C4400521D57 /* SpendyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1569390624C49C4400521D57 /* SpendyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1569391624C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyUITests" */;
+			buildPhases = (
+				1569390324C49C4400521D57 /* Sources */,
+				1569390424C49C4400521D57 /* Frameworks */,
+				1569390524C49C4400521D57 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1569390924C49C4400521D57 /* PBXTargetDependency */,
+			);
+			name = SpendyUITests;
+			productName = SpendyUITests;
+			productReference = 1569390724C49C4400521D57 /* SpendyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		156938DB24C49C4300521D57 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1200;
+				LastUpgradeCheck = 1200;
+				TargetAttributes = {
+					156938E224C49C4300521D57 = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					156938FB24C49C4400521D57 = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 156938E224C49C4300521D57;
+					};
+					1569390624C49C4400521D57 = {
+						CreatedOnToolsVersion = 12.0;
+						TestTargetID = 156938E224C49C4300521D57;
+					};
+				};
+			};
+			buildConfigurationList = 156938DE24C49C4300521D57 /* Build configuration list for PBXProject "Spendy" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 156938DA24C49C4300521D57;
+			productRefGroup = 156938E424C49C4300521D57 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				156938E224C49C4300521D57 /* Spendy */,
+				156938FB24C49C4400521D57 /* SpendyTests */,
+				1569390624C49C4400521D57 /* SpendyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		156938E124C49C4300521D57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */,
+				156938F324C49C4300521D57 /* Preview Assets.xcassets in Resources */,
+				156938F024C49C4300521D57 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		156938FA24C49C4400521D57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1569390524C49C4400521D57 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		156938DF24C49C4300521D57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */,
+				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
+				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
+				156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		156938F824C49C4400521D57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1569390124C49C4400521D57 /* SpendyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1569390324C49C4400521D57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		156938FE24C49C4400521D57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 156938E224C49C4300521D57 /* Spendy */;
+			targetProxy = 156938FD24C49C4400521D57 /* PBXContainerItemProxy */;
+		};
+		1569390924C49C4400521D57 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 156938E224C49C4300521D57 /* Spendy */;
+			targetProxy = 1569390824C49C4400521D57 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		156938F424C49C4300521D57 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				156938F524C49C4300521D57 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1569390E24C49C4400521D57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1569390F24C49C4400521D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1569391124C49C4400521D57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Spendy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1569391224C49C4400521D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Spendy/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1569391424C49C4400521D57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				INFOPLIST_FILE = SpendyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.SpendyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spendy.app/Spendy";
+			};
+			name = Debug;
+		};
+		1569391524C49C4400521D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				INFOPLIST_FILE = SpendyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.SpendyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spendy.app/Spendy";
+			};
+			name = Release;
+		};
+		1569391724C49C4400521D57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				INFOPLIST_FILE = SpendyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.SpendyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Spendy;
+			};
+			name = Debug;
+		};
+		1569391824C49C4400521D57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4WPNK427TB;
+				INFOPLIST_FILE = SpendyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.SpendyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Spendy;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		156938DE24C49C4300521D57 /* Build configuration list for PBXProject "Spendy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1569390E24C49C4400521D57 /* Debug */,
+				1569390F24C49C4400521D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1569391024C49C4400521D57 /* Build configuration list for PBXNativeTarget "Spendy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1569391124C49C4400521D57 /* Debug */,
+				1569391224C49C4400521D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1569391324C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1569391424C49C4400521D57 /* Debug */,
+				1569391524C49C4400521D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1569391624C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1569391724C49C4400521D57 /* Debug */,
+				1569391824C49C4400521D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				156938EB24C49C4300521D57 /* Spendy.xcdatamodel */,
+			);
+			currentVersion = 156938EB24C49C4300521D57 /* Spendy.xcdatamodel */;
+			path = Spendy.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 156938DB24C49C4300521D57 /* Project object */;
+}
