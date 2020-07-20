@@ -14,6 +14,8 @@
 		151F966624C49D93002C27F4 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966024C49D93002C27F4 /* SharingView.swift */; };
 		151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966124C49D93002C27F4 /* AddSpenderView.swift */; };
 		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
+		153682D524C61C3400772897 /* Suggestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153682D324C61C3400772897 /* Suggestion+CoreDataClass.swift */; };
+		153682D624C61C3400772897 /* Suggestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153682D424C61C3400772897 /* Suggestion+CoreDataProperties.swift */; };
 		156938E724C49C4300521D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E624C49C4300521D57 /* AppDelegate.swift */; };
 		156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E824C49C4300521D57 /* SceneDelegate.swift */; };
 		156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */; };
@@ -52,6 +54,8 @@
 		151F966024C49D93002C27F4 /* SharingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		151F966124C49D93002C27F4 /* AddSpenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSpenderView.swift; sourceTree = "<group>"; };
 		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		153682D324C61C3400772897 /* Suggestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Suggestion+CoreDataClass.swift"; sourceTree = "<group>"; };
+		153682D424C61C3400772897 /* Suggestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Suggestion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		156938E324C49C4300521D57 /* Spendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		156938E624C49C4300521D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		156938E824C49C4300521D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,11 +100,109 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		156938DA24C49C4300521D57 = {
+		153682D724C6278800772897 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				151F966824C49DA8002C27F4 /* Constants.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		153682D824C627A200772897 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				156938F424C49C4300521D57 /* LaunchScreen.storyboard */,
+				156938ED24C49C4300521D57 /* ContentView.swift */,
+				153682DC24C6284B00772897 /* RemindersView */,
+				153682DD24C6285400772897 /* SettingsView */,
+				153682DE24C6285D00772897 /* SharingView */,
+				153682DA24C627D400772897 /* SpendingsView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		153682DA24C627D400772897 /* SpendingsView */ = {
+			isa = PBXGroup;
+			children = (
+				151F965C24C49D92002C27F4 /* SpendingsView.swift */,
+				151F966124C49D93002C27F4 /* AddSpenderView.swift */,
+				151F965E24C49D92002C27F4 /* SpendingVM.swift */,
+			);
+			path = SpendingsView;
+			sourceTree = "<group>";
+		};
+		153682DC24C6284B00772897 /* RemindersView */ = {
+			isa = PBXGroup;
+			children = (
+				151F965F24C49D93002C27F4 /* RemindersView.swift */,
+			);
+			path = RemindersView;
+			sourceTree = "<group>";
+		};
+		153682DD24C6285400772897 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				151F965D24C49D92002C27F4 /* SettingsView.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		153682DE24C6285D00772897 /* SharingView */ = {
+			isa = PBXGroup;
+			children = (
+				151F966024C49D93002C27F4 /* SharingView.swift */,
+			);
+			path = SharingView;
+			sourceTree = "<group>";
+		};
+		153682DF24C6286E00772897 /* App Main */ = {
+			isa = PBXGroup;
+			children = (
+				156938E624C49C4300521D57 /* AppDelegate.swift */,
+				156938E824C49C4300521D57 /* SceneDelegate.swift */,
+			);
+			path = "App Main";
+			sourceTree = "<group>";
+		};
+		153682E024C6289A00772897 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				156938F724C49C4300521D57 /* Info.plist */,
+				156938EF24C49C4300521D57 /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		153682E124C628C700772897 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				153682E224C628D100772897 /* Suggestion */,
+				153682E324C628DB00772897 /* Item */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		153682E224C628D100772897 /* Suggestion */ = {
+			isa = PBXGroup;
+			children = (
+				153682D324C61C3400772897 /* Suggestion+CoreDataClass.swift */,
+				153682D424C61C3400772897 /* Suggestion+CoreDataProperties.swift */,
+			);
+			path = Suggestion;
+			sourceTree = "<group>";
+		};
+		153682E324C628DB00772897 /* Item */ = {
 			isa = PBXGroup;
 			children = (
 				1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */,
 				1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */,
+			);
+			path = Item;
+			sourceTree = "<group>";
+		};
+		156938DA24C49C4300521D57 = {
+			isa = PBXGroup;
+			children = (
 				156938E524C49C4300521D57 /* Spendy */,
 				156938FF24C49C4400521D57 /* SpendyTests */,
 				1569390A24C49C4400521D57 /* SpendyUITests */,
@@ -121,19 +223,11 @@
 		156938E524C49C4300521D57 /* Spendy */ = {
 			isa = PBXGroup;
 			children = (
-				151F966824C49DA8002C27F4 /* Constants.swift */,
-				151F966124C49D93002C27F4 /* AddSpenderView.swift */,
-				151F965F24C49D93002C27F4 /* RemindersView.swift */,
-				151F965D24C49D92002C27F4 /* SettingsView.swift */,
-				151F966024C49D93002C27F4 /* SharingView.swift */,
-				151F965C24C49D92002C27F4 /* SpendingsView.swift */,
-				151F965E24C49D92002C27F4 /* SpendingVM.swift */,
-				156938E624C49C4300521D57 /* AppDelegate.swift */,
-				156938E824C49C4300521D57 /* SceneDelegate.swift */,
-				156938ED24C49C4300521D57 /* ContentView.swift */,
-				156938EF24C49C4300521D57 /* Assets.xcassets */,
-				156938F424C49C4300521D57 /* LaunchScreen.storyboard */,
-				156938F724C49C4300521D57 /* Info.plist */,
+				153682E124C628C700772897 /* Models */,
+				153682D724C6278800772897 /* Utils */,
+				153682D824C627A200772897 /* Views */,
+				153682DF24C6286E00772897 /* App Main */,
+				153682E024C6289A00772897 /* Supporting Files */,
 				156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */,
 				156938F124C49C4300521D57 /* Preview Content */,
 			);
@@ -303,10 +397,12 @@
 				151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */,
 				1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */,
 				156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */,
+				153682D624C61C3400772897 /* Suggestion+CoreDataProperties.swift in Sources */,
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
 				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
+				153682D524C61C3400772897 /* Suggestion+CoreDataClass.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */,
 			);
@@ -477,11 +573,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Spendy/Info.plist;
+				INFOPLIST_FILE = "Spendy/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -499,11 +595,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Spendy/Info.plist;
+				INFOPLIST_FILE = "Spendy/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

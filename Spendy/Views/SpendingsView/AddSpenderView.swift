@@ -12,7 +12,10 @@ struct AddSpenderView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
-    @FetchRequest(entity: Item.entity(), sortDescriptors: []) var items: FetchedResults<Item>
+    @FetchRequest(entity: Item.entity(), sortDescriptors: [])
+        var items: FetchedResults<Item>
+    @FetchRequest(entity: Suggestion.entity(), sortDescriptors: [])
+        var suggestions: FetchedResults<Suggestion>
     
     @State private var date: Date = Date()
     @State private var name: String = ""
@@ -26,7 +29,7 @@ struct AddSpenderView: View {
         VStack(alignment: .center, spacing: 20) {
             ScrollView {
                 XmarkView()
-                NameTextField(name: $name)
+                NameTextField(name: $name, suggestions: suggestions.shuffled())
                 ItemTypePicker(itemType: itemType, selectedType: $selectedType)
                 AmountTextField(amount: $amount)
                 CategoryPicker(categories: categories, category: $category)
@@ -70,6 +73,8 @@ struct XmarkView: View {
 struct NameTextField: View {
     
     @Binding var name: String
+    var suggestions: [Suggestion]
+    @State var showSuggestions = true
     
     var body: some View {
         HStack {
@@ -79,6 +84,20 @@ struct NameTextField: View {
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 .shadow(color: .black, radius: -4)
                 .padding([.top, .bottom], 20)
+            HStack {
+            ForEach(suggestions.filter { $0.text?.contains(name) ?? false }, id: \.self) { suggestion in
+                Text("\(suggestion.text ?? "")")
+                    .padding(.all, 10)
+                    .background(Color.green)
+                    .clipShape(Capsule(style: .circular))
+                    .onTapGesture {
+                        name = suggestion.text!
+                        showSuggestions.toggle()
+                    }
+            }
+            }
+            .disabled(!showSuggestions)
+            .opacity(showSuggestions ? 1 : 0)
             Spacer().frame(width: 20, height: 10, alignment: .center)
         }
     }
@@ -191,6 +210,7 @@ struct SaveButton: View {
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
     @FetchRequest(entity: Item.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)]) var items: FetchedResults<Item>
+    @FetchRequest(entity: Suggestion.entity(), sortDescriptors: []) var suggestions: FetchedResults<Suggestion>
     
     var name: String
     var amount: String
@@ -207,6 +227,11 @@ struct SaveButton: View {
             newItem.category = category
             newItem.date = date
             newItem.id = UUID()
+            if !(suggestions.map { $0.text }.contains(name)) {
+            let newSuggestion = Suggestion(context: moc)
+            newSuggestion.text = name
+            newSuggestion.category = category
+            }
             do {
                 try self.moc.save()
                 presentationMode.wrappedValue.dismiss()

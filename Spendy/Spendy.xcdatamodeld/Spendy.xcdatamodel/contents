@@ -8,7 +8,12 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="Suggestion" representedClassName="Suggestion" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="Suggestion" positionX="-63" positionY="27" width="128" height="59"/>
     </elements>
 </model>
