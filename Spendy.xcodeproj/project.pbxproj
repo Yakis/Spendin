@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* SpendingsView.swift */; };
+		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
+		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
+		151F966524C49D93002C27F4 /* RemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965F24C49D93002C27F4 /* RemindersView.swift */; };
+		151F966624C49D93002C27F4 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966024C49D93002C27F4 /* SharingView.swift */; };
+		151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966124C49D93002C27F4 /* AddSpenderView.swift */; };
+		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
 		156938E724C49C4300521D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E624C49C4300521D57 /* AppDelegate.swift */; };
 		156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E824C49C4300521D57 /* SceneDelegate.swift */; };
 		156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */; };
@@ -16,6 +23,8 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
+		1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */; };
+		1569391C24C49D3D00521D57 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +45,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		151F965C24C49D92002C27F4 /* SpendingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingsView.swift; sourceTree = "<group>"; };
+		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
+		151F965F24C49D93002C27F4 /* RemindersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemindersView.swift; sourceTree = "<group>"; };
+		151F966024C49D93002C27F4 /* SharingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
+		151F966124C49D93002C27F4 /* AddSpenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSpenderView.swift; sourceTree = "<group>"; };
+		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		156938E324C49C4300521D57 /* Spendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		156938E624C49C4300521D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		156938E824C49C4300521D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +67,8 @@
 		1569390724C49C4400521D57 /* SpendyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +99,8 @@
 		156938DA24C49C4300521D57 = {
 			isa = PBXGroup;
 			children = (
+				1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */,
+				1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */,
 				156938E524C49C4300521D57 /* Spendy */,
 				156938FF24C49C4400521D57 /* SpendyTests */,
 				1569390A24C49C4400521D57 /* SpendyUITests */,
@@ -101,6 +121,13 @@
 		156938E524C49C4300521D57 /* Spendy */ = {
 			isa = PBXGroup;
 			children = (
+				151F966824C49DA8002C27F4 /* Constants.swift */,
+				151F966124C49D93002C27F4 /* AddSpenderView.swift */,
+				151F965F24C49D93002C27F4 /* RemindersView.swift */,
+				151F965D24C49D92002C27F4 /* SettingsView.swift */,
+				151F966024C49D93002C27F4 /* SharingView.swift */,
+				151F965C24C49D92002C27F4 /* SpendingsView.swift */,
+				151F965E24C49D92002C27F4 /* SpendingVM.swift */,
 				156938E624C49C4300521D57 /* AppDelegate.swift */,
 				156938E824C49C4300521D57 /* SceneDelegate.swift */,
 				156938ED24C49C4300521D57 /* ContentView.swift */,
@@ -269,8 +296,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1569391C24C49D3D00521D57 /* Item+CoreDataProperties.swift in Sources */,
+				151F966624C49D93002C27F4 /* SharingView.swift in Sources */,
+				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
+				151F966524C49D93002C27F4 /* RemindersView.swift in Sources */,
+				151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */,
+				1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */,
 				156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */,
+				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
+				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
+				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */,
 			);
@@ -441,6 +477,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -462,6 +499,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
