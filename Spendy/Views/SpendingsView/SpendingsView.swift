@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 
 enum ItemType: String, CaseIterable {
     case expense, income
@@ -32,7 +33,7 @@ struct SpendingsView: View {
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.managedObjectContext) var moc
     @State var showModal: Bool = false
-    
+    var ref: DatabaseReference!
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
@@ -68,7 +69,21 @@ struct SpendingsView: View {
         UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
     }
     
-    
+    func sincToFirebase() {
+        self.ref = Database.database().reference()
+        for item in items {
+            let dict = [
+                "name": item.name,
+                "amount": item.amount,
+                "type": item.type,
+                "category": item.category,
+                "date": item.date
+            ] as [String : Any]
+            self.ref.child("spenders").child("knsja9d87sbuy").setValue(dict)
+            
+        }
+        
+    }
     
     
     
