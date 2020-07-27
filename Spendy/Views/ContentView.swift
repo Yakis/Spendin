@@ -28,6 +28,9 @@ struct SideBarView: View {
         List(navElements, id: \.id) { element in
             Label(element.title, systemImage: element.image)
         }.listStyle(SidebarListStyle())
+        .onOpenURL(perform: { url in
+            print(url)
+        })
     }
     
     
@@ -74,6 +77,10 @@ struct ContentView_Previews: PreviewProvider {
 
 
 struct CustomTabView: View {
+    
+    @ObservedObject var settingsVM = SettingsVM()
+    
+    
     var body: some View {
         TabView {
             SpendingsView()
@@ -88,7 +95,7 @@ struct CustomTabView: View {
                 .tabItem {
                     Label("Sharing", systemImage: "person.2.circle.fill")
                 }.tag(2)
-            SettingsView()
+            SettingsView().environmentObject(settingsVM)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }.tag(3)

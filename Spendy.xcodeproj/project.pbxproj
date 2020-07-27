@@ -3,10 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150F861524CDB785009553E8 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861424CDB785009553E8 /* RegistrationView.swift */; };
+		150F861724CDBEBD009553E8 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861624CDBEBD009553E8 /* LoginView.swift */; };
+		150F861924CDBEE3009553E8 /* UserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861824CDBEE3009553E8 /* UserToken.swift */; };
+		150F861B24CDC806009553E8 /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861A24CDC806009553E8 /* SettingsVM.swift */; };
+		150F861D24CDC8B4009553E8 /* AuthObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861C24CDC8B4009553E8 /* AuthObject.swift */; };
 		151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* SpendingsView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
@@ -14,8 +19,11 @@
 		151F966624C49D93002C27F4 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966024C49D93002C27F4 /* SharingView.swift */; };
 		151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966124C49D93002C27F4 /* AddSpenderView.swift */; };
 		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
+		15271BB024CACBAF00B18A8D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15271BAF24CACBAF00B18A8D /* Extensions.swift */; };
 		153682D524C61C3400772897 /* Suggestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153682D324C61C3400772897 /* Suggestion+CoreDataClass.swift */; };
 		153682D624C61C3400772897 /* Suggestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153682D424C61C3400772897 /* Suggestion+CoreDataProperties.swift */; };
+		155D81B924CADF32003FCBB8 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D81B724CADF31003FCBB8 /* Item+CoreDataClass.swift */; };
+		155D81BA24CADF32003FCBB8 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D81B824CADF32003FCBB8 /* Item+CoreDataProperties.swift */; };
 		156938E724C49C4300521D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E624C49C4300521D57 /* AppDelegate.swift */; };
 		156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E824C49C4300521D57 /* SceneDelegate.swift */; };
 		156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */; };
@@ -25,12 +33,7 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
-		1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */; };
-		1569391C24C49D3D00521D57 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */; };
 		15D5280B24C85726003D52DE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 15D5280A24C85726003D52DE /* GoogleService-Info.plist */; };
-		68BD035A3E5F525E6DF1AAC9 /* Pods_SpendyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D24E66C0C6B1D69D18542851 /* Pods_SpendyTests.framework */; };
-		914A53729565891ED01A560D /* Pods_Spendy_SpendyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A0E17A3578F6D071D81EA4C /* Pods_Spendy_SpendyUITests.framework */; };
-		D8B04E0D043F3BF5E8AD9339 /* Pods_Spendy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D3563704280D3649387028 /* Pods_Spendy.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +54,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1331FD9572889EBD6EBBCF50 /* Pods-Spendy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spendy.release.xcconfig"; path = "Target Support Files/Pods-Spendy/Pods-Spendy.release.xcconfig"; sourceTree = "<group>"; };
+		150F861424CDB785009553E8 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		150F861624CDBEBD009553E8 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		150F861824CDBEE3009553E8 /* UserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToken.swift; sourceTree = "<group>"; };
+		150F861A24CDC806009553E8 /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
+		150F861C24CDC8B4009553E8 /* AuthObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthObject.swift; sourceTree = "<group>"; };
 		151F965C24C49D92002C27F4 /* SpendingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingsView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
@@ -59,8 +66,11 @@
 		151F966024C49D93002C27F4 /* SharingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		151F966124C49D93002C27F4 /* AddSpenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSpenderView.swift; sourceTree = "<group>"; };
 		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		15271BAF24CACBAF00B18A8D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		153682D324C61C3400772897 /* Suggestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Suggestion+CoreDataClass.swift"; sourceTree = "<group>"; };
 		153682D424C61C3400772897 /* Suggestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Suggestion+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		155D81B724CADF31003FCBB8 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
+		155D81B824CADF32003FCBB8 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		156938E324C49C4300521D57 /* Spendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		156938E624C49C4300521D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		156938E824C49C4300521D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,17 +86,8 @@
 		1569390724C49C4400521D57 /* SpendyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		15D5280A24C85726003D52DE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		4A0E17A3578F6D071D81EA4C /* Pods_Spendy_SpendyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spendy_SpendyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6465399269B3B045BD119CAD /* Pods-Spendy-SpendyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spendy-SpendyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Spendy-SpendyUITests/Pods-Spendy-SpendyUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		A3EC6356CB5DFE581CD147D8 /* Pods-Spendy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spendy.debug.xcconfig"; path = "Target Support Files/Pods-Spendy/Pods-Spendy.debug.xcconfig"; sourceTree = "<group>"; };
-		BD1FC890DCF4F3C348697ED8 /* Pods-SpendyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpendyTests.release.xcconfig"; path = "Target Support Files/Pods-SpendyTests/Pods-SpendyTests.release.xcconfig"; sourceTree = "<group>"; };
-		D24E66C0C6B1D69D18542851 /* Pods_SpendyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpendyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E55E9714AAA677CA5DDA8AE8 /* Pods-SpendyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpendyTests.debug.xcconfig"; path = "Target Support Files/Pods-SpendyTests/Pods-SpendyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		EF0ED10B3CC12E06BFA08518 /* Pods-Spendy-SpendyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spendy-SpendyUITests.release.xcconfig"; path = "Target Support Files/Pods-Spendy-SpendyUITests/Pods-Spendy-SpendyUITests.release.xcconfig"; sourceTree = "<group>"; };
-		F1D3563704280D3649387028 /* Pods_Spendy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spendy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		15DF1D6A24C9875500839656 /* Spendy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spendy.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,7 +95,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8B04E0D043F3BF5E8AD9339 /* Pods_Spendy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +102,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68BD035A3E5F525E6DF1AAC9 /* Pods_SpendyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +109,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				914A53729565891ED01A560D /* Pods_Spendy_SpendyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				151F966824C49DA8002C27F4 /* Constants.swift */,
+				15271BAF24CACBAF00B18A8D /* Extensions.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -160,6 +159,9 @@
 			isa = PBXGroup;
 			children = (
 				151F965D24C49D92002C27F4 /* SettingsView.swift */,
+				150F861424CDB785009553E8 /* RegistrationView.swift */,
+				150F861624CDBEBD009553E8 /* LoginView.swift */,
+				150F861A24CDC806009553E8 /* SettingsVM.swift */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -196,6 +198,8 @@
 			children = (
 				153682E224C628D100772897 /* Suggestion */,
 				153682E324C628DB00772897 /* Item */,
+				150F861824CDBEE3009553E8 /* UserToken.swift */,
+				150F861C24CDC8B4009553E8 /* AuthObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -212,8 +216,8 @@
 		153682E324C628DB00772897 /* Item */ = {
 			isa = PBXGroup;
 			children = (
-				1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */,
-				1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */,
+				155D81B724CADF31003FCBB8 /* Item+CoreDataClass.swift */,
+				155D81B824CADF32003FCBB8 /* Item+CoreDataProperties.swift */,
 			);
 			path = Item;
 			sourceTree = "<group>";
@@ -225,8 +229,6 @@
 				156938FF24C49C4400521D57 /* SpendyTests */,
 				1569390A24C49C4400521D57 /* SpendyUITests */,
 				156938E424C49C4300521D57 /* Products */,
-				4D7E4CB4DCD6747952393ADA /* Pods */,
-				2F658BFBADCDF7361841620E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,6 +245,7 @@
 		156938E524C49C4300521D57 /* Spendy */ = {
 			isa = PBXGroup;
 			children = (
+				15DF1D6A24C9875500839656 /* Spendy.entitlements */,
 				153682E124C628C700772897 /* Models */,
 				153682D724C6278800772897 /* Utils */,
 				153682D824C627A200772897 /* Views */,
@@ -280,29 +283,6 @@
 			path = SpendyUITests;
 			sourceTree = "<group>";
 		};
-		2F658BFBADCDF7361841620E /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F1D3563704280D3649387028 /* Pods_Spendy.framework */,
-				4A0E17A3578F6D071D81EA4C /* Pods_Spendy_SpendyUITests.framework */,
-				D24E66C0C6B1D69D18542851 /* Pods_SpendyTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		4D7E4CB4DCD6747952393ADA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A3EC6356CB5DFE581CD147D8 /* Pods-Spendy.debug.xcconfig */,
-				1331FD9572889EBD6EBBCF50 /* Pods-Spendy.release.xcconfig */,
-				6465399269B3B045BD119CAD /* Pods-Spendy-SpendyUITests.debug.xcconfig */,
-				EF0ED10B3CC12E06BFA08518 /* Pods-Spendy-SpendyUITests.release.xcconfig */,
-				E55E9714AAA677CA5DDA8AE8 /* Pods-SpendyTests.debug.xcconfig */,
-				BD1FC890DCF4F3C348697ED8 /* Pods-SpendyTests.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -310,11 +290,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1569391024C49C4400521D57 /* Build configuration list for PBXNativeTarget "Spendy" */;
 			buildPhases = (
-				4729F2346E9DD03D4355E533 /* [CP] Check Pods Manifest.lock */,
 				156938DF24C49C4300521D57 /* Sources */,
 				156938E024C49C4300521D57 /* Frameworks */,
 				156938E124C49C4300521D57 /* Resources */,
-				434D5C0A649A7C50E7CDB8D1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -329,7 +307,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1569391324C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyTests" */;
 			buildPhases = (
-				110AF1E144182F6B1D624366 /* [CP] Check Pods Manifest.lock */,
 				156938F824C49C4400521D57 /* Sources */,
 				156938F924C49C4400521D57 /* Frameworks */,
 				156938FA24C49C4400521D57 /* Resources */,
@@ -348,11 +325,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1569391624C49C4400521D57 /* Build configuration list for PBXNativeTarget "SpendyUITests" */;
 			buildPhases = (
-				FE5F5D622078D4D7A056BF3E /* [CP] Check Pods Manifest.lock */,
 				1569390324C49C4400521D57 /* Sources */,
 				1569390424C49C4400521D57 /* Frameworks */,
 				1569390524C49C4400521D57 /* Resources */,
-				7406251AF7A5916E36775218 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -434,129 +409,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		110AF1E144182F6B1D624366 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SpendyTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		434D5C0A649A7C50E7CDB8D1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Spendy/Pods-Spendy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Spendy/Pods-Spendy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spendy/Pods-Spendy-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4729F2346E9DD03D4355E533 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Spendy-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7406251AF7A5916E36775218 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Spendy-SpendyUITests/Pods-Spendy-SpendyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Spendy-SpendyUITests/Pods-Spendy-SpendyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spendy-SpendyUITests/Pods-Spendy-SpendyUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FE5F5D622078D4D7A056BF3E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Spendy-SpendyUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		156938DF24C49C4300521D57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1569391C24C49D3D00521D57 /* Item+CoreDataProperties.swift in Sources */,
+				155D81B924CADF32003FCBB8 /* Item+CoreDataClass.swift in Sources */,
 				151F966624C49D93002C27F4 /* SharingView.swift in Sources */,
+				150F861D24CDC8B4009553E8 /* AuthObject.swift in Sources */,
+				155D81BA24CADF32003FCBB8 /* Item+CoreDataProperties.swift in Sources */,
 				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
 				151F966524C49D93002C27F4 /* RemindersView.swift in Sources */,
+				150F861524CDB785009553E8 /* RegistrationView.swift in Sources */,
 				151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */,
-				1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */,
 				156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */,
 				153682D624C61C3400772897 /* Suggestion+CoreDataProperties.swift in Sources */,
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
+				150F861924CDBEE3009553E8 /* UserToken.swift in Sources */,
+				150F861724CDBEBD009553E8 /* LoginView.swift in Sources */,
+				15271BB024CACBAF00B18A8D /* Extensions.swift in Sources */,
 				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
 				153682D524C61C3400772897 /* Suggestion+CoreDataClass.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */,
+				150F861B24CDC806009553E8 /* SettingsVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,10 +599,10 @@
 		};
 		1569391124C49C4400521D57 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3EC6356CB5DFE581CD147D8 /* Pods-Spendy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
@@ -744,10 +622,10 @@
 		};
 		1569391224C49C4400521D57 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1331FD9572889EBD6EBBCF50 /* Pods-Spendy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
@@ -767,7 +645,6 @@
 		};
 		1569391424C49C4400521D57 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E55E9714AAA677CA5DDA8AE8 /* Pods-SpendyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -790,7 +667,6 @@
 		};
 		1569391524C49C4400521D57 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD1FC890DCF4F3C348697ED8 /* Pods-SpendyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -813,7 +689,6 @@
 		};
 		1569391724C49C4400521D57 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6465399269B3B045BD119CAD /* Pods-Spendy-SpendyUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -834,7 +709,6 @@
 		};
 		1569391824C49C4400521D57 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF0ED10B3CC12E06BFA08518 /* Pods-Spendy-SpendyUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

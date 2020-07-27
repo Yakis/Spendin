@@ -12,4 +12,5 @@ struct AdaptColors {
     static let theOrange = Color.init("The Orange")
     static let container = Color.init("Container")
     static let adaptText = Color.init("Adapt Text")
+    static let textField = Color.init("TextField")
         }

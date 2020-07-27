@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Firebase
+import Combine
 
 enum ItemType: String, CaseIterable {
     case expense, income
@@ -17,6 +17,7 @@ extension Date {
     
     func shortString() -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.doesRelativeDateFormatting = true
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .none
         dateFormatter.locale = Locale(identifier: "en_UK")
@@ -33,11 +34,14 @@ struct SpendingsView: View {
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.managedObjectContext) var moc
     @State var showModal: Bool = false
-    var ref: DatabaseReference!
+    @State private var error: String = ""
+    @State private var showError: Bool = false
+    @State private var getItemsCancellable: AnyCancellable?
     
     var body: some View {
+        ZStack {
         VStack(alignment: .leading, spacing: 20) {
-            SpendingsListView(items: items.sorted(by: { $0.date! < $1.date! })).environmentObject(viewModel)
+            SpendingsListView(items: viewModel.cloudItems/*items: items.sorted(by: { $0.date < $1.date })*/).environmentObject(viewModel)
             HStack {
                 Text("Total: \(String(format: "%.2f", viewModel.total))")
                     .font(.custom("HelveticaNeue-Bold", size: 24))
@@ -57,9 +61,14 @@ struct SpendingsView: View {
                         AddSpenderView().environmentObject(viewModel).environment(\.managedObjectContext, moc)
                     }
             }
+            .alert(isPresented: $showError) {
+                        Alert(title: Text("Error"), message: Text(error), dismissButton: .default(Text("Ok")))
+                    }
         }.background(AdaptColors.container)
+            ProgressView("Syncing...").opacity(viewModel.isSyncing ? 1 : 0)
+        }
         .onAppear {
-            viewModel.calculateSpendings(items: items.shuffled())
+           syncWithCloud()
         }
     }
     
@@ -69,22 +78,18 @@ struct SpendingsView: View {
         UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
     }
     
-    func sincToFirebase() {
-        self.ref = Database.database().reference()
-        for item in items {
-            let dict = [
-                "name": item.name,
-                "amount": item.amount,
-                "type": item.type,
-                "category": item.category,
-                "date": item.date
-            ] as [String : Any]
-            self.ref.child("spenders").child("knsja9d87sbuy").setValue(dict)
-            
+    func syncWithCloud() {
+        if viewModel.localItems.isEmpty {
+            getItemsCancellable = viewModel.$cloudItems
+                .eraseToAnyPublisher()
+                .sink { (spenders) in
+//                    for spender in spenders {
+//                    viewModel.saveLocaly(spender: spender, moc: moc)
+//                    }
+                }
+            viewModel.getItemsFromServer()
         }
-        
     }
-    
     
     
 }
@@ -95,18 +100,18 @@ struct SpendingsListView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.managedObjectContext) var moc
-    var items: [Item]
+    var items: [Spender]
     
     var body: some View {
         List {
             ForEach(items, id: \.self) { item in
                 HStack(spacing: 20) {
-                    Label("", systemImage: item.category ?? "").font(.largeTitle)
+                    Label("", systemImage: item.category).font(.largeTitle)
                         .foregroundColor(item.type == "expense" ? .red : .green)
                     VStack(alignment: .leading) {
-                        Text("\(item.name!)")
+                        Text("\(item.name)")
                             .font(.custom("HelveticaNeue-Bold", size: 20))
-                        Text((item.date?.shortString())!)
+                        Text(item.date)
                             .font(.custom("HelveticaNeue-Light", size: 14))
                     }
                     Spacer()
@@ -125,18 +130,19 @@ struct SpendingsListView: View {
     
     
     private func delete(indexSet: IndexSet) {
-        do {
-            guard let index = indexSet.first else { return }
-            moc.delete(items[index])
-            try moc.save()
-            viewModel.calculateSpendings(items: items)
-        } catch {
-            print("Deleting item error: \(error.localizedDescription)")
-        }
+//        do {
+//            guard let index = indexSet.first else { return }
+//            moc.delete(items[index])
+//            try moc.save()
+//            viewModel.calculateSpendings()
+//        } catch {
+//            print("Deleting item error: \(error.localizedDescription)")
+//        }
+        
     }
     
     
-    private func amountString(item: Item) -> String {
+    private func amountString(item: Spender) -> String {
         switch item.type {
         case "expense": return "- £ \(String(format: "%.2f", item.amount))"
         default: return "+ £ \(String(format: "%.2f", item.amount))"

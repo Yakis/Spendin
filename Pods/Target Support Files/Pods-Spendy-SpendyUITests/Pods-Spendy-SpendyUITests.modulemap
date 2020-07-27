@@ -1,6 +1,0 @@
-framework module Pods_Spendy_SpendyUITests {
-  umbrella header "Pods-Spendy-SpendyUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

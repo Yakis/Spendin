@@ -2,7 +2,7 @@
 //  Item+CoreDataClass.swift
 //  Spendy
 //
-//  Created by Mugurel on 19/07/2020.
+//  Created by Mugurel on 24/07/2020.
 //
 //
 

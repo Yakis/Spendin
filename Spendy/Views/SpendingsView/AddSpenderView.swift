@@ -220,26 +220,23 @@ struct SaveButton: View {
     
     var body: some View {
         Button("Save") {
-            let newItem = Item(context: moc)
-            newItem.name = name
-            newItem.amount = Double(amount) ?? 0
-            newItem.type = selectedType
-            newItem.category = category
-            newItem.date = date
-            newItem.id = UUID()
+            let formatter = ISO8601DateFormatter()
+            let isoDate = formatter.string(from: date)
+            let newSpender = Spender(id: UUID(), name: name, amount: Double(amount) ?? 0, type: selectedType, category: category, date: isoDate)
+            //viewModel.saveLocaly(spender: newSpender, moc: moc)
             if !(suggestions.map { $0.text }.contains(name)) {
             let newSuggestion = Suggestion(context: moc)
-            newSuggestion.text = name
-            newSuggestion.category = category
-            }
-            do {
-                try self.moc.save()
-                presentationMode.wrappedValue.dismiss()
-                viewModel.calculateSpendings(items: items.reversed())
-            } catch {
-                print("Core data error: \(error)")
+                newSuggestion.text = name
+                newSuggestion.category = category
+                do {
+                    try self.moc.save()
+                    presentationMode.wrappedValue.dismiss()
+                } catch {
+                    print("Core data error: \(error)")
+                }
             }
         }
+        
         .frame(width: UIScreen.main.bounds.width / 2, height: 50, alignment: .center)
         .background(AdaptColors.theOrange)
         .foregroundColor(AdaptColors.container)
