@@ -27,16 +27,24 @@ extension Date {
 
 struct SpendingsView: View {
     
-    @FetchRequest(entity: Item.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: false)])
+    @FetchRequest(entity: Item.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
     var items: FetchedResults<Item>
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.managedObjectContext) var moc
     @State var showModal: Bool = false
+    @State var isUpdate: Bool = false
+    @State private var isLoading: Bool = false
     
     
     var body: some View {
+        ZStack {
         VStack(alignment: .leading, spacing: 20) {
-            SpendingsListView(items: items.sorted(by: { $0.date! < $1.date! })).environmentObject(viewModel)
+            SpendingsListView(
+                items: items,
+                showModal: $showModal,
+                isUpdate: $isUpdate
+            )
+                .environmentObject(viewModel)
             HStack {
                 Text("Total: \(String(format: "%.2f", viewModel.total))")
                     .font(.custom("HelveticaNeue-Bold", size: 24))
@@ -53,12 +61,18 @@ struct SpendingsView: View {
                         showModal.toggle()
                     }
                     .sheet(isPresented: $showModal) {
-                        AddSpenderView().environmentObject(viewModel).environment(\.managedObjectContext, moc)
+                        AddSpenderView(isUpdate: $isUpdate).environmentObject(viewModel).environment(\.managedObjectContext, moc)
                     }
             }
         }.background(AdaptColors.container)
         .onAppear {
+            isLoading = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                isLoading = false
+            }
             viewModel.calculateSpendings(items: items.shuffled())
+        }
+            ProgressView("Syncing data...").opacity(isLoading ? 1 : 0)
         }
     }
     
@@ -80,28 +94,38 @@ struct SpendingsListView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.managedObjectContext) var moc
-    var items: [Item]
+    var items: FetchedResults<Item>
+    @Binding var showModal: Bool
+    @Binding var isUpdate: Bool
     
     var body: some View {
         List {
             ForEach(items, id: \.self) { item in
-                HStack(spacing: 20) {
-                    Label("", systemImage: item.category ?? "").font(.largeTitle)
-                        .foregroundColor(item.type == "expense" ? .red : .green)
-                    VStack(alignment: .leading) {
-                        Text("\(item.name!)")
+                VStack {
+                    HStack(spacing: 20) {
+                        Label("", systemImage: item.category ?? "").font(.largeTitle)
+                            .foregroundColor(item.type == "expense" ? .red : .green)
+                        VStack(alignment: .leading) {
+                            Text("\(item.name!)")
+                                .font(.custom("HelveticaNeue-Bold", size: 20))
+                            Text((item.date?.shortString())!)
+                                .font(.custom("HelveticaNeue-Light", size: 14))
+                        }
+                        Spacer()
+                        Text(amountString(item: item))
                             .font(.custom("HelveticaNeue-Bold", size: 20))
-                        Text((item.date?.shortString())!)
-                            .font(.custom("HelveticaNeue-Light", size: 14))
+                        Spacer().frame(width: 20, height: 80, alignment: .leading)
                     }
-                    Spacer()
-                    Text(amountString(item: item))
-                        .font(.custom("HelveticaNeue-Bold", size: 20))
-                    Spacer().frame(width: 20, height: 80, alignment: .leading)
+                    .frame(width: UIScreen.main.bounds.width, height: 80, alignment: .leading)
+                    .shadow(radius: 2)
                 }
-                .frame(width: UIScreen.main.bounds.width, height: 80, alignment: .leading)
-                .shadow(radius: 2)
-            }.onDelete {
+                .onTapGesture {
+                    isUpdate = true
+                    showModal = true
+                    viewModel.itemToUpdate = item
+                }
+            }
+            .onDelete {
                 delete(indexSet: $0)
             }
             .listRowBackground(AdaptColors.container)
@@ -114,7 +138,7 @@ struct SpendingsListView: View {
             guard let index = indexSet.first else { return }
             moc.delete(items[index])
             try moc.save()
-            viewModel.calculateSpendings(items: items)
+            viewModel.calculateSpendings(items: items.shuffled())
         } catch {
             print("Deleting item error: \(error.localizedDescription)")
         }

@@ -5,16 +5,13 @@
 //  Created by Mugurel on 13/07/2020.
 //
 
-import Foundation
-import CoreData
+import SwiftUI
 
 
 class SpendingVM: ObservableObject {
     
-    
     @Published var total: Double = 0
-    
-    
+    @Published var itemToUpdate: Item?
     
     func calculateSpendings(items: [Item]) {
         DispatchQueue.main.async {

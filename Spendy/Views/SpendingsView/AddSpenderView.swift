@@ -7,15 +7,19 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 struct AddSpenderView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
     @FetchRequest(entity: Item.entity(), sortDescriptors: [])
-        var items: FetchedResults<Item>
+    var items: FetchedResults<Item>
     @FetchRequest(entity: Suggestion.entity(), sortDescriptors: [])
-        var suggestions: FetchedResults<Suggestion>
+    var suggestions: FetchedResults<Suggestion>
+    @State private var cancellable: AnyCancellable?
+    @Binding var isUpdate: Bool
+    @State private var itemToUpdate: Item?
     
     @State private var date: Date = Date()
     @State private var name: String = ""
@@ -34,12 +38,28 @@ struct AddSpenderView: View {
                 AmountTextField(amount: $amount)
                 CategoryPicker(categories: categories, category: $category)
                 ItemDatePicker(date: $date)
-                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType)
+                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: isUpdate, itemToUpdate: itemToUpdate)
                     .environmentObject(viewModel)
             }
             .padding()
             .background(AdaptColors.container)
             .edgesIgnoringSafeArea(.bottom)
+        }
+        .onAppear {
+            cancellable = viewModel.$itemToUpdate
+                .sink(receiveValue: { (item) in
+                    self.itemToUpdate = item
+                })
+            if isUpdate {
+                if let item = itemToUpdate {
+                    name = item.name!
+                    date = item.date!
+                    amount = "\(item.amount)"
+                    category = item.category!
+                    selectedType = item.type!
+                    
+                }
+            }
         }
     }
     
@@ -85,16 +105,16 @@ struct NameTextField: View {
                 .shadow(color: .black, radius: -4)
                 .padding([.top, .bottom], 20)
             HStack {
-            ForEach(suggestions.filter { $0.text?.contains(name) ?? false }, id: \.self) { suggestion in
-                Text("\(suggestion.text ?? "")")
-                    .padding(.all, 10)
-                    .background(Color.green)
-                    .clipShape(Capsule(style: .circular))
-                    .onTapGesture {
-                        name = suggestion.text!
-                        showSuggestions.toggle()
-                    }
-            }
+                ForEach(suggestions.filter { $0.text?.contains(name) ?? false }, id: \.self) { suggestion in
+                    Text("\(suggestion.text ?? "")")
+                        .padding(.all, 10)
+                        .background(Color.green)
+                        .clipShape(Capsule(style: .circular))
+                        .onTapGesture {
+                            name = suggestion.text!
+                            showSuggestions.toggle()
+                        }
+                }
             }
             .disabled(!showSuggestions)
             .opacity(showSuggestions ? 1 : 0)
@@ -218,26 +238,15 @@ struct SaveButton: View {
     var date: Date
     var selectedType: String
     
+    var isUpdate: Bool
+    var itemToUpdate: Item?
+    
     var body: some View {
         Button("Save") {
-            let newItem = Item(context: moc)
-            newItem.name = name
-            newItem.amount = Double(amount) ?? 0
-            newItem.type = selectedType
-            newItem.category = category
-            newItem.date = date
-            newItem.id = UUID()
-            if !(suggestions.map { $0.text }.contains(name)) {
-            let newSuggestion = Suggestion(context: moc)
-            newSuggestion.text = name
-            newSuggestion.category = category
-            }
-            do {
-                try self.moc.save()
-                presentationMode.wrappedValue.dismiss()
-                viewModel.calculateSpendings(items: items.reversed())
-            } catch {
-                print("Core data error: \(error)")
+            if isUpdate {
+                update()
+            } else {
+                save()
             }
         }
         .frame(width: UIScreen.main.bounds.width / 2, height: 50, alignment: .center)
@@ -248,5 +257,47 @@ struct SaveButton: View {
         .padding(.all, 20)
     }
     
+    
+    
+    
+    private func save() {
+        let newItem = Item(context: moc)
+        newItem.name = name
+        newItem.amount = Double(amount) ?? 0
+        newItem.type = selectedType
+        newItem.category = category
+        newItem.date = date
+        newItem.id = UUID()
+        if !(suggestions.map { $0.text }.contains(name)) {
+            let newSuggestion = Suggestion(context: moc)
+            newSuggestion.text = name
+            newSuggestion.category = category
+        }
+        do {
+            try self.moc.save()
+            presentationMode.wrappedValue.dismiss()
+            viewModel.calculateSpendings(items: items.reversed())
+        } catch {
+            print("Core data error: \(error)")
+        }
+    }
+    
+    
+    private func update() {
+        if let item = itemToUpdate {
+            item.name = name
+            item.amount = Double(amount) ?? 0
+            item.type = selectedType
+            item.category = category
+            item.date = date
+            do {
+                try self.moc.save()
+                presentationMode.wrappedValue.dismiss()
+                viewModel.calculateSpendings(items: items.reversed())
+            } catch {
+                print("Core data error: \(error)")
+            }
+        }
+    }
     
 }

@@ -65,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func saveContext () {
         let context = persistentContainer.viewContext
+        context.automaticallyMergesChangesFromParent = true
         if context.hasChanges {
             do {
                 try context.save()
