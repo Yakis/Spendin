@@ -27,6 +27,7 @@
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
 		1569391B24C49D3D00521D57 /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */; };
 		1569391C24C49D3D00521D57 /* Item+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */; };
+		15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15F8760424D1BA3B00CDF163 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1569391924C49D3D00521D57 /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1569391A24C49D3D00521D57 /* Item+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		15F8760224D1BA1B00CDF163 /* Spendy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spendy.entitlements; sourceTree = "<group>"; };
+		15F8760424D1BA3B00CDF163 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +83,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +211,7 @@
 				156938FF24C49C4400521D57 /* SpendyTests */,
 				1569390A24C49C4400521D57 /* SpendyUITests */,
 				156938E424C49C4300521D57 /* Products */,
+				15F8760324D1BA3B00CDF163 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -223,6 +228,7 @@
 		156938E524C49C4300521D57 /* Spendy */ = {
 			isa = PBXGroup;
 			children = (
+				15F8760224D1BA1B00CDF163 /* Spendy.entitlements */,
 				153682E124C628C700772897 /* Models */,
 				153682D724C6278800772897 /* Utils */,
 				153682D824C627A200772897 /* Views */,
@@ -258,6 +264,14 @@
 				1569390D24C49C4400521D57 /* Info.plist */,
 			);
 			path = SpendyUITests;
+			sourceTree = "<group>";
+		};
+		15F8760324D1BA3B00CDF163 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				15F8760424D1BA3B00CDF163 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -572,6 +586,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
@@ -594,6 +609,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
