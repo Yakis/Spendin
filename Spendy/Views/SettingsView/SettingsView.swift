@@ -12,42 +12,17 @@ struct SettingsView: View {
     @EnvironmentObject var viewModel: SettingsVM
     @State private var showRegister = false
     @State private var showLogin = false
+    @State private var username: String = ""
     
     
     var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            Button("Register") {
-                showRegister.toggle()
+        VStack {
+            if viewModel.userToken.isEmpty {
+            RegisterLoginButtonsView(showRegister: $showRegister, showLogin: $showLogin).environmentObject(viewModel)
+            } else {
+                Text("You're logged in as \(username)")
             }
-            .padding()
-            .background(AdaptColors.theOrange)
-            .foregroundColor(.white)
-            .clipShape(Capsule())
-            .sheet(isPresented: $showRegister) {
-                RegistrationView()
-                    .environmentObject(viewModel)
-                    .background(AdaptColors.container)
-                    .edgesIgnoringSafeArea(.all)
-                
-            }
-            Spacer().frame(height: 50)
-            Text("Have an account?")
-            Spacer().frame(height: 20)
-            Button("Login") {
-                showLogin.toggle()
-            }
-            .foregroundColor(.blue)
-            .sheet(isPresented: $showLogin) {
-                LoginView()
-                    .environmentObject(viewModel)
-                    .background(AdaptColors.container)
-                    .edgesIgnoringSafeArea(.all)
-            }
-            Spacer()
-        }
-        .padding()
-        .edgesIgnoringSafeArea([.leading, .trailing])
+    }
     }
 }
 
@@ -56,4 +31,6 @@ struct SettingsView_Previews: PreviewProvider {
         SettingsView()
     }
 }
+
+
 

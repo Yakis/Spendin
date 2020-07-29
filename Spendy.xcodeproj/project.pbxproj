@@ -12,6 +12,7 @@
 		150F861924CDBEE3009553E8 /* UserToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861824CDBEE3009553E8 /* UserToken.swift */; };
 		150F861B24CDC806009553E8 /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861A24CDC806009553E8 /* SettingsVM.swift */; };
 		150F861D24CDC8B4009553E8 /* AuthObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861C24CDC8B4009553E8 /* AuthObject.swift */; };
+		150F861F24CEAF93009553E8 /* RegisterLoginButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150F861E24CEAF93009553E8 /* RegisterLoginButtonsView.swift */; };
 		151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* SpendingsView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
@@ -59,6 +60,7 @@
 		150F861824CDBEE3009553E8 /* UserToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserToken.swift; sourceTree = "<group>"; };
 		150F861A24CDC806009553E8 /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		150F861C24CDC8B4009553E8 /* AuthObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthObject.swift; sourceTree = "<group>"; };
+		150F861E24CEAF93009553E8 /* RegisterLoginButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterLoginButtonsView.swift; sourceTree = "<group>"; };
 		151F965C24C49D92002C27F4 /* SpendingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingsView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				150F861424CDB785009553E8 /* RegistrationView.swift */,
 				150F861624CDBEBD009553E8 /* LoginView.swift */,
 				150F861A24CDC806009553E8 /* SettingsVM.swift */,
+				150F861E24CEAF93009553E8 /* RegisterLoginButtonsView.swift */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
+				150F861F24CEAF93009553E8 /* RegisterLoginButtonsView.swift in Sources */,
 				150F861924CDBEE3009553E8 /* UserToken.swift in Sources */,
 				150F861724CDBEBD009553E8 /* LoginView.swift in Sources */,
 				15271BB024CACBAF00B18A8D /* Extensions.swift in Sources */,

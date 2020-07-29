@@ -68,7 +68,7 @@ class SpendingVM: ObservableObject {
     func calculateSpendings() {
         DispatchQueue.main.async {
             var temp: Double = 0
-            for item in self.localItems {
+            for item in self.cloudItems {
                 if item.type == "expense" {
                     temp -= item.amount
                 } else {
@@ -82,6 +82,7 @@ class SpendingVM: ObservableObject {
     
     
     func uploadItem(spender: Spender) {
+        print("Upload - token: \(userToken)")
         let json = try! JSONEncoder().encode(spender)
         guard let url = URL(string: "http://127.0.0.1:8080/items") else { return }
         var request = URLRequest(url: url)
@@ -94,6 +95,7 @@ class SpendingVM: ObservableObject {
                 print(error!)
                 return
             }
+            self?.getItemsFromServer()
         }.resume()
             
     }
@@ -143,6 +145,7 @@ class SpendingVM: ObservableObject {
                 self?.isSyncing = false
             } receiveValue: { [weak self] (spenders) in
                 self?.cloudItems = spenders
+                self?.calculateSpendings()
                 self?.isSyncing = false
             }
             .store(in: &cancellables)

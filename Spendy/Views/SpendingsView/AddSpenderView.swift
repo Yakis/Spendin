@@ -224,6 +224,7 @@ struct SaveButton: View {
             let isoDate = formatter.string(from: date)
             let newSpender = Spender(id: UUID(), name: name, amount: Double(amount) ?? 0, type: selectedType, category: category, date: isoDate)
             //viewModel.saveLocaly(spender: newSpender, moc: moc)
+            viewModel.uploadItem(spender: newSpender)
             if !(suggestions.map { $0.text }.contains(name)) {
             let newSuggestion = Suggestion(context: moc)
                 newSuggestion.text = name
