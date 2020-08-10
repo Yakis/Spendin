@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 enum ItemType: String, CaseIterable {
     case expense, income
@@ -33,7 +34,8 @@ struct SpendingsView: View {
     @Environment(\.managedObjectContext) var moc
     @State var showModal: Bool = false
     @State var isUpdate: Bool = false
-    @State private var isLoading: Bool = false
+    @State private var isLoading: Bool = true
+    @State private var cancellable: AnyCancellable?
     
     
     var body: some View {
@@ -44,6 +46,9 @@ struct SpendingsView: View {
                 showModal: $showModal,
                 isUpdate: $isUpdate
             )
+            .onAppear(perform: {
+                isLoading = false
+            })
                 .environmentObject(viewModel)
             HStack {
                 Text("Total: \(String(format: "%.2f", viewModel.total))")
@@ -65,14 +70,7 @@ struct SpendingsView: View {
                     }
             }
         }.background(AdaptColors.container)
-        .onAppear {
-            isLoading = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                isLoading = false
-            }
-            viewModel.calculateSpendings(items: items.shuffled())
-        }
-            ProgressView("Syncing data...").opacity(isLoading ? 1 : 0)
+            ProgressView("Syncing data...").opacity(viewModel.isLoading ? 1 : 0)
         }
     }
     

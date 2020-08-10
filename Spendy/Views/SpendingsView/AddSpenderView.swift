@@ -19,7 +19,6 @@ struct AddSpenderView: View {
     var suggestions: FetchedResults<Suggestion>
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
-    @State private var itemToUpdate: Item?
     
     @State private var date: Date = Date()
     @State private var name: String = ""
@@ -32,13 +31,13 @@ struct AddSpenderView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             ScrollView {
-                XmarkView()
+                XmarkView().environmentObject(viewModel)
                 NameTextField(name: $name, suggestions: suggestions.shuffled())
                 ItemTypePicker(itemType: itemType, selectedType: $selectedType)
                 AmountTextField(amount: $amount)
                 CategoryPicker(categories: categories, category: $category)
                 ItemDatePicker(date: $date)
-                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: isUpdate, itemToUpdate: itemToUpdate)
+                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: isUpdate)
                     .environmentObject(viewModel)
             }
             .padding()
@@ -46,12 +45,8 @@ struct AddSpenderView: View {
             .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
-            cancellable = viewModel.$itemToUpdate
-                .sink(receiveValue: { (item) in
-                    self.itemToUpdate = item
-                })
             if isUpdate {
-                if let item = itemToUpdate {
+                if let item = viewModel.itemToUpdate {
                     name = item.name!
                     date = item.date!
                     amount = "\(item.amount)"
@@ -72,6 +67,7 @@ struct AddSpenderView: View {
 struct XmarkView: View {
     
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: SpendingVM
     
     var body: some View {
         HStack {
@@ -83,6 +79,7 @@ struct XmarkView: View {
                 .foregroundColor(Color.init("Adapt Text"))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
+                    viewModel.itemToUpdate = nil
                 }
         }
     }
@@ -239,7 +236,6 @@ struct SaveButton: View {
     var selectedType: String
     
     var isUpdate: Bool
-    var itemToUpdate: Item?
     
     var body: some View {
         Button("Save") {
@@ -284,7 +280,7 @@ struct SaveButton: View {
     
     
     private func update() {
-        if let item = itemToUpdate {
+        if let item = viewModel.itemToUpdate {
             item.name = name
             item.amount = Double(amount) ?? 0
             item.type = selectedType
@@ -292,6 +288,7 @@ struct SaveButton: View {
             item.date = date
             do {
                 try self.moc.save()
+                viewModel.itemToUpdate = nil
                 presentationMode.wrappedValue.dismiss()
                 viewModel.calculateSpendings(items: items.reversed())
             } catch {
