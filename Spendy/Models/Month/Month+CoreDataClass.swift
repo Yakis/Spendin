@@ -1,5 +1,5 @@
 //
-//  Item+CoreDataClass.swift
+//  Month+CoreDataClass.swift
 //  Spendy
 //
 //  Created by Mugurel on 24/08/2020.
@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc(Item)
-public class Item: NSManagedObject {
+@objc(Month)
+public class Month: NSManagedObject {
 
 }
