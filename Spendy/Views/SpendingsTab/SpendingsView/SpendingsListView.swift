@@ -6,25 +6,20 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct SpendingsListView: View {
     
+    @EnvironmentObject var itemStore: ItemStorage
     @EnvironmentObject var spendingVM: SpendingVM
-    var moc: NSManagedObjectContext
-    var items: FetchedResults<Item>
+    @Environment(\.managedObjectContext) var moc
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
     
     var body: some View {
         List {
-            ForEach(items, id: \.self) { item in
-                SpendingsListCell(item: item)
-                .onTapGesture {
-                    isUpdate = true
-                    showModal = true
-                    spendingVM.itemToUpdate = item
-                }
+            ForEach(itemStore.sortedItems, id: \.self) { item in
+                SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
+                    .environmentObject(spendingVM)
                 
             }
             .onDelete {
@@ -38,9 +33,9 @@ struct SpendingsListView: View {
     private func delete(indexSet: IndexSet) {
         do {
             guard let index = indexSet.first else { return }
-            moc.delete(items[index])
+            moc.delete(itemStore.sortedItems[index])
             try moc.save()
-            spendingVM.calculateSpendings(items: items.shuffled())
+            spendingVM.calculateSpendings(items: itemStore.sortedItems.shuffled())
         } catch {
             print("Deleting item error: \(error.localizedDescription)")
         }

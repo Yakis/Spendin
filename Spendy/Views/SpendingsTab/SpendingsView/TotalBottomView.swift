@@ -31,7 +31,9 @@ struct TotalBottomView: View {
                     showModal.toggle()
                 }
                 .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate).environmentObject(spendingVM).environment(\.managedObjectContext, moc)
+                    AddSpenderView(isUpdate: $isUpdate)
+                        .environmentObject(spendingVM)
+                        .environment(\.managedObjectContext, moc)
                 }
         }
     }

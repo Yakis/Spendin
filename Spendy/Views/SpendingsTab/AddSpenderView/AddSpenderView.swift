@@ -13,7 +13,8 @@ struct AddSpenderView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
-    @FetchRequest(entity: Item.entity(), sortDescriptors: [])
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(fetchRequest: Item.sortedFetchRequest)
     var items: FetchedResults<Item>
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
@@ -35,8 +36,9 @@ struct AddSpenderView: View {
                 AmountTextField(amount: $amount)
                 CategoryPicker(categories: categories, category: $category)
                 ItemDatePicker(date: $date)
-                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: isUpdate)
+                SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: $isUpdate)
                     .environmentObject(viewModel)
+                    .environment(\.managedObjectContext, moc)
             }
             .padding()
             .background(AdaptColors.container)

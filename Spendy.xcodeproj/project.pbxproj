@@ -29,8 +29,8 @@
 		155E659D25304E2D00082584 /* ItemTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E659C25304E2D00082584 /* ItemTypePicker.swift */; };
 		155E65A225304E4200082584 /* NameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65A125304E4200082584 /* NameTextField.swift */; };
 		155E65A725304E5500082584 /* XMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65A625304E5500082584 /* XMarkView.swift */; };
-		156938E724C49C4300521D57 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E624C49C4300521D57 /* AppDelegate.swift */; };
-		156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938E824C49C4300521D57 /* SceneDelegate.swift */; };
+		155E65AC25307BBF00082584 /* ItemStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65AB25307BBF00082584 /* ItemStorage.swift */; };
+		155E65B125307E2A00082584 /* SpendyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65B025307E2A00082584 /* SpendyApp.swift */; };
 		156938EC24C49C4300521D57 /* Spendy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */; };
 		156938EE24C49C4300521D57 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156938ED24C49C4300521D57 /* ContentView.swift */; };
 		156938F024C49C4300521D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 156938EF24C49C4300521D57 /* Assets.xcassets */; };
@@ -81,9 +81,9 @@
 		155E659C25304E2D00082584 /* ItemTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTypePicker.swift; sourceTree = "<group>"; };
 		155E65A125304E4200082584 /* NameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTextField.swift; sourceTree = "<group>"; };
 		155E65A625304E5500082584 /* XMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XMarkView.swift; sourceTree = "<group>"; };
+		155E65AB25307BBF00082584 /* ItemStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemStorage.swift; sourceTree = "<group>"; };
+		155E65B025307E2A00082584 /* SpendyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyApp.swift; sourceTree = "<group>"; };
 		156938E324C49C4300521D57 /* Spendy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spendy.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		156938E624C49C4300521D57 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		156938E824C49C4300521D57 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		156938EB24C49C4300521D57 /* Spendy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Spendy.xcdatamodel; sourceTree = "<group>"; };
 		156938ED24C49C4300521D57 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		156938EF24C49C4300521D57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -190,15 +190,6 @@
 			path = SharingTab;
 			sourceTree = "<group>";
 		};
-		153682DF24C6286E00772897 /* App Main */ = {
-			isa = PBXGroup;
-			children = (
-				156938E624C49C4300521D57 /* AppDelegate.swift */,
-				156938E824C49C4300521D57 /* SceneDelegate.swift */,
-			);
-			path = "App Main";
-			sourceTree = "<group>";
-		};
 		153682E024C6289A00772897 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				151F965E24C49D92002C27F4 /* SpendingVM.swift */,
+				155E65AB25307BBF00082584 /* ItemStorage.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -263,6 +255,7 @@
 		156938DA24C49C4300521D57 = {
 			isa = PBXGroup;
 			children = (
+				155E65B025307E2A00082584 /* SpendyApp.swift */,
 				156938E524C49C4300521D57 /* Spendy */,
 				156938FF24C49C4400521D57 /* SpendyTests */,
 				1569390A24C49C4400521D57 /* SpendyUITests */,
@@ -289,7 +282,6 @@
 				153682E124C628C700772897 /* Models */,
 				153682D724C6278800772897 /* Utils */,
 				153682D824C627A200772897 /* Views */,
-				153682DF24C6286E00772897 /* App Main */,
 				153682E024C6289A00772897 /* Supporting Files */,
 				156938EA24C49C4300521D57 /* Spendy.xcdatamodeld */,
 				156938F124C49C4300521D57 /* Preview Content */,
@@ -471,13 +463,14 @@
 				155E659D25304E2D00082584 /* ItemTypePicker.swift in Sources */,
 				152BE3D424F3AE1200881048 /* Item+CoreDataClass.swift in Sources */,
 				1555D9042530426B0091D21C /* SpendingsListCell.swift in Sources */,
-				156938E724C49C4300521D57 /* AppDelegate.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
 				152BE3D524F3AE1200881048 /* Item+CoreDataProperties.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				1555D8E725303CFD0091D21C /* SpendingsListView.swift in Sources */,
+				155E65AC25307BBF00082584 /* ItemStorage.swift in Sources */,
 				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
 				1555D8E225303CD40091D21C /* Extensions.swift in Sources */,
+				155E65B125307E2A00082584 /* SpendyApp.swift in Sources */,
 				155E658925304DBE00082584 /* SaveButton.swift in Sources */,
 				152BE3D324F3AE1200881048 /* Month+CoreDataProperties.swift in Sources */,
 				155E659825304E0500082584 /* AmountTextField.swift in Sources */,
@@ -486,7 +479,6 @@
 				155E659325304DF200082584 /* CategoryPicker.swift in Sources */,
 				152BE3D224F3AE1200881048 /* Month+CoreDataClass.swift in Sources */,
 				155E65A225304E4200082584 /* NameTextField.swift in Sources */,
-				156938E924C49C4300521D57 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +648,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -679,7 +671,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendy/Spendy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendy/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;

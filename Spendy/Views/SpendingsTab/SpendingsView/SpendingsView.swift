@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 enum ItemType: String, CaseIterable {
     case expense, income
@@ -16,8 +17,8 @@ enum ItemType: String, CaseIterable {
 
 struct SpendingsView: View {
     
-    @FetchRequest(entity: Item.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)])
-    var items: FetchedResults<Item>
+    
+    @EnvironmentObject var itemStore: ItemStorage
     @EnvironmentObject var spendingVM: SpendingVM
     @Environment(\.managedObjectContext) var moc
     @State var showModal: Bool = false
@@ -29,17 +30,24 @@ struct SpendingsView: View {
     var body: some View {
         ZStack {
         VStack(alignment: .leading, spacing: 20) {
-            SpendingsListView(
-                moc: moc, items: items,
-                showModal: $showModal,
-                isUpdate: $isUpdate
-            )
+            SpendingsListView(showModal: $showModal, isUpdate: $isUpdate)
+                .environmentObject(itemStore)
             TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
+                .environmentObject(itemStore)
             .onAppear(perform: {
+                cancellable = itemStore.$sortedItems
+                    .sink { items in
+                        for item in items {
+                            print("Item: \(item.name)")
+                            print("Amount: \(item.amount)")
+                        }
+                        }
+                    
                 isLoading = false
-                spendingVM.calculateSpendings(items: items.shuffled())
+                spendingVM.calculateSpendings(items: itemStore.sortedItems.shuffled())
             })
                 .environmentObject(spendingVM)
+                .environmentObject(itemStore)
             
         }.background(AdaptColors.container)
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
@@ -47,10 +55,10 @@ struct SpendingsView: View {
     }
     
     
-     init() {
-        UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
-        UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
-    }
+//     init() {
+//        UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
+//        UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
+//    }
     
     
 }

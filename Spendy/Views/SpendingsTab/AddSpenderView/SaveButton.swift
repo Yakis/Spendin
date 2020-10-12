@@ -20,7 +20,7 @@ struct SaveButton: View {
     var date: Date
     var selectedType: String
     
-    var isUpdate: Bool
+    @Binding var isUpdate: Bool
     
     var body: some View {
         Button("Save") {
@@ -71,7 +71,7 @@ struct SaveButton: View {
                 presentationMode.wrappedValue.dismiss()
                 viewModel.calculateSpendings(items: items.reversed())
                 viewModel.itemToUpdate = nil
-                viewModel.fetchData(moc: moc)
+                self.isUpdate = false
             } catch {
                 print("Core data error: \(error)")
             }

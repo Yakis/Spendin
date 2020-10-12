@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 extension Date {
     
@@ -17,4 +18,13 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+}
+
+
+extension Item {
+  static var sortedFetchRequest: NSFetchRequest<Item> {
+    let request: NSFetchRequest<Item> = Item.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+    return request
+  }
 }

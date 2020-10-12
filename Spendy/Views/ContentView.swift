@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct NavElement {
     let id = UUID()
@@ -35,6 +36,10 @@ struct SideBarView: View {
 
 struct ContentView: View {
     
+    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var itemStore: ItemStorage
+    
     #if os(iOS)
     init() {
         UITabBar.appearance().barTintColor = UIColor(named: "Container")
@@ -45,7 +50,9 @@ struct ContentView: View {
     
     var body: some View {
         #if os(iOS)
-            CustomTabView()
+        CustomTabView()
+            .environmentObject(spendingVM)
+            .environmentObject(itemStore)
         #else
             CustomNavigationView()
         #endif
@@ -58,25 +65,16 @@ struct ContentView: View {
 
 
 
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ContentView()
-                .previewDevice("iPhone 11 Pro Max")
-            ContentView()
-                .previewDevice("iPad (7th generation)")
-        }
-    }
-}
-
-
-
 struct CustomTabView: View {
+    
+    @EnvironmentObject var itemStore: ItemStorage
+    @EnvironmentObject var spendingVM: SpendingVM
+    
     var body: some View {
         TabView {
             SpendingsView()
+                .environmentObject(spendingVM)
+                .environmentObject(itemStore)
                 .tabItem {
                     Label("Spending", systemImage: "creditcard.fill")
                 }.tag(0)
@@ -102,10 +100,14 @@ struct CustomTabView: View {
 
 
 struct CustomNavigationView: View {
+    
+    @EnvironmentObject var itemStore: ItemStorage
+    
     var body: some View {
         NavigationView {
             SideBarView()
             SpendingsView()
+                .environmentObject(itemStore)
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
         }
