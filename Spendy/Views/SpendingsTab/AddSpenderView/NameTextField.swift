@@ -12,16 +12,15 @@ struct NameTextField: View {
     @Binding var name: String
     
     var body: some View {
-        HStack {
-            Spacer().frame(width: 20, height: 10, alignment: .center)
-            TextField("Name", text: $name)
-                .frame(height: 50)
-                .accentColor(AdaptColors.theOrange)
-                .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                .shadow(color: .black, radius: -4)
-                .padding([.top, .bottom], 20)
-            
-            Spacer().frame(width: 20, height: 10, alignment: .center)
-        }
+        TextField("Name", text: $name)
+            .frame(height: 50)
+            .padding(10)
+            .background(AdaptColors.cellContainer)
+            .font(.title)
+            .accentColor(AdaptColors.theOrange)
+            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            .shadow(color: .black, radius: -4)
+            .padding([.top, .bottom], 5)
+        
     }
 }

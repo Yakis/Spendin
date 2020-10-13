@@ -55,10 +55,10 @@ struct SpendingsView: View {
     }
     
     
-//     init() {
-//        UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
-//        UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
-//    }
+     init() {
+        UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
+        UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
+    }
     
     
 }

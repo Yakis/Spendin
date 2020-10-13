@@ -31,14 +31,16 @@ struct AddSpenderView: View {
         VStack(alignment: .center, spacing: 20) {
             ScrollView {
                 XmarkView().environmentObject(viewModel)
-                NameTextField(name: $name)
                 ItemTypePicker(itemType: itemType, selectedType: $selectedType)
+                    .padding([.top, .bottom], 5)
+                NameTextField(name: $name)
                 AmountTextField(amount: $amount)
                 CategoryPicker(categories: categories, category: $category)
                 ItemDatePicker(date: $date)
                 SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: $isUpdate)
                     .environmentObject(viewModel)
                     .environment(\.managedObjectContext, moc)
+                Spacer().frame(height: 300)
             }
             .padding()
             .background(AdaptColors.container)

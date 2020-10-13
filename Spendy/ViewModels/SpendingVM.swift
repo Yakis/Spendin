@@ -20,18 +20,21 @@ class SpendingVM: ObservableObject {
     func calculateSpendings(items: [Item]) {
         DispatchQueue.main.async {
             var temp: Double = 0
-            for item in items {
-                if item.type == "expense" {
-                    temp -= item.amount
-                } else {
-                    temp += item.amount
+            switch items.count {
+            case 0: self.total = 0
+            default:
+                for item in items {
+                    if item.type == "expense" {
+                        temp -= item.amount
+                    } else {
+                        temp += item.amount
+                    }
+                    self.total = temp
                 }
-                self.total = temp
             }
         }
-        
     }
     
     
     
-        }
+}

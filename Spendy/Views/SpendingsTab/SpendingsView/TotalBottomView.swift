@@ -16,7 +16,7 @@ struct TotalBottomView: View {
     
     var body: some View {
         HStack {
-            Text("£\(String(format: "%.2f", spendingVM.total)) left")
+            Text("£ \(String(format: "%.2f", spendingVM.total)) left")
                 .font(.custom("HelveticaNeue-Bold", size: 24))
                 .padding([.leading, .bottom], 20)
             Spacer()

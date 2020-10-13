@@ -19,11 +19,13 @@ struct CategoryPicker: View {
     
     var body: some View {
         HStack {
-            DisclosureGroup("Pick a category   \(Image(systemName: category))", isExpanded: $revealDetails) {
+            let image = Image(systemName: category)
+            DisclosureGroup("Pick a category   \(image)", isExpanded: $revealDetails) {
                 Spacer()
                 LazyVGrid(columns: columns, spacing: 16) {
                     ForEach(categories, id: \.self) { item in
                         Image(systemName: item)
+                            .font(.title)
                             .foregroundColor(self.category == item ? AdaptColors.theOrange : AdaptColors.adaptText)
                             .onTapGesture {
                                 withAnimation {
@@ -33,7 +35,9 @@ struct CategoryPicker: View {
                             }
                     }
                 }
-            }.accentColor(AdaptColors.theOrange)
+            }
+            .font(.title)
+            .accentColor(AdaptColors.theOrange)
             .padding([.top, .bottom], 20)
             .onTapGesture {
                 withAnimation {
