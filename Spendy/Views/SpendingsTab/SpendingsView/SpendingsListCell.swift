@@ -18,12 +18,12 @@ struct SpendingsListCell: View {
     var body: some View {
         VStack {
             HStack(spacing: 20) {
-                Label("", systemImage: item.category ?? "").font(.largeTitle)
+                Label("", systemImage: item.category).font(.largeTitle)
                     .foregroundColor(item.type == "expense" ? .red : .green)
                 VStack(alignment: .leading) {
-                    Text("\(item.name ?? "")")
+                    Text("\(item.name)")
                         .font(.custom("HelveticaNeue-Bold", size: 20))
-                    Text((item.date?.shortString()) ?? "")
+                    Text((item.date.shortString()))
                         .font(.custom("HelveticaNeue-Light", size: 14))
                 }
                 Spacer()

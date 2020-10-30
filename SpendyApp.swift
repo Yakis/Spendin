@@ -6,56 +6,29 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct SpendyApp: App {
     
     @Environment(\.scenePhase) var scenePhase
-    let persistenceManager: PersistenceManager
-    @StateObject var itemStorage: ItemStorage
     @StateObject var spendingVM = SpendingVM()
-    
+    @StateObject var siwaService = SiwAService()
     
     init() {
-        let manager = PersistenceManager()
-        self.persistenceManager = manager
-
-        let managedObjectContext = manager.persistentContainer.viewContext
-        let storage = ItemStorage(managedObjectContext: managedObjectContext)
-        self._itemStorage = StateObject(wrappedValue: storage)
-      }
-    
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
+            if siwaService.isAuthenticated {
             ContentView()
                 .environmentObject(spendingVM)
-                .environmentObject(itemStorage)
-                .environment(\.managedObjectContext, persistenceManager.persistentContainer.viewContext)
+            } else {
+                LoginView()
+                    .environmentObject(siwaService)
+            }
         }
-        .onChange(of: scenePhase) { phase in
-                    switch phase {
-                    case .background:
-                        do {
-                        try persistenceManager.persistentContainer.viewContext.save()
-                        } catch {
-                            print(error)
-                        }
-                    case .active:
-                        do {
-                        try persistenceManager.persistentContainer.viewContext.save()
-                        } catch {
-                            print(error)
-                        }
-                    case .inactive:
-                        do {
-                        try persistenceManager.persistentContainer.viewContext.save()
-                        } catch {
-                            print(error)
-                        }
-                    default: break
-                    }
-                }
     }
 }
 

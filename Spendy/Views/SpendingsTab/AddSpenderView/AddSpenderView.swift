@@ -6,16 +6,11 @@
 //
 
 import SwiftUI
-import CoreData
 import Combine
 
 struct AddSpenderView: View {
     
     @EnvironmentObject var viewModel: SpendingVM
-    @Environment(\.presentationMode) var presentationMode
-    @Environment(\.managedObjectContext) var moc
-    @FetchRequest(fetchRequest: Item.sortedFetchRequest)
-    var items: FetchedResults<Item>
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
     
@@ -39,7 +34,6 @@ struct AddSpenderView: View {
                 ItemDatePicker(date: $date)
                 SaveButton(name: name, amount: amount, category: category, date: date, selectedType: selectedType, isUpdate: $isUpdate)
                     .environmentObject(viewModel)
-                    .environment(\.managedObjectContext, moc)
                 Spacer().frame(height: 300)
             }
             .padding()
@@ -49,11 +43,11 @@ struct AddSpenderView: View {
         .onAppear {
             if isUpdate {
                 if let item = viewModel.itemToUpdate {
-                    name = item.name!
-                    date = item.date!
+                    name = item.name
+                    date = item.date
                     amount = "\(item.amount)"
-                    category = item.category!
-                    selectedType = item.type!
+                    category = item.category
+                    selectedType = item.type
                     
                 }
             }

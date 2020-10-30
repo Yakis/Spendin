@@ -9,15 +9,13 @@ import SwiftUI
 
 struct SpendingsListView: View {
     
-    @EnvironmentObject var itemStore: ItemStorage
     @EnvironmentObject var spendingVM: SpendingVM
-    @Environment(\.managedObjectContext) var moc
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
     
     var body: some View {
         List {
-            ForEach(itemStore.sortedItems, id: \.self) { item in
+            ForEach(spendingVM.items, id: \.self) { item in
                 SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
                     .environmentObject(spendingVM)
                 
@@ -31,14 +29,9 @@ struct SpendingsListView: View {
     
     
     private func delete(indexSet: IndexSet) {
-        do {
-            guard let index = indexSet.first else { return }
-            moc.delete(itemStore.sortedItems[index])
-            try moc.save()
-            spendingVM.calculateSpendings(items: itemStore.sortedItems.shuffled())
-        } catch {
-            print("Deleting item error: \(error.localizedDescription)")
-        }
+        guard let index = indexSet.first else { return }
+        let item = spendingVM.items[index]
+        spendingVM.delete(item: item)
     }
     
     

@@ -9,10 +9,8 @@ import SwiftUI
 
 struct SaveButton: View {
     
-    @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
-    @FetchRequest(entity: Item.entity(), sortDescriptors: [NSSortDescriptor(key: "date", ascending: true)]) var items: FetchedResults<Item>
     
     var name: String
     var amount: String
@@ -42,39 +40,23 @@ struct SaveButton: View {
     
     
     private func save() {
-        let newItem = Item(context: moc)
-        newItem.name = name
-        newItem.amount = Double(amount) ?? 0
-        newItem.type = selectedType
-        newItem.category = category
-        newItem.date = date
-        newItem.id = UUID()
-        do {
-            try self.moc.save()
+        let newItem = Item(id: "", amount: Double(amount) ?? 0, category: category, date: date, name: name, type: selectedType)
+        viewModel.save(item: newItem)
             presentationMode.wrappedValue.dismiss()
-            viewModel.calculateSpendings(items: items.reversed())
-        } catch {
-            print("Core data error: \(error)")
-        }
     }
     
     
     private func update() {
-        if let item = viewModel.itemToUpdate {
-            item.name = name
-            item.amount = Double(amount) ?? 0
-            item.type = selectedType
-            item.category = category
-            item.date = date
-            do {
-                try self.moc.save()
-                presentationMode.wrappedValue.dismiss()
-                viewModel.calculateSpendings(items: items.reversed())
-                viewModel.itemToUpdate = nil
-                self.isUpdate = false
-            } catch {
-                print("Core data error: \(error)")
-            }
+        if viewModel.itemToUpdate != nil {
+            viewModel.itemToUpdate?.name = name
+            viewModel.itemToUpdate?.amount = Double(amount) ?? 0
+            viewModel.itemToUpdate?.type = selectedType
+            viewModel.itemToUpdate?.category = category
+            viewModel.itemToUpdate?.date = date
+            viewModel.update()
+            presentationMode.wrappedValue.dismiss()
+            viewModel.itemToUpdate = nil
+            self.isUpdate = false
         }
     }
     
