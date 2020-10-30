@@ -38,6 +38,7 @@ class SpendingVM: ObservableObject {
     
     
     func getItems() {
+        isLoading = true
         firebaseService.getItems { [weak self] (items, error) in
             if error != nil {
                 print("Error retrieving items: \(String(describing: error))")
@@ -45,6 +46,7 @@ class SpendingVM: ObservableObject {
                 if let items = items {
                     self?.items = items
                     self?.calculateSpendings()
+                    self?.isLoading = false
                 }
             }
         }
@@ -53,9 +55,11 @@ class SpendingVM: ObservableObject {
     
     
     func save(item: Item) {
+        isLoading = true
         firebaseService.save(item: item) { [weak self] (error) in
             if error != nil {
                 print(error)
+                self?.isLoading = false
             } else {
                 self?.getItems()
             }
@@ -64,8 +68,10 @@ class SpendingVM: ObservableObject {
     
     
     func update() {
+        isLoading = true
         firebaseService.update(item: itemToUpdate!) { [weak self] (error) in
             if error != nil {
+                self?.isLoading = false
                 print("Error updating item: \(error)")
             } else {
                 self?.getItems()
@@ -75,8 +81,10 @@ class SpendingVM: ObservableObject {
     
     
     func delete(item: Item) {
+        isLoading = true
         firebaseService.delete(item: item) { [weak self] (error) in
             if error != nil {
+                self?.isLoading = false
                 print("Error deleting item: \(error)")
             } else {
                 self?.getItems()
