@@ -21,6 +21,7 @@ class SpendingVM: ObservableObject {
     }
     
     func calculateSpendings() {
+        var leftAmounts: [Double] = []
         var temp: Double = 0
         switch items.count {
         case 0: self.total = 0
@@ -28,12 +29,15 @@ class SpendingVM: ObservableObject {
             for item in items {
                 if item.type == "expense" {
                     temp -= item.amount
+                    leftAmounts.append(temp)
                 } else {
                     temp += item.amount
+                    leftAmounts.append(temp)
                 }
                 self.total = temp
             }
         }
+        _ = (0..<items.count).map { items[$0].amountLeft = leftAmounts[$0] }
     }
     
     

@@ -12,6 +12,7 @@ struct Item: Codable, Hashable {
     
     var id: String
     var amount: Double
+    var amountLeft: Double = 0
     var category: String
     var date: Date
     var name: String

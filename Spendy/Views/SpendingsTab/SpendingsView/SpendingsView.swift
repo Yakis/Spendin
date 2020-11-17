@@ -15,26 +15,30 @@ enum ItemType: String, CaseIterable {
 
 
 struct SpendingsView: View {
-    
+
     
     @EnvironmentObject var spendingVM: SpendingVM
-    @State var showModal: Bool = false
-    @State var isUpdate: Bool = false
+    @State private var showModal: Bool = false
+    @State private var isUpdate: Bool = false
     @State private var cancellable: AnyCancellable?
+    @State private var showCalendarView: Bool = false
+    
+    
+    
+    
     
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 20) {
-                SpendingsListView(showModal: $showModal, isUpdate: $isUpdate)
-                TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
-                    .onAppear(perform: {
-                        spendingVM.getItems()
-                    })
-                    .environmentObject(spendingVM)
-                
-            }.background(AdaptColors.container)
-            ProgressView("Loading...").opacity(spendingVM.isLoading ? 1 : 0)
+        VStack(alignment: .leading, spacing: 20) {
+            SpendingsListView(showModal: $showModal, isUpdate: $isUpdate)
+            TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
+                .onAppear(perform: {
+                    spendingVM.getItems()
+                })
+                .environmentObject(spendingVM)
+        }.background(AdaptColors.container)
+        ProgressView("Loading...").opacity(spendingVM.isLoading ? 1 : 0)
         }
     }
     
@@ -49,4 +53,18 @@ struct SpendingsView: View {
 
 
 
-
+struct SpendingsView_Previews: PreviewProvider {
+    
+    
+    static var previews: some View {
+        Group {
+            SpendingsView()
+                .environmentObject(SpendingVM())
+            SpendingsView()
+                .preferredColorScheme(.dark)
+                .environmentObject(SpendingVM())
+        }
+    }
+    
+    
+}

@@ -73,9 +73,10 @@ struct CustomTabView: View {
                 .tabItem {
                     Label("Spending", systemImage: "creditcard.fill")
                 }.tag(0)
-            RemindersView()
+            CustomizedCalendarView()
+                .environmentObject(spendingVM)
                 .tabItem {
-                    Label("Reminders", systemImage: "clock.fill")
+                    Label("Calendar", systemImage: "calendar")
                 }.tag(1)
             SharingView()
                 .tabItem {
@@ -104,3 +105,30 @@ struct CustomNavigationView: View {
         }.navigationViewStyle(DoubleColumnNavigationViewStyle())
     }
         }
+
+
+
+struct CustomizedCalendarView: View {
+    
+    @Environment(\.calendar) var calendar
+    
+    private var year: DateInterval {
+        calendar.dateInterval(of: .year, for: Date())!
+    }
+    
+    var body: some View {
+        CalendarView(interval: year) { date in
+            Text("30")
+                .hidden()
+                .padding(8)
+                .background(Color.secondary)
+                .clipShape(Circle())
+                .padding(.vertical, 4)
+                .overlay(
+                    Text(String(self.calendar.component(.day, from: date)))
+                        .foregroundColor(AdaptColors.theOrange)
+                )
+        }
+    }
+}
+

@@ -23,12 +23,18 @@ struct SpendingsListCell: View {
                 VStack(alignment: .leading) {
                     Text("\(item.name)")
                         .font(.custom("HelveticaNeue-Bold", size: 20))
+                        .padding(.bottom, 10)
                     Text((item.date.shortString()))
                         .font(.custom("HelveticaNeue-Light", size: 14))
                 }
                 Spacer()
+                VStack {
                 Text(amountString(item: item))
                     .font(.custom("HelveticaNeue-Bold", size: 20))
+                    .padding(.bottom, 10)
+                    Text("£" + " " + String(format: "%.2f", item.amountLeft))
+                        .font(.custom("HelveticaNeue-Light", size: 14))
+                }
                 Spacer().frame(width: 20, height: 80, alignment: .leading)
             }
             .frame(width: UIScreen.main.bounds.width - 32, height: 80, alignment: .leading)
