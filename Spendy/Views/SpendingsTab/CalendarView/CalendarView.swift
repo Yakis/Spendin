@@ -34,6 +34,7 @@ struct CalendarView<DateView>: View where DateView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
+            ScrollViewReader { value in
             VStack(alignment: .center) {
                 ForEach(months, id: \.self) { month in
                     Text("\(month.shortString())")
@@ -42,10 +43,24 @@ struct CalendarView<DateView>: View where DateView: View {
                     MonthView(month: month, content: self.content)
                         .frame(alignment: .center)
                         .padding(.bottom, 20)
+                        .onAppear(perform: {
+                            value.scrollTo(getCurrentMonth(), anchor: .top)
+                        })
                 }
+            }
             }
         }
     }
+    
+    
+    
+    func getCurrentMonth() -> Date {
+        guard let currentMonth = calendar.dateInterval(of: .month, for: Date()) else { return Date() }
+        let date = currentMonth.start
+        return date
+    }
+    
+    
 }
 
 
