@@ -17,7 +17,8 @@ class FirebaseService {
     
     func getItems(handler: @escaping([Item]?, Error?) -> ()) {
         let db = Firestore.firestore()
-        let ref = db.collection("items").order(by: "date")
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let ref = db.collection("users").document(uid).collection("items").order(by: "date")
         ref.getDocuments { (snapshot, error) in
             if error != nil {
                 handler(nil, error)
@@ -32,8 +33,9 @@ class FirebaseService {
     
     func save(item: Item, handler: @escaping (Error?) -> ()) {
         let db = Firestore.firestore()
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         do {
-            let _ = try db.collection("items").addDocument(from: item) { error in
+            let _ = try db.collection("users").document(uid).collection("items").addDocument(from: item) { error in
                 handler(error)
             }
         } catch {
@@ -44,9 +46,9 @@ class FirebaseService {
     
     
     func update(item: Item, handler: @escaping (Error?) -> ()) {
-        print(item.id)
         let db = Firestore.firestore()
-        let ref = db.collection("items").document(item.id)
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let ref = db.collection("users").document(uid).collection("items").document(item.id)
         ref.updateData([
             "name": item.name,
             "date": item.date,
@@ -61,7 +63,8 @@ class FirebaseService {
     
     func delete(item: Item, handler: @escaping(Error?) -> ()) {
         let db = Firestore.firestore()
-        let ref = db.collection("items").document(item.id)
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let ref = db.collection("users").document(uid).collection("items").document(item.id)
         ref.delete { (error) in
             handler(error)
         }
