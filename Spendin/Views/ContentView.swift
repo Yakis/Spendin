@@ -112,7 +112,11 @@ struct CustomizedCalendarView: View {
     @Environment(\.calendar) var calendar
     
     private var year: DateInterval {
-        calendar.dateInterval(of: .year, for: Date())!
+        let components = DateComponents(year: 1)
+        let currentYear = calendar.dateInterval(of: .year, for: Date())
+        let todayNextYear = calendar.date(byAdding: components, to: Date())!
+        let nextYear = calendar.dateInterval(of: .year, for: todayNextYear)
+        return DateInterval(start: currentYear!.start, end: nextYear!.end)
     }
     
     var body: some View {

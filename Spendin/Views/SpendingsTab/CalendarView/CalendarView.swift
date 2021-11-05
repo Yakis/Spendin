@@ -179,7 +179,6 @@ fileprivate extension Calendar {
                 }
             }
         }
-        
         return dates
     }
 }
