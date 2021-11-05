@@ -37,7 +37,7 @@ struct CalendarView<DateView>: View where DateView: View {
             ScrollViewReader { value in
                 VStack(alignment: .center) {
                     ForEach(months, id: \.self) { month in
-                        Text("\(month.shortString())")
+                        Text(month.monthName())
                             .font(.title)
                             .multilineTextAlignment(.center)
                         MonthView(month: month, content: self.content)
@@ -51,7 +51,7 @@ struct CalendarView<DateView>: View where DateView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding(1)
+        .padding(.top, 50)
     }
     
     
