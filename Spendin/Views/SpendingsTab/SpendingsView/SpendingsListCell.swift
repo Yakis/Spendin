@@ -17,22 +17,27 @@ struct SpendingsListCell: View {
     
     var body: some View {
         VStack {
-            HStack(spacing: 20) {
-                Label("", systemImage: item.category).font(.largeTitle)
+            HStack(spacing: 16) {
+                Label("", systemImage: item.category)
+                    .font(.title)
                     .foregroundColor(item.type == .expense ? .red : .green)
                 VStack(alignment: .leading) {
                     Text("\(item.name)")
-                        .font(.custom("HelveticaNeue-Bold", size: 20))
+                        .font(.title2)
+                        .fontWeight(.thin)
+                        .padding(.bottom, 5)
                     Text((item.date.shortString()))
-                        .font(.custom("HelveticaNeue-Light", size: 14))
+                        .font(.caption2)
+                        .fontWeight(.thin)
                 }
                 Spacer()
                 Text(amountString(item: item))
-                    .font(.custom("HelveticaNeue-Bold", size: 20))
-                Spacer().frame(width: 20, height: 80, alignment: .leading)
+                    .font(.title3)
+                    .fontWeight(.thin)
             }
-            .frame(width: UIScreen.main.bounds.width - 32, height: 80, alignment: .leading)
-            .shadow(radius: 2)
+            .frame(maxWidth: .infinity)
+            .frame(height: 60, alignment: .leading)
+            .shadow(radius: 1)
         }
         .onTapGesture {
             isUpdate = true

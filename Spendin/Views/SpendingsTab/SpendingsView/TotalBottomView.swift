@@ -12,6 +12,7 @@ struct TotalBottomView: View {
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
+    @State private var date = Date()
     
     var body: some View {
         HStack {
@@ -30,7 +31,7 @@ struct TotalBottomView: View {
                     showModal.toggle()
                 }
                 .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate)
+                    AddSpenderView(isUpdate: $isUpdate, date: $date)
                         .environmentObject(spendingVM)
                 }
         }

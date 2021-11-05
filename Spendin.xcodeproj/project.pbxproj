@@ -14,6 +14,8 @@
 		151F966624C49D93002C27F4 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966024C49D93002C27F4 /* SharingView.swift */; };
 		151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966124C49D93002C27F4 /* AddSpenderView.swift */; };
 		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
+		1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */; };
+		1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545DDF2273536BB00194A0B /* CalendarView.swift */; };
 		155013D427343AEC00FF14AD /* ItemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155013D327343AEC00FF14AD /* ItemDataStore.swift */; };
 		155013D6273448A500FF14AD /* SpendingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155013D5273448A500FF14AD /* SpendingObject.swift */; };
 		155013D927344BEE00FF14AD /* Item+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155013D727344BEE00FF14AD /* Item+CoreDataClass.swift */; };
@@ -66,6 +68,8 @@
 		151F966024C49D93002C27F4 /* SharingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		151F966124C49D93002C27F4 /* AddSpenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSpenderView.swift; sourceTree = "<group>"; };
 		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsForDateView.swift; sourceTree = "<group>"; };
+		1545DDF2273536BB00194A0B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		155013D327343AEC00FF14AD /* ItemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDataStore.swift; sourceTree = "<group>"; };
 		155013D5273448A500FF14AD /* SpendingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingObject.swift; sourceTree = "<group>"; };
 		155013D727344BEE00FF14AD /* Item+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Item+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 		153682DA24C627D400772897 /* SpendingsTab */ = {
 			isa = PBXGroup;
 			children = (
+				1545DDF5273536C500194A0B /* CalendarView */,
 				1555D8F82530413D0091D21C /* SpendingsView */,
 				1555D8FC253041490091D21C /* AddSpenderView */,
 			);
@@ -206,6 +211,15 @@
 				155013D827344BEE00FF14AD /* Item+CoreDataProperties.swift */,
 			);
 			path = Item;
+			sourceTree = "<group>";
+		};
+		1545DDF5273536C500194A0B /* CalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				1545DDF2273536BB00194A0B /* CalendarView.swift */,
+				1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */,
+			);
+			path = CalendarView;
 			sourceTree = "<group>";
 		};
 		155013D227343AD800FF14AD /* Services */ = {
@@ -475,9 +489,11 @@
 				155E65B125307E2A00082584 /* SpendinApp.swift in Sources */,
 				155E658925304DBE00082584 /* SaveButton.swift in Sources */,
 				155E659825304E0500082584 /* AmountTextField.swift in Sources */,
+				1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */,
 				155E65842530466600082584 /* TotalBottomView.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				155E659325304DF200082584 /* CategoryPicker.swift in Sources */,
+				1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */,
 				155E65A225304E4200082584 /* NameTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
