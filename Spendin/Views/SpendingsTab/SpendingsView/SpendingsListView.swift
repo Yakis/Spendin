@@ -24,7 +24,8 @@ struct SpendingsListView: View {
             .onDelete {
                 delete(item: spendingVM.items[$0.first!])
             }
-            .listRowBackground(AdaptColors.cellContainer)
+            .listRowBackground(Color.white.opacity(0.3))
+//            .listRowBackground(AdaptColors.cellContainer)
         }.listStyle(InsetGroupedListStyle())
     }
     

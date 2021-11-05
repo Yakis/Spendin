@@ -26,6 +26,7 @@ struct SpendingsForDateView: View {
                     SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
                         .environmentObject(spendingVM)
                 }
+                .listRowBackground(Color.white.opacity(0.3))
             }
             HStack {
                 Spacer()
