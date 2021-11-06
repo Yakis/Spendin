@@ -1,8 +1,8 @@
 //
-//  Item+CoreDataProperties.swift
+//  CDItem+CoreDataProperties.swift
 //  Spendin
 //
-//  Created by Mugurel Moscaliuc on 04/11/2021.
+//  Created by Mugurel Moscaliuc on 06/11/2021.
 //
 //
 
@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 
-extension Item {
+extension CDItem {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Item> {
-        return NSFetchRequest<Item>(entityName: "Item")
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDItem> {
+        return NSFetchRequest<CDItem>(entityName: "CDItem")
     }
 
     @NSManaged public var amount: Double
@@ -25,6 +25,6 @@ extension Item {
 
 }
 
-extension Item : Identifiable {
+extension CDItem : Identifiable {
 
 }

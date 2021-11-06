@@ -25,15 +25,14 @@ struct SpendingsListView: View {
                 delete(item: spendingVM.items[$0.first!])
             }
             .listRowBackground(Color.white.opacity(0.3))
-//            .listRowBackground(AdaptColors.cellContainer)
         }.listStyle(InsetGroupedListStyle())
     }
     
     
-    private func delete(item: SpendingObject) {
+    private func delete(item: Item) {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<Item>
-        fetchRequest = Item.fetchRequest()
+        let fetchRequest: NSFetchRequest<CDItem>
+        fetchRequest = CDItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
         let itemsToDelete = try! moc.fetch(fetchRequest)
         for item in itemsToDelete {

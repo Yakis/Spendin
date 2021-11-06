@@ -36,10 +36,19 @@ extension Date {
 }
 
 
-extension Item {
-  static var sortedFetchRequest: NSFetchRequest<Item> {
-    let request: NSFetchRequest<Item> = Item.fetchRequest()
+extension CDItem {
+  static var sortedFetchRequest: NSFetchRequest<CDItem> {
+    let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
     request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+    return request
+  }
+}
+
+
+extension CDSuggestion {
+  static var sortedFetchRequest: NSFetchRequest<CDSuggestion> {
+    let request: NSFetchRequest<CDSuggestion> = CDSuggestion.fetchRequest()
+    request.sortDescriptors = [NSSortDescriptor(key: "count", ascending: true)]
     return request
   }
 }

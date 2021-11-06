@@ -17,7 +17,8 @@ struct TotalBottomView: View {
     var body: some View {
         HStack {
             Text("£ \(String(format: "%.2f", spendingVM.total)) left")
-                .font(.custom("HelveticaNeue-Bold", size: 24))
+                .font(.title2)
+                .fontWeight(.semibold)
                 .padding([.leading, .bottom], 20)
             Spacer()
             Image(systemName: "plus.circle.fill")
@@ -25,7 +26,6 @@ struct TotalBottomView: View {
                 .frame(width: 60, height: 60, alignment: .center)
                 .foregroundColor(AdaptColors.theOrange)
                 .shadow(radius: 2)
-                .transition(.scale)
                 .padding([.trailing, .bottom], 20)
                 .onTapGesture {
                     showModal.toggle()

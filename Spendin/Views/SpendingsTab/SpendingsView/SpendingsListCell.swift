@@ -10,7 +10,7 @@ import SwiftUI
 struct SpendingsListCell: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    var item: SpendingObject
+    var item: Item
     @Binding var isUpdate: Bool
     @Binding var showModal: Bool
     
@@ -43,14 +43,15 @@ struct SpendingsListCell: View {
             isUpdate = true
             showModal = true
             spendingVM.itemToUpdate = item
+            print("ItemToUpdate: \(spendingVM.itemToUpdate)")
         }
     }
     
     
-    private func amountString(item: SpendingObject) -> String {
+    private func amountString(item: Item) -> String {
         switch item.type {
-        case .expense: return "- £ \(String(format: "%.2f", item.amount))"
-        default: return "+ £ \(String(format: "%.2f", item.amount))"
+        case .expense: return "- £ \(item.amount)"
+        default: return "+ £ \(item.amount)"
         }
     }
     

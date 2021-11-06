@@ -12,14 +12,18 @@ import Combine
 class SpendingVM: ObservableObject {
     
     @Published var total: Double = 0
-    @Published var itemToUpdate: SpendingObject?
+    @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
-    @Published var items = [SpendingObject]()
+    @Published var items = [Item]()
+    @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
+    let suggestionDataStore: SuggestionDataStore
     
     init() {
         itemDataStore = ItemDataStore()
+        suggestionDataStore = SuggestionDataStore()
         fetchItems()
+        fetchSuggestions()
     }
     
     
@@ -32,9 +36,9 @@ class SpendingVM: ObservableObject {
             default:
                 for item in self.items {
                     if item.type == .expense {
-                        temp -= item.amount
+                        temp -= Double(item.amount)!
                     } else {
-                        temp += item.amount
+                        temp += Double(item.amount)!
                     }
                     self.total = temp
                 }
@@ -56,43 +60,44 @@ class SpendingVM: ObservableObject {
     
     
     
-    func save(item: SpendingObject) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let newItem = Item(context: moc)
-        newItem.name = item.name
-        newItem.amount = Double(item.amount)
-        newItem.type = item.type.rawValue
-        newItem.category = item.category
-        newItem.date = item.date
-        newItem.id = UUID().uuidString
-        do {
-            try moc.save()
-            fetchItems()
-        } catch {
-            print("Core data error: \(error)")
+    func save(item: Item) {
+        itemDataStore.save(item: item) { result in
+            switch result {
+            case .failure(let error): print("Error saving item: \(error)")
+            case .success(_):
+                fetchItems()
+                saveSuggestion(item: item)
+            }
         }
     }
     
     
-    func update(item: SpendingObject) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
-        do {
-            guard let result = try moc.fetch(fetchRequest).first else { return }
-            print("UPDATE: \(item)")
-            result.name = item.name
-            result.amount = Double(item.amount)
-            result.type = item.type.rawValue
-            result.category = item.category
-            result.date = item.date
-            try moc.saveIfNeeded()
-            fetchItems()
-        } catch {
-            print("Core data error: \(error)")
+    func update(item: Item) {
+        itemDataStore.update(item: item) { result in
+            switch result {
+            case .failure(let error): print("Error updating item: \(error)")
+            case .success(_):
+                fetchItems()
+                saveSuggestion(item: item)
+            }
+        }
+    }
+    
+    func saveSuggestion(item: Item) {
+        suggestionDataStore.saveSuggestion(item: item) {
+            print("Suggestion: <\(item.name)> saved!")
         }
     }
     
     
+    func fetchSuggestions() {
+        suggestionDataStore.fetchSuggestions { result in
+            switch result {
+            case .failure(let error): print("Error fetching suggestions: \(error)")
+            case .success(let fetchedSuggestions):
+                self.suggestions = fetchedSuggestions
+            }
+        }
+    }
     
 }
