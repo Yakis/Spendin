@@ -28,10 +28,10 @@ struct TotalBottomView: View {
                 .shadow(radius: 2)
                 .padding([.trailing, .bottom], 20)
                 .onTapGesture {
-                    showModal.toggle()
+                    showModal = true
                 }
                 .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate)
+                    AddSpenderView(isUpdate: $isUpdate, date: date)
                         .environmentObject(spendingVM)
                 }
         }

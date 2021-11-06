@@ -24,6 +24,13 @@ class SpendingVM: ObservableObject {
         suggestionDataStore = SuggestionDataStore()
         fetchItems()
         fetchSuggestions()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) { [weak self] in
+            guard let self = self else {return}
+            if self.items.isEmpty {
+                self.fetchItems()
+                self.fetchSuggestions()
+            }
+        }
     }
     
     
@@ -85,7 +92,6 @@ class SpendingVM: ObservableObject {
     
     func saveSuggestion(item: Item) {
         suggestionDataStore.saveSuggestion(item: item) {
-            print("Suggestion: <\(item.name)> saved!")
         }
     }
     
@@ -98,6 +104,12 @@ class SpendingVM: ObservableObject {
                 self.suggestions = fetchedSuggestions
             }
         }
+    }
+    
+    
+    func deleteSuggestions() {
+        suggestionDataStore.deleteSuggestions()
+        suggestions.removeAll()
     }
     
 }

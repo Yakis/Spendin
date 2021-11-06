@@ -13,15 +13,18 @@ struct SaveButton: View {
     var saveAction: () -> ()
     
     var body: some View {
-        Button("Save") {
+        Button {
             saveAction()
+        } label: {
+            Text("Save")
+                .frame(width: 300, height: 50, alignment: .center)
+                .padding(5)
+                .background(AdaptColors.theOrange)
+                .foregroundColor(AdaptColors.container)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+                .shadow(radius: 5)
+                .padding(.all, 20)
         }
-        .frame(width: UIScreen.main.bounds.width / 2, height: 50, alignment: .center)
-        .background(AdaptColors.theOrange)
-        .foregroundColor(AdaptColors.container)
-        .clipShape(RoundedRectangle(cornerRadius: 30))
-        .shadow(radius: 5)
-        .padding(.all, 20)
     }
     
 }

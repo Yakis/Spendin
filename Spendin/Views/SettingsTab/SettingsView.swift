@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct SettingsView: View {
+    
+    @EnvironmentObject var spendingVM: SpendingVM
+    
     var body: some View {
-        Text("SettingsView")
+        Text("Delete suggestions")
+        Button {
+            spendingVM.deleteSuggestions()
+        } label: {
+            Text("Delete")
+        }.buttonStyle(.borderedProminent)
+
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}

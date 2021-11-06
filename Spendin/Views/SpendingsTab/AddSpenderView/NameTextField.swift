@@ -12,11 +12,13 @@ struct NameTextField: View {
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var item: Item
     @State private var suggestions = [Suggestion]()
+    @FocusState var isInputActive: Bool
     
     var body: some View {
         TextField("Name", text: $item.name)
             .frame(height: 50)
             .padding(10)
+            .focused($isInputActive)
             .keyboardType(.alphabet)
             .background(AdaptColors.cellContainer)
             .font(.title)
@@ -26,14 +28,15 @@ struct NameTextField: View {
             .padding([.top, .bottom], 5)
             .onAppear(perform: {
                 suggestions = spendingVM.suggestions
+                print(suggestions)
             })
             .onChange(of: item.name, perform: { newValue in
                 if newValue.isEmpty {
                     suggestions = spendingVM.suggestions
                 } else {
-                suggestions = spendingVM.suggestions.filter { suggestion in
-                    suggestion.name.contains(item.name)
-                }
+                    suggestions = spendingVM.suggestions.filter { suggestion in
+                        suggestion.name.contains(item.name)
+                    }
                 }
             })
             .toolbar {
@@ -46,6 +49,7 @@ struct NameTextField: View {
                                     item.amount = String(format: "%.2f", suggestion.amount)
                                     item.type = ItemType(rawValue: suggestion.type)!
                                     item.category = suggestion.category
+                                    isInputActive = false
                                 } label: {
                                     Text(suggestion.name)
                                         .font(.caption)

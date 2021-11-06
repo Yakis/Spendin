@@ -29,7 +29,6 @@ class ItemDataStore {
         fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
         do {
             guard let result = try moc.fetch(fetchRequest).first else { return }
-            print("UPDATE: \(item)")
             result.name = item.name
             result.amount = Double(item.amount)!
             result.type = item.type.rawValue

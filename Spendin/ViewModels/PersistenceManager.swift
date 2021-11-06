@@ -12,15 +12,15 @@ import CloudKit
 
 class PersistenceManager {
     
-  static let persistentContainer: NSPersistentCloudKitContainer = {
-      let container = NSPersistentCloudKitContainer(name: "Spendin")
-      container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-          if let error = error as NSError? {
-              fatalError("Unresolved error \(error), \(error.userInfo)")
-          }
-      })
-      return container
-  }()
+    static let persistentContainer: NSPersistentCloudKitContainer = {
+        let container = NSPersistentCloudKitContainer(name: "Spendin")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     
     
     
@@ -33,4 +33,13 @@ extension NSManagedObjectContext {
         try save()
         return true
     }
+    
+    
+    public func executeAndMergeChanges(using batchDeleteRequest: NSBatchDeleteRequest) throws {
+        batchDeleteRequest.resultType = .resultTypeObjectIDs
+        let result = try execute(batchDeleteRequest) as? NSBatchDeleteResult
+        let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: result?.result as? [NSManagedObjectID] ?? []]
+        NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [self])
+    }
+    
 }

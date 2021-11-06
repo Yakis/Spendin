@@ -16,13 +16,9 @@ struct AddSpenderView: View {
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
     
-    //    @State private var date: Date = Date()
-//    @State private var name: String = ""
-//    @State private var amount: String = ""
+    var date: Date?
     @State private var categories: [String] = ["car.fill", "doc.fill", "cross.circle.fill", "airpodspro", "cart.fill", "signpost.right.fill", "creditcard.fill", "books.vertical.fill", "camera.fill", "phone.fill", "bag.fill", "paintbrush.pointed.fill", "bandage.fill", "hammer.fill", "printer.fill", "case.fill", "house.fill", "key.fill", "tv.fill", "iphone.homebutton", "hifispeaker.fill", "guitars.fill", "bus.fill", "tram.fill", "bed.double.fill", "pills.fill", "sportscourt", "photo.fill", "camera.aperture", "shield.lefthalf.fill", "gamecontroller.fill", "paintpalette.fill", "sdcard", "headphones", "gift.fill", "airplane", "banknote.fill", "minus.plus.batteryblock.fill", "lightbulb.fill", "at.circle.fill"]
-//    @State private var category: String = "cart.fill"
     @State private var itemTypes = ItemType.allCases
-//    @State private var selectedType: ItemType = .expense
     @State private var item: Item = Item()
     
     var body: some View {
@@ -36,11 +32,14 @@ struct AddSpenderView: View {
                     CategoryPicker(categories: categories, category: $item.category)
                     ItemDatePicker(date: $item.date)
                     SaveButton(saveAction: {
+                        item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         if isUpdate {
                             viewModel.update(item: item)
                         } else {
                             viewModel.save(item: item)
                         }
+                        viewModel.itemToUpdate = nil
+                        item = Item()
                         presentationMode.wrappedValue.dismiss()
                     })
                         .environmentObject(viewModel)
@@ -55,6 +54,9 @@ struct AddSpenderView: View {
                     if let itemToUpdate = viewModel.itemToUpdate {
                         item = itemToUpdate
                     }
+                }
+                if let date = date {
+                    item.date = date
                 }
             }
             .navigationTitle("Add item")

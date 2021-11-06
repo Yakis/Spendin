@@ -68,6 +68,11 @@ class SuggestionDataStore {
         }
     }
     
-    
+    func deleteSuggestions() {
+        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
+        let fetchRequest: NSFetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CDSuggestion")
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        try! moc.executeAndMergeChanges(using: batchDeleteRequest)
+    }
     
 }

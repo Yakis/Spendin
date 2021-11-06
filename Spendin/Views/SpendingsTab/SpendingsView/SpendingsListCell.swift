@@ -43,7 +43,6 @@ struct SpendingsListCell: View {
             isUpdate = true
             showModal = true
             spendingVM.itemToUpdate = item
-            print("ItemToUpdate: \(spendingVM.itemToUpdate)")
         }
     }
     
