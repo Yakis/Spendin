@@ -31,7 +31,7 @@ struct TotalBottomView: View {
                     showModal.toggle()
                 }
                 .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate, date: $date)
+                    AddSpenderView(isUpdate: $isUpdate)
                         .environmentObject(spendingVM)
                 }
         }

@@ -42,7 +42,7 @@ struct SpendingsForDateView: View {
                 showModal.toggle()
             }
             .sheet(isPresented: $showModal) {
-                AddSpenderView(isUpdate: $isUpdate, date: $selectedDate)
+                AddSpenderView(isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
             }
             .onAppear(perform: {

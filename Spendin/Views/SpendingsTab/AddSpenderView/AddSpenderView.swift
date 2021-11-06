@@ -15,7 +15,6 @@ struct AddSpenderView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
-    @Binding var date: Date
     
     //    @State private var date: Date = Date()
 //    @State private var name: String = ""
@@ -35,7 +34,7 @@ struct AddSpenderView: View {
                     NameTextField(item: $item)
                     AmountTextField(amount: $item.amount)
                     CategoryPicker(categories: categories, category: $item.category)
-                    ItemDatePicker(date: $date)
+                    ItemDatePicker(date: $item.date)
                     SaveButton(saveAction: {
                         if isUpdate {
                             viewModel.update(item: item)
