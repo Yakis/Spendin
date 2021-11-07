@@ -20,7 +20,7 @@ struct NameTextField: View {
             .padding(10)
             .focused($isInputActive)
             .keyboardType(.alphabet)
-            .background(AdaptColors.cellContainer)
+            .background(AdaptColors.fieldContainer)
             .font(.title)
             .accentColor(AdaptColors.theOrange)
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))

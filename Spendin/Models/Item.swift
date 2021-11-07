@@ -12,6 +12,7 @@ struct Item {
     var id: String
     var name: String
     var amount: String
+    var amountLeft: String
     var category: String
     var date: Date
     var type: ItemType
@@ -20,6 +21,7 @@ struct Item {
         self.id = UUID().uuidString
         self.name = ""
         self.amount = ""
+        self.amountLeft = ""
         self.category = "cart.fill"
         self.date = Date()
         self.type = .expense
@@ -30,6 +32,7 @@ struct Item {
         self.id = id
         self.name = name
         self.amount = amount
+        self.amountLeft = ""
         self.category = category
         self.date = date
         self.type = type
@@ -38,6 +41,7 @@ struct Item {
     
     init(from item: CDItem) {
         self.amount = String(format: "%.2f", item.amount)
+        self.amountLeft = ""
         self.category = item.category ?? ""
         self.date = item.date ?? Date()
         self.id = item.id ?? ""

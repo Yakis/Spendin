@@ -20,7 +20,7 @@ struct SpendingsListCell: View {
             HStack(spacing: 16) {
                 Label("", systemImage: item.category)
                     .font(.title)
-                    .foregroundColor(item.type == .expense ? .red : .green)
+                    .foregroundColor(AdaptColors.categoryIcon)
                 VStack(alignment: .leading) {
                     Text("\(item.name)")
                         .font(.title2)
@@ -31,9 +31,19 @@ struct SpendingsListCell: View {
                         .fontWeight(.thin)
                 }
                 Spacer()
-                Text(amountString(item: item))
-                    .font(.title3)
-                    .fontWeight(.thin)
+                VStack(alignment: .trailing) {
+                    HStack {
+                        Image(systemName: item.type == .expense ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
+                            .font(.caption2)
+                            .foregroundColor(item.type == .expense ? .red : .green)
+                        Text(amountString(item: item))
+                            .font(.title3)
+                            .fontWeight(.thin)
+                    }
+                    Text(item.amountLeft)
+                        .font(.caption2)
+                        .fontWeight(.thin)
+                }
             }
             .frame(maxWidth: .infinity)
             .frame(height: 60, alignment: .leading)
@@ -49,13 +59,21 @@ struct SpendingsListCell: View {
     
     private func amountString(item: Item) -> String {
         switch item.type {
-        case .expense: return "- £ \(item.amount)"
-        default: return "+ £ \(item.amount)"
+        case .expense: return "£ \(item.amount)"
+        default: return "£ \(item.amount)"
         }
     }
     
     
-
+    //    private func amountLeftString(item: Item) -> String {
+    //        switch item.type {
+    //        case .expense: return "- £ \(item.amount)"
+    //        default: return "+ £ \(item.amount)"
+    //        }
+    //    }
+    
+    
+    
     
     
 }

@@ -24,7 +24,7 @@ struct CustomizedCalendarView: View {
             Text("30")
                 .hidden()
                 .padding(8)
-                .background(Color.white.opacity(0.3))
+                .background(AdaptColors.cellBackground)
                 .clipShape(Circle())
                 .padding(.vertical, 4)
                 .overlay(

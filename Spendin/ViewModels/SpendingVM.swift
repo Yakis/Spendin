@@ -41,11 +41,13 @@ class SpendingVM: ObservableObject {
             switch self.items.count {
             case 0: self.total = 0
             default:
-                for item in self.items {
-                    if item.type == .expense {
-                        temp -= Double(item.amount)!
+                let _ = self.items.enumerated().map {
+                    if $1.type == .expense {
+                        temp -= Double($1.amount)!
+                        self.items[$0].amountLeft = String(format: "%.2f", temp)
                     } else {
-                        temp += Double(item.amount)!
+                        temp += Double($1.amount)!
+                        self.items[$0].amountLeft = String(format: "%.2f", temp)
                     }
                     self.total = temp
                 }

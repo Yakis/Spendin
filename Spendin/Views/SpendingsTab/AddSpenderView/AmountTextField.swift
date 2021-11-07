@@ -15,7 +15,7 @@ struct AmountTextField: View {
         TextField("Amount", text: $amount)
             .frame(height: 50)
             .padding(10)
-            .background(AdaptColors.cellContainer)
+            .background(AdaptColors.fieldContainer)
             .font(.title)
             .keyboardType(.decimalPad)
             .accentColor(AdaptColors.theOrange)
