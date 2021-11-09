@@ -28,7 +28,6 @@ struct NameTextField: View {
             .padding([.top, .bottom], 5)
             .onAppear(perform: {
                 suggestions = spendingVM.suggestions
-                print(suggestions)
             })
             .onChange(of: item.name, perform: { newValue in
                 if newValue.isEmpty {

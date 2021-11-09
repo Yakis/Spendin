@@ -12,13 +12,15 @@ struct SettingsView: View {
     @EnvironmentObject var spendingVM: SpendingVM
     
     var body: some View {
-        Text("Delete suggestions")
-        Button {
-            spendingVM.deleteSuggestions()
-        } label: {
-            Text("Delete")
-        }.buttonStyle(.borderedProminent)
-
+        VStack {
+            Text("Delete suggestions")
+                .padding()
+            Button {
+                spendingVM.deleteSuggestions()
+            } label: {
+                Text("Delete")
+            }.buttonStyle(.borderedProminent)
+        }
     }
 }
 
