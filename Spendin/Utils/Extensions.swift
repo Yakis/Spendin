@@ -9,6 +9,11 @@ import Foundation
 import CoreData
 
 
+extension Notification.Name {
+    static let storeHasChanges = Notification.Name.init("storeHasChanges")
+}
+
+
 extension DateFormatter {
     
     static let reussableFormatter = DateFormatter()

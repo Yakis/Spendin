@@ -18,19 +18,23 @@ class SpendingVM: ObservableObject {
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
     let suggestionDataStore: SuggestionDataStore
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         itemDataStore = ItemDataStore()
         suggestionDataStore = SuggestionDataStore()
-        fetchItems()
+//        fetchItems()
         fetchSuggestions()
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(5)) { [weak self] in
-            guard let self = self else {return}
-            if self.items.isEmpty {
+        NotificationCenter.default
+            .publisher(for: .storeHasChanges)
+//            .first()
+            .eraseToAnyPublisher()
+            .receive(on: RunLoop.main)
+            .sink { notification in
+                print("Received notification from remote store!")
                 self.fetchItems()
-                self.fetchSuggestions()
             }
-        }
+            .store(in: &cancellables)
     }
     
     
