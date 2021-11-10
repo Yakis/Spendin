@@ -39,7 +39,7 @@ struct NameTextField: View {
                 }
             })
             .toolbar {
-                ToolbarItemGroup(placement: .keyboard) {
+                ToolbarItem(placement: .keyboard) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: [GridItem.init(.flexible(minimum: 50, maximum: 100), spacing: 16, alignment: .center)]) {
                             ForEach(suggestions, id: \.name) { suggestion in
