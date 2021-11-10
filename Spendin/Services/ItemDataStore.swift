@@ -47,7 +47,7 @@ class ItemDataStore {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
         let newItem = CDItem(context: moc)
         newItem.name = item.name
-        newItem.amount = Double(item.amount)!
+        newItem.amount = Double(item.amount) ?? 0
         newItem.type = item.type.rawValue
         newItem.category = item.category
         newItem.date = item.date

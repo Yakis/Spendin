@@ -58,7 +58,7 @@ class SuggestionDataStore {
         newSuggestion.name = item.name
         newSuggestion.type = item.type.rawValue
         newSuggestion.category = item.category
-        newSuggestion.amount = Double(item.amount)!
+        newSuggestion.amount = Double(item.amount) ?? 0
         newSuggestion.count = 1
         do {
             try moc.saveIfNeeded()

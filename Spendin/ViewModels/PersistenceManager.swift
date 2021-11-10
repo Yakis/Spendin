@@ -22,7 +22,6 @@ class PersistenceManager: NSObject {
         description?.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
         NotificationCenter.default
             .publisher(for: .NSPersistentStoreRemoteChange)
-            .eraseToAnyPublisher()
             .sink { notification in
                 print("NSPersistentStoreRemoteChange")
                 NotificationCenter.default.post(name: .storeHasChanges, object: nil)

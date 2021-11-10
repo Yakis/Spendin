@@ -42,7 +42,8 @@ struct AddSpenderView: View {
                         item = Item()
                         presentationMode.wrappedValue.dismiss()
                     })
-                        .environmentObject(viewModel)
+                        .disabled(item.name.isEmpty || item.amount.isEmpty || Double(item.amount) == nil)
+                        .opacity(item.name.isEmpty || item.amount.isEmpty || Double(item.amount) == nil ? 0.5 : 1)
                     Spacer().frame(height: 300)
                 }
                 .padding()

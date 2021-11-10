@@ -16,10 +16,10 @@ struct SpendingsListCell: View {
     var item: Item
     @Binding var isUpdate: Bool
     @Binding var showModal: Bool
-    
+    @State private var width: CGFloat = 0
     
     var body: some View {
-        VStack {
+        HStack {
             HStack {
                 Image(systemName: item.category)
                     .font(.title2)
@@ -61,18 +61,22 @@ struct SpendingsListCell: View {
             showModal = true
             spendingVM.itemToUpdate = item
         }
+        .readSize(onChange: { size in
+            print(size.width)
+            width = size.width
+        })
         .overlay {
             HStack {
                 Text("Due")
                     .font(.caption2)
-                    .frame(maxHeight: item.date.isToday() ? 16 : 0)
-                    .frame(maxWidth: item.date.isToday() ? 65 : 0)
+                    .frame(height: item.date.isToday() ? 16 : 0)
+                    .frame(width: item.date.isToday() ? 65 : 0)
                     .padding(3)
                     .background(AdaptColors.theOrange)
                     .opacity(item.date.isToday() ? 1 : 0)
                     .rotationEffect(Angle(degrees: -90))
-                    .offset(x: -40)
-                Spacer()
+                    .position(x: -5, y: 60 / 2)
+//                Spacer()
             }
         }
     }

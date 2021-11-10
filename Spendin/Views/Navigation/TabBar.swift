@@ -11,9 +11,10 @@ import SwiftUI
 struct CustomTabView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
+    @State private var tabSelection: Int = 0
     
     var body: some View {
-        TabView {
+        TabView(selection: $tabSelection) {
             SpendingsView()
                 .environmentObject(spendingVM)
                 .tabItem {

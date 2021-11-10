@@ -41,7 +41,7 @@ struct NameTextField: View {
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHGrid(rows: [GridItem.init(.flexible(minimum: 50, maximum: 100), spacing: 16, alignment: .center)]) {
+                        LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
                             ForEach(suggestions, id: \.name) { suggestion in
                                 Button {
                                     item.name = suggestion.name
@@ -60,7 +60,7 @@ struct NameTextField: View {
                                 }
                             }
                         }
-                    }
+                    }.frame(maxHeight: 40)
                 }
             }
     }

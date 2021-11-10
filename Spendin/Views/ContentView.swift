@@ -12,13 +12,6 @@ struct ContentView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     
-        init() {
-            if UIDevice.current.userInterfaceIdiom == .phone {
-            UITabBar.appearance().barTintColor = UIColor(named: "Container")
-            UITabBar.appearance().isTranslucent = false
-        }
-    }
-    
     
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .phone {
