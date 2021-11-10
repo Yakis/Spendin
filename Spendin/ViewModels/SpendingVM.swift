@@ -42,6 +42,7 @@ class SpendingVM: ObservableObject {
             case 0: self.total = 0
             default:
                 let _ = self.items.enumerated().map {
+                    guard !$1.date.isPast() else { return }
                     if $1.type == .expense {
                         temp -= Double($1.amount)!
                         self.items[$0].amountLeft = String(format: "%.2f", temp)

@@ -33,22 +33,38 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    
+    func isToday() -> Bool {
+        let start = Calendar.current.startOfDay(for: self)
+        let end = Calendar.current.startOfDay(for: Date())
+        let diff = Calendar.current.dateComponents([.day], from: start, to: end)
+        return diff.day! == .zero
+    }
+    
+    func isPast() -> Bool {
+        let start = Calendar.current.startOfDay(for: self)
+        let end = Calendar.current.startOfDay(for: Date())
+        let diff = Calendar.current.dateComponents([.day], from: start, to: end)
+        return diff.day! > .zero
+    }
+    
+    
 }
 
 
 extension CDItem {
-  static var sortedFetchRequest: NSFetchRequest<CDItem> {
-    let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-    return request
-  }
+    static var sortedFetchRequest: NSFetchRequest<CDItem> {
+        let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+        return request
+    }
 }
 
 
 extension CDSuggestion {
-  static var sortedFetchRequest: NSFetchRequest<CDSuggestion> {
-    let request: NSFetchRequest<CDSuggestion> = CDSuggestion.fetchRequest()
-    request.sortDescriptors = [NSSortDescriptor(key: "count", ascending: false)]
-    return request
-  }
+    static var sortedFetchRequest: NSFetchRequest<CDSuggestion> {
+        let request: NSFetchRequest<CDSuggestion> = CDSuggestion.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "count", ascending: false)]
+        return request
+    }
 }

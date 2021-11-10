@@ -26,6 +26,7 @@ struct SpendingsListCell: View {
                     .frame(width: 30)
                     .foregroundColor(AdaptColors.categoryIcon)
                     .padding(.trailing, 5)
+                    .offset(x: item.date.isToday() ? 16 : 0)
                 VStack(alignment: .leading) {
                     Text("\(item.name)")
                         .font(.title2)
@@ -34,7 +35,7 @@ struct SpendingsListCell: View {
                     Text((item.date.shortString()))
                         .font(.caption2)
                         .fontWeight(.thin)
-                }
+                }.offset(x: item.date.isToday() ? 16 : 0)
                 Spacer()
                 VStack(alignment: .trailing) {
                     HStack {
@@ -49,18 +50,30 @@ struct SpendingsListCell: View {
                         .font(.caption2)
                         .fontWeight(.thin)
                 }
-            }
-            .frame(maxWidth: .infinity)
-            .shadow(radius: 1)
-            .padding()
+            }.opacity(item.date.isPast() ? 0.5 : 1)
+                .frame(maxWidth: .infinity)
+                .shadow(radius: 1)
         }
         .frame(height: 60, alignment: .leading)
-        .background(getInterval(from: item.date, to: Date())  == .zero ? AdaptColors.theOrange.opacity(0.3) : AdaptColors.cellBackground)
         .cornerRadius(10)
         .onTapGesture {
             isUpdate = true
             showModal = true
             spendingVM.itemToUpdate = item
+        }
+        .overlay {
+            HStack {
+                Text("Due")
+                    .font(.caption2)
+                    .frame(maxHeight: item.date.isToday() ? 16 : 0)
+                    .frame(maxWidth: item.date.isToday() ? 65 : 0)
+                    .padding(3)
+                    .background(AdaptColors.theOrange)
+                    .opacity(item.date.isToday() ? 1 : 0)
+                    .rotationEffect(Angle(degrees: -90))
+                    .offset(x: -40)
+                Spacer()
+            }
         }
     }
     
@@ -73,14 +86,5 @@ struct SpendingsListCell: View {
     }
     
     
-    
-    func getInterval(from startDate: Date, to endDate: Date) -> Int {
-        let start = Calendar.current.startOfDay(for: startDate)
-        let end = Calendar.current.startOfDay(for: endDate)
-        let diff = Calendar.current.dateComponents([.day], from: start, to: end)
-        return diff.day!
-    }
-    
-    
-    
 }
+

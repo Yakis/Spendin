@@ -18,24 +18,15 @@ struct SpendingsListView: View {
     @State private var size: CGSize = .zero
     
     var body: some View {
-        ScrollView {
+        List {
             ForEach(spendingVM.items, id: \.id) { item in
                 SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
                     .environmentObject(spendingVM)
-                    .padding([.leading, .trailing], 40)
             }
             .onDelete {
                 delete(item: spendingVM.items[$0.first!])
             }
             .listRowBackground(AdaptColors.cellBackground)
-            .overlay(content: {
-                GeometryReader { proxy in
-                    Color.clear.onAppear {
-                        calculateDuePosition(proxy: proxy)
-                    }
-                }
-                DueIndicatorView(height: height, yPos: yPos, size: $size).opacity(height == .zero ? 0 : 1)
-            })
         }
         .listStyle(InsetGroupedListStyle())
     }
