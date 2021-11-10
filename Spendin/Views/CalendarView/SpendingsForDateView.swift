@@ -28,6 +28,13 @@ struct SpendingsForDateView: View {
                 }
                 .listRowBackground(AdaptColors.cellBackground)
             }
+            .frame(maxHeight: spendingVM.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : .infinity)
+            .opacity(spendingVM.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : 1)
+            Text("Nothing today")
+                .font(.callout)
+                .fontWeight(.bold)
+                .frame(maxHeight: spendingVM.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? .infinity : 0)
+                .opacity(spendingVM.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0.6 : 0)
             HStack {
                 Spacer()
                 Image(systemName: "plus.circle.fill")
@@ -45,9 +52,6 @@ struct SpendingsForDateView: View {
                 AddSpenderView(isUpdate: $isUpdate, date: selectedDate)
                     .environmentObject(spendingVM)
             }
-            .onAppear(perform: {
-                print(selectedDate)
-            })
         }
         .padding()
     }

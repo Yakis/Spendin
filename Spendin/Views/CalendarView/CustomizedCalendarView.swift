@@ -20,20 +20,36 @@ struct CustomizedCalendarView: View {
     }
     
     var body: some View {
-        CalendarView(interval: year) { date in
-            Text("30")
-                .hidden()
-                .padding(8)
-                .background(AdaptColors.cellBackground)
-                .clipShape(Circle())
-                .padding(.vertical, 4)
-                .overlay(
-                    Text(String(self.calendar.component(.day, from: date)))
-                        .foregroundColor(AdaptColors.theOrange)
-                )
+        ScrollView {
+            ScrollViewReader { scroll in
+                CalendarView(interval: year) { date in
+                    Text("30")
+                        .hidden()
+                        .padding(8)
+                        .background(AdaptColors.cellBackground)
+                        .clipShape(Circle())
+                        .padding(.vertical, 4)
+                        .overlay(
+                            Text(String(self.calendar.component(.day, from: date)))
+                                .foregroundColor(AdaptColors.theOrange)
+                        )
+                }
+                .padding()
+                .onAppear {
+                    scroll.scrollTo(getCurrentMonth(), anchor: .top)
+                }
+            }
         }
         .background(AdaptColors.container)
-        .edgesIgnoringSafeArea(.all)
-        
+        .edgesIgnoringSafeArea(.top)
     }
+    
+    
+    func getCurrentMonth() -> Date {
+        guard let currentMonth = calendar.dateInterval(of: .month, for: Date()) else { return Date() }
+        let date = currentMonth.start
+        return date
+    }
+    
+    
 }

@@ -16,7 +16,6 @@ struct SpendingsListCell: View {
     var item: Item
     @Binding var isUpdate: Bool
     @Binding var showModal: Bool
-    @State private var width: CGFloat = 0
     
     var body: some View {
         HStack {
@@ -61,10 +60,6 @@ struct SpendingsListCell: View {
             showModal = true
             spendingVM.itemToUpdate = item
         }
-        .readSize(onChange: { size in
-            print(size.width)
-            width = size.width
-        })
         .overlay {
             HStack {
                 Text("Due")
@@ -76,7 +71,6 @@ struct SpendingsListCell: View {
                     .opacity(item.date.isToday() ? 1 : 0)
                     .rotationEffect(Angle(degrees: -90))
                     .position(x: -5, y: 60 / 2)
-//                Spacer()
             }
         }
     }

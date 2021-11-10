@@ -223,9 +223,9 @@
 		1545DDF5273536C500194A0B /* CalendarView */ = {
 			isa = PBXGroup;
 			children = (
+				1553D6EE2736D60200191DCC /* CustomizedCalendarView.swift */,
 				1545DDF2273536BB00194A0B /* CalendarView.swift */,
 				1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */,
-				1553D6EE2736D60200191DCC /* CustomizedCalendarView.swift */,
 			);
 			path = CalendarView;
 			sourceTree = "<group>";

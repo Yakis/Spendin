@@ -15,7 +15,6 @@ struct AddSpenderView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
-    
     var date: Date?
     @State private var categories: [String] = ["car.fill", "doc.fill", "cross.circle.fill", "airpodspro", "cart.fill", "signpost.right.fill", "creditcard.fill", "books.vertical.fill", "camera.fill", "phone.fill", "bag.fill", "paintbrush.pointed.fill", "bandage.fill", "hammer.fill", "printer.fill", "case.fill", "house.fill", "key.fill", "tv.fill", "iphone.homebutton", "hifispeaker.fill", "guitars.fill", "bus.fill", "tram.fill", "bed.double.fill", "pills.fill", "sportscourt", "photo.fill", "camera.aperture", "shield.lefthalf.fill", "gamecontroller.fill", "paintpalette.fill", "sdcard", "headphones", "gift.fill", "airplane", "banknote.fill", "minus.plus.batteryblock.fill", "lightbulb.fill", "at.circle.fill"]
     @State private var itemTypes = ItemType.allCases
@@ -31,7 +30,7 @@ struct AddSpenderView: View {
                     AmountTextField(amount: $item.amount)
                     CategoryPicker(categories: categories, category: $item.category)
                     ItemDatePicker(date: $item.date)
-                    SaveButton(saveAction: {
+                    SaveButton(item: item, saveAction: {
                         item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         if isUpdate {
                             viewModel.update(item: item)
@@ -42,8 +41,6 @@ struct AddSpenderView: View {
                         item = Item()
                         presentationMode.wrappedValue.dismiss()
                     })
-                        .disabled(item.name.isEmpty || item.amount.isEmpty || Double(item.amount) == nil)
-                        .opacity(item.name.isEmpty || item.amount.isEmpty || Double(item.amount) == nil ? 0.5 : 1)
                     Spacer().frame(height: 300)
                 }
                 .padding()

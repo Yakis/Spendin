@@ -20,11 +20,11 @@ struct SpendingsView: View {
     
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .phone {
-            NavigationView {
+//            NavigationView {
                 SpendingsViewContent()
                     .background(AdaptColors.container)
-                    .navigationTitle("Spendings")
-            }
+//                    .navigationTitle("Spendings")
+//            }
         } else {
             SpendingsViewContent()
 //                .background(AdaptColors.container)
