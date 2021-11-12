@@ -7,6 +7,14 @@
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CDList" inverseName="items" inverseEntity="CDList"/>
+    </entity>
+    <entity name="CDList" representedClassName="CDList" syncable="YES">
+        <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="shared" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CDItem" inverseName="list" inverseEntity="CDItem"/>
     </entity>
     <entity name="CDSuggestion" representedClassName="CDSuggestion" syncable="YES">
         <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -16,7 +24,8 @@
         <attribute name="type" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="CDItem" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="CDItem" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="CDSuggestion" positionX="-63" positionY="27" width="128" height="104"/>
+        <element name="CDList" positionX="-63" positionY="45" width="128" height="104"/>
     </elements>
 </model>

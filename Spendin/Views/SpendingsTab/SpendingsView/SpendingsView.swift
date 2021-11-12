@@ -17,19 +17,34 @@ enum ItemType: String, CaseIterable {
 
 struct SpendingsView: View {
     
+    @EnvironmentObject var spendingVM: SpendingVM
     
     var body: some View {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-//            NavigationView {
-                SpendingsViewContent()
-                    .background(AdaptColors.container)
-//                    .navigationTitle("Spendings")
-//            }
+        if spendingVM.lists.isEmpty {
+            Button {
+                let list = ItemList(name: "Cheltuieli Noiembrie")
+                spendingVM.save(list: list)
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .font(.largeTitle)
+            }
+            
         } else {
             SpendingsViewContent()
-//                .background(AdaptColors.container)
+                .background(AdaptColors.container)
                 .navigationTitle("Spendings")
         }
+        //        if UIDevice.current.userInterfaceIdiom == .phone {
+        ////            NavigationView {
+        //                SpendingsViewContent()
+        //                    .background(AdaptColors.container)
+        ////                    .navigationTitle("Spendings")
+        ////            }
+        //        } else {
+        //            SpendingsViewContent()
+        ////                .background(AdaptColors.container)
+        //                .navigationTitle("Spendings")
+        //        }
     }
     
     

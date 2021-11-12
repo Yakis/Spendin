@@ -43,7 +43,7 @@ class ItemDataStore {
     }
     
     
-    func save(item: Item, completion: (Result<Item, Error>) -> ()) {
+    func save(item: Item, list: ItemList, completion: (Result<Item, Error>) -> ()) {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
         let newItem = CDItem(context: moc)
         newItem.name = item.name
@@ -52,6 +52,17 @@ class ItemDataStore {
         newItem.category = item.category
         newItem.date = item.date
         newItem.id = UUID().uuidString
+        
+        let fetchRequest: NSFetchRequest<CDList> = CDList.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
+        do {
+            guard let list = try moc.fetch(fetchRequest).first else { return }
+            newItem.list = list
+        } catch {
+            
+        }
+        
+        
         do {
             try moc.saveIfNeeded()
             completion(.success(Item(from: newItem)))

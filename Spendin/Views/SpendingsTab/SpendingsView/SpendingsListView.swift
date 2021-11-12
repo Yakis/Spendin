@@ -19,12 +19,12 @@ struct SpendingsListView: View {
     
     var body: some View {
         List {
-            ForEach(spendingVM.items, id: \.id) { item in
+            ForEach(spendingVM.currentList.items, id: \.id) { item in
                 SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
                     .environmentObject(spendingVM)
             }
             .onDelete {
-                delete(item: spendingVM.items[$0.first!])
+                delete(item: spendingVM.currentList.items[$0.first!])
             }
             .listRowBackground(AdaptColors.cellBackground)
         }
@@ -42,7 +42,7 @@ struct SpendingsListView: View {
             moc.delete(item)
             do {
                 try moc.saveIfNeeded()
-                spendingVM.fetchItems()
+                spendingVM.fetchLists()
             } catch {
                 print(error)
             }

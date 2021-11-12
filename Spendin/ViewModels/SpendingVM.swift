@@ -14,16 +14,20 @@ class SpendingVM: ObservableObject {
     @Published var total: Double = 0
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
-    @Published var items = [Item]()
+    @Published var lists = [ItemList]()
+    @Published var currentList = ItemList()
+    @Published var shareableList: CDList?
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
+    let listDataStore: ListDataStore
     let suggestionDataStore: SuggestionDataStore
     
     init() {
         itemDataStore = ItemDataStore()
+        listDataStore = ListDataStore()
         suggestionDataStore = SuggestionDataStore()
         fetchSuggestions()
-        fetchItems()
+        fetchLists()
     }
     
     
@@ -31,17 +35,17 @@ class SpendingVM: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
             var temp: Double = 0
-            switch self.items.count {
+            switch self.currentList.items.count {
             case 0: self.total = 0
             default:
-                let _ = self.items.enumerated().map {
+                self.currentList.items.enumerated().forEach {
                     guard !$1.date.isPast() else { return }
                     if $1.type == .expense {
                         temp -= Double($1.amount)!
-                        self.items[$0].amountLeft = String(format: "%.2f", temp)
+                        self.currentList.items[$0].amountLeft = String(format: "%.2f", temp)
                     } else {
                         temp += Double($1.amount)!
-                        self.items[$0].amountLeft = String(format: "%.2f", temp)
+                        self.currentList.items[$0].amountLeft = String(format: "%.2f", temp)
                     }
                     self.total = temp
                 }
@@ -50,12 +54,14 @@ class SpendingVM: ObservableObject {
     }
     
     
-    func fetchItems() {
-        itemDataStore.fetchItems { result in
+    func fetchLists() {
+        listDataStore.fetchLists { result in
             switch result {
             case .failure(let error): print("Error retrieving items: \(error)")
-            case .success(let fetchedItems):
-                self.items = fetchedItems
+            case .success(let fetchedLists):
+                self.lists = fetchedLists
+                self.currentList = fetchedLists.first ?? ItemList()
+                print("Lists: \(self.lists.map { $0.name })")
                 self.calculateSpendings()
             }
         }
@@ -63,12 +69,35 @@ class SpendingVM: ObservableObject {
     
     
     
-    func save(item: Item) {
-        itemDataStore.save(item: item) { result in
+    func save(list: ItemList) {
+        listDataStore.save(list: list) { result in
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                fetchItems()
+                fetchLists()
+            }
+        }
+    }
+    
+    
+    func update(list: ItemList) {
+        listDataStore.update(list: list) { result in
+            switch result {
+            case .failure(let error): print("Error updating item: \(error)")
+            case .success(_):
+                fetchLists()
+                list.items.forEach { item in saveSuggestion(item: item) }
+            }
+        }
+    }
+    
+    
+    func save(item: Item) {
+        itemDataStore.save(item: item, list: currentList) { result in
+            switch result {
+            case .failure(let error): print("Error saving item: \(error)")
+            case .success(_):
+                fetchLists()
                 saveSuggestion(item: item)
             }
         }
@@ -80,11 +109,12 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error updating item: \(error)")
             case .success(_):
-                fetchItems()
+                fetchLists()
                 saveSuggestion(item: item)
             }
         }
     }
+    
     
     func saveSuggestion(item: Item) {
         suggestionDataStore.saveSuggestion(item: item) {

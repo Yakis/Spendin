@@ -2,7 +2,7 @@
 //  CDItem+CoreDataProperties.swift
 //  Spendin
 //
-//  Created by Mugurel Moscaliuc on 06/11/2021.
+//  Created by Mugurel Moscaliuc on 11/11/2021.
 //
 //
 
@@ -22,6 +22,7 @@ extension CDItem {
     @NSManaged public var id: String?
     @NSManaged public var name: String?
     @NSManaged public var type: String?
+    @NSManaged public var list: CDList?
 
 }
 

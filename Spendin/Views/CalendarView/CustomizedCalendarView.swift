@@ -42,6 +42,7 @@ struct CustomizedCalendarView: View {
         }
         .background(AdaptColors.container)
         .edgesIgnoringSafeArea(.top)
+//        .padding(.bottom, 1)
     }
     
     

@@ -84,6 +84,15 @@ extension CDItem {
 }
 
 
+extension CDList {
+    static var sortedFetchRequest: NSFetchRequest<CDList> {
+        let request: NSFetchRequest<CDList> = CDList.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "created", ascending: true)]
+        return request
+    }
+}
+
+
 extension CDSuggestion {
     static var sortedFetchRequest: NSFetchRequest<CDSuggestion> {
         let request: NSFetchRequest<CDSuggestion> = CDSuggestion.fetchRequest()
