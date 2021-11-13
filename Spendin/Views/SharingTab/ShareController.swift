@@ -40,10 +40,7 @@ struct UIKitCloudKitSharingButton: UIViewRepresentable {
             self.list = list
         }
         
-//        func itemTitle(for csc: UICloudSharingController) -> String? {
-//            return list.entity.name
-//        }
-        
+               
         
         func cloudSharingControllerDidSaveShare(_ csc: UICloudSharingController) {
             print("cloudSharingControllerDidSaveShare: \(String(describing: csc.share))")
@@ -65,43 +62,26 @@ struct UIKitCloudKitSharingButton: UIViewRepresentable {
         
         
         @objc func pressed(_ sender: UIButton) {
-            //Pre-Create the CKShare record here, and assign to parent.share...
-//            let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-//            let listToShare = moc.object(with: list) as! CDList
-//            guard let rootRecord = PersistenceManager.persistentContainer.record(for: listToShare.objectID) else { return }
-            
-            let ckContainer = CKContainer(identifier: "iCloud.Spendin")
-            let recordZoneID = CKRecordZone.ID(zoneName: "com.apple.coredata.cloudkit.zone", ownerName: CKCurrentUserDefaultName)
-            let shareRecord = CKShare(recordZoneID: recordZoneID)
-            shareRecord[CKShare.SystemFieldKey.title] = "Share Title" as CKRecordValue
-            shareRecord.publicPermission = .none
-            
-            
-            
-            let sharingController =  UICloudSharingController { controller, preparationCompletionHandler in
-                
-                
-                let modifyRecordsOperation = CKModifyRecordsOperation( recordsToSave: [shareRecord], recordIDsToDelete: nil)
-                modifyRecordsOperation.configuration.timeoutIntervalForRequest = 10
-                modifyRecordsOperation.configuration.timeoutIntervalForResource = 10
-                
-                modifyRecordsOperation.modifyRecordsResultBlock = { result in
-                    switch result {
-                    case .failure(let error):
-                        print(error)
-                        preparationCompletionHandler(nil, nil, error)
-                    case .success: preparationCompletionHandler(shareRecord, ckContainer, nil)
+            let moc = PersistenceManager.persistentContainer.viewContext
+            let listToShare = moc.object(with: list) as! CDList
+            let container = PersistenceManager.persistentContainer
+            let sharingController = UICloudSharingController {
+                (controller, completion: @escaping (CKShare?, CKContainer?, Error?) -> Void) in
+                container.share([listToShare], to: nil) { objectIDs, share, container, error in
+                    if let actualShare = share {
+                        listToShare.managedObjectContext?.performAndWait {
+                            actualShare[CKShare.SystemFieldKey.title] = listToShare.title
+                        }
                     }
+                    completion(share, container, error)
                 }
-                ckContainer.privateCloudDatabase.add(modifyRecordsOperation)
             }
-//            DispatchQueue.main.async {
-                sharingController.delegate = self
-                if let button = self.button {
-                    sharingController.popoverPresentationController?.sourceView = button
-                }
-                UIApplication.shared.keyWindow?.rootViewController?.present(sharingController, animated: true, completion: {})
-//            }
+            
+            sharingController.delegate = self
+            if let button = self.button {
+                sharingController.popoverPresentationController?.sourceView = button
+            }
+            UIApplication.shared.keyWindow?.rootViewController?.present(sharingController, animated: true, completion: {})
             
         }
     }
