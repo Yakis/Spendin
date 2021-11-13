@@ -58,6 +58,7 @@ struct SpendinApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(spendingVM)
+                .environment(\.managedObjectContext, PersistenceManager.persistentContainer.viewContext)
                 .withHostingWindow { window in
                     sceneDelegate.originalDelegate = window?.windowScene!.delegate
                     window?.windowScene!.delegate = sceneDelegate

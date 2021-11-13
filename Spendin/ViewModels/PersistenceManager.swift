@@ -46,7 +46,6 @@ class PersistenceManager: NSObject {
 //        //Load the persistent stores
         container.persistentStoreDescriptions.append(sharedStoreDescription)
         
-        
         container.loadPersistentStores(completionHandler: { (loadedStoreDescription, error) in
             if let loadError = error as NSError? {
                 fatalError("###\(#function): Failed to load persistent stores:\(loadError)")
@@ -58,6 +57,13 @@ class PersistenceManager: NSObject {
                 }
             }
         })
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        do {
+            try container.viewContext.setQueryGenerationFrom(.current)
+        } catch {
+            fatalError("###\(#function): Failed to pin viewContext to the current generation:\(error)")
+        }
         return container
     }()
     

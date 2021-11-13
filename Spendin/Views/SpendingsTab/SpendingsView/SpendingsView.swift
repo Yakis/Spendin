@@ -17,6 +17,10 @@ enum ItemType: String, CaseIterable {
 
 struct SpendingsView: View {
     
+    @Environment(\.managedObjectContext) var managedObjectContext
+    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.title, ascending: true)])
+    var lists: FetchedResults<CDList>
+    
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var selectedList: ItemList?
     @State private var showDetailedList = false
@@ -24,12 +28,12 @@ struct SpendingsView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(spendingVM.lists, id: \.id) { list in
+                ForEach(lists, id: \.id) { list in
                     VStack(alignment: .leading) {
-                        Text(list.name).font(.title3).padding(5)
-                        Text("Items: \(list.items.count)").font(.caption).padding(5)
+                        Text(list.title ?? "No name").font(.title3).padding(5)
+                        Text("Items: \(list.items?.count ?? 0)").font(.caption).padding(5)
                     }.onTapGesture {
-                        spendingVM.currentList = list
+                        spendingVM.currentList = ItemList(from: list)
                         showDetailedList = true
                     }
                 }
