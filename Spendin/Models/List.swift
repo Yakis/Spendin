@@ -35,7 +35,7 @@ struct ItemList {
     init(from list: CDList) {
         self.created = list.created ?? Date()
         self.id = list.id ?? ""
-        self.name = list.name ?? ""
+        self.name = list.title ?? ""
         self.shared = list.shared
         self.items = list.itemsArray.map { Item(from: $0) }
     }

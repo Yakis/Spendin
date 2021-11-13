@@ -11,16 +11,16 @@ import CoreData
 class ItemDataStore {
     
     
-    func fetchItems(completion: @escaping(Result<[Item], Error>) -> ()) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest = CDItem.sortedFetchRequest
-        do {
-            let result = try moc.fetch(fetchRequest)
-            completion(.success(result.map { Item(from: $0) }))
-        } catch {
-            completion(.failure(error))
-        }
-    }
+    //    func fetchItems(completion: @escaping(Result<[Item], Error>) -> ()) {
+    //        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
+    //        let fetchRequest = CDItem.sortedFetchRequest
+    //        do {
+    //            let result = try moc.fetch(fetchRequest)
+    //            completion(.success(result.map { Item(from: $0) }))
+    //        } catch {
+    //            completion(.failure(error))
+    //        }
+    //    }
     
     
     func update(item: Item, completion: (Result<Item, Error>) -> ()) {
@@ -43,32 +43,32 @@ class ItemDataStore {
     }
     
     
-    func save(item: Item, list: ItemList, completion: (Result<Item, Error>) -> ()) {
+    func save(item: Item, list: ItemList, completion: @escaping (Result<Item, Error>) -> ()) {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let newItem = CDItem(context: moc)
-        newItem.name = item.name
-        newItem.amount = Double(item.amount) ?? 0
-        newItem.type = item.type.rawValue
-        newItem.category = item.category
-        newItem.date = item.date
-        newItem.id = UUID().uuidString
-        
-        let fetchRequest: NSFetchRequest<CDList> = CDList.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
-        do {
-            guard let list = try moc.fetch(fetchRequest).first else { return }
-            newItem.list = list
-        } catch {
+            let newItem = CDItem(context: moc)
+            newItem.name = item.name
+            newItem.amount = Double(item.amount) ?? 0
+            newItem.type = item.type.rawValue
+            newItem.category = item.category
+            newItem.date = item.date
+            newItem.id = UUID().uuidString
             
-        }
-        
-        
-        do {
-            try moc.saveIfNeeded()
-            completion(.success(Item(from: newItem)))
-        } catch {
-            completion(.failure(error))
-        }
+            let fetchRequest: NSFetchRequest<CDList> = CDList.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
+            do {
+                guard let list = try moc.fetch(fetchRequest).first else { return }
+                newItem.list = list
+            } catch {
+                
+            }
+            
+            
+            do {
+                try moc.saveIfNeeded()
+                completion(.success(Item(from: newItem)))
+            } catch {
+                completion(.failure(error))
+            }
     }
     
     

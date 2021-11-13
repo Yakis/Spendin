@@ -18,33 +18,59 @@ enum ItemType: String, CaseIterable {
 struct SpendingsView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
+    @State private var selectedList: ItemList?
+    @State private var showDetailedList = false
     
     var body: some View {
-        if spendingVM.lists.isEmpty {
-            Button {
-                let list = ItemList(name: "Cheltuieli Noiembrie")
-                spendingVM.save(list: list)
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .font(.largeTitle)
+        NavigationView {
+            List {
+                ForEach(spendingVM.lists, id: \.id) { list in
+                    VStack(alignment: .leading) {
+                        Text(list.name).font(.title3).padding(5)
+                        Text("Items: \(list.items.count)").font(.caption).padding(5)
+                    }.onTapGesture {
+                        spendingVM.currentList = list
+                        showDetailedList = true
+                    }
+                }
+                .onDelete {
+                    delete(list: spendingVM.lists[$0.first!])
+                }
             }
-            
-        } else {
-            SpendingsViewContent()
-                .background(AdaptColors.container)
-                .navigationTitle("Spendings")
+            .popover(isPresented: $showDetailedList) {
+                SpendingsViewContent()
+                    .background(AdaptColors.container)
+                    .navigationTitle("Spendings")
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        let list = ItemList(name: "Cheltuieli \(Date())")
+                        spendingVM.save(list: list)
+                    } label: {
+                        Text("Create list")
+                    }
+                }
+            }
         }
-        //        if UIDevice.current.userInterfaceIdiom == .phone {
-        ////            NavigationView {
-        //                SpendingsViewContent()
-        //                    .background(AdaptColors.container)
-        ////                    .navigationTitle("Spendings")
-        ////            }
-        //        } else {
-        //            SpendingsViewContent()
-        ////                .background(AdaptColors.container)
-        //                .navigationTitle("Spendings")
-        //        }
+    }
+    
+    
+    private func delete(list: ItemList) {
+            let moc = PersistenceManager.persistentContainer.newBackgroundContext()
+            let fetchRequest: NSFetchRequest<CDList>
+            fetchRequest = CDList.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
+            let listsToDelete = try! moc.fetch(fetchRequest)
+            for list in listsToDelete {
+                moc.delete(list)
+                do {
+                    try moc.saveIfNeeded()
+                    spendingVM.fetchLists()
+                } catch {
+                    print(error)
+                }
+        }
     }
     
     

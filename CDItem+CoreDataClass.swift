@@ -2,7 +2,7 @@
 //  CDItem+CoreDataClass.swift
 //  Spendin
 //
-//  Created by Mugurel Moscaliuc on 11/11/2021.
+//  Created by Mugurel Moscaliuc on 13/11/2021.
 //
 //
 

@@ -11,12 +11,12 @@ import CloudKit
 import Combine
 
 class PersistenceManager: NSObject {
-        
+    
     static private var _privatePersistentStore: NSPersistentStore?
     static var privatePersistentStore: NSPersistentStore {
         return _privatePersistentStore!
     }
-
+    
     static private var _sharedPersistentStore: NSPersistentStore?
     static var sharedPersistentStore: NSPersistentStore {
         return _sharedPersistentStore!
@@ -30,7 +30,7 @@ class PersistenceManager: NSObject {
         privateStoreDescription.url = storesURL.appendingPathComponent("private.sqlite")
         privateStoreDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         privateStoreDescription.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
-
+        
         //Add Shared Database
         let sharedStoreURL = storesURL.appendingPathComponent("shared.sqlite")
         guard let sharedStoreDescription = privateStoreDescription.copy() as? NSPersistentStoreDescription else {
@@ -38,12 +38,12 @@ class PersistenceManager: NSObject {
         }
         sharedStoreDescription.url = sharedStoreURL
         
-            let containerIdentifier = privateStoreDescription.cloudKitContainerOptions!.containerIdentifier
-            let sharedStoreOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: containerIdentifier)
-            sharedStoreOptions.databaseScope = .shared
-            sharedStoreDescription.cloudKitContainerOptions = sharedStoreOptions
-        
-        //Load the persistent stores
+        let containerIdentifier = privateStoreDescription.cloudKitContainerOptions!.containerIdentifier
+        let sharedStoreOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: containerIdentifier)
+        sharedStoreOptions.databaseScope = .shared
+        sharedStoreDescription.cloudKitContainerOptions = sharedStoreOptions
+//
+//        //Load the persistent stores
         container.persistentStoreDescriptions.append(sharedStoreDescription)
         
         

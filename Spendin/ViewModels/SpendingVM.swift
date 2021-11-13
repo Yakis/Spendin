@@ -22,12 +22,28 @@ class SpendingVM: ObservableObject {
     let listDataStore: ListDataStore
     let suggestionDataStore: SuggestionDataStore
     
+    private var cancellables = Set<AnyCancellable>()
+    
+    
     init() {
         itemDataStore = ItemDataStore()
         listDataStore = ListDataStore()
         suggestionDataStore = SuggestionDataStore()
         fetchSuggestions()
-        fetchLists()
+//        fetchLists()
+        registerToRemoteStoreChanges()
+    }
+    
+    
+    func registerToRemoteStoreChanges() {
+        NotificationCenter.default
+            .publisher(for: .NSPersistentStoreRemoteChange)
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
+            .sink { notification in
+                self.fetchLists()
+            }
+            .store(in: &cancellables)
     }
     
     
@@ -53,6 +69,11 @@ class SpendingVM: ObservableObject {
         }
     }
     
+    func getListFor(id: String) -> CDList? {
+        return listDataStore.getListFor(id: id)
+    }
+    
+    
     
     func fetchLists() {
         listDataStore.fetchLists { result in
@@ -60,8 +81,7 @@ class SpendingVM: ObservableObject {
             case .failure(let error): print("Error retrieving items: \(error)")
             case .success(let fetchedLists):
                 self.lists = fetchedLists
-                self.currentList = fetchedLists.first ?? ItemList()
-                print("Lists: \(self.lists.map { $0.name })")
+                self.currentList = fetchedLists.last ?? ItemList()
                 self.calculateSpendings()
             }
         }
@@ -74,7 +94,7 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                fetchLists()
+                self.fetchLists()
             }
         }
     }
@@ -85,8 +105,8 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error updating item: \(error)")
             case .success(_):
-                fetchLists()
-                list.items.forEach { item in saveSuggestion(item: item) }
+                self.fetchLists()
+                list.items.forEach { item in self.saveSuggestion(item: item) }
             }
         }
     }
@@ -97,8 +117,8 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                fetchLists()
-                saveSuggestion(item: item)
+                self.fetchLists()
+                self.saveSuggestion(item: item)
             }
         }
     }
@@ -127,7 +147,9 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error fetching suggestions: \(error)")
             case .success(let fetchedSuggestions):
-                self.suggestions = fetchedSuggestions
+                DispatchQueue.main.async {
+                    self.suggestions = fetchedSuggestions                    
+                }
             }
         }
     }

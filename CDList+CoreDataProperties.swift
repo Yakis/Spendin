@@ -2,7 +2,7 @@
 //  CDList+CoreDataProperties.swift
 //  Spendin
 //
-//  Created by Mugurel Moscaliuc on 11/11/2021.
+//  Created by Mugurel Moscaliuc on 13/11/2021.
 //
 //
 
@@ -16,10 +16,10 @@ extension CDList {
         return NSFetchRequest<CDList>(entityName: "CDList")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var shared: Bool
     @NSManaged public var created: Date?
     @NSManaged public var id: String?
+    @NSManaged public var shared: Bool
+    @NSManaged public var title: String?
     @NSManaged public var items: NSSet?
 
 }

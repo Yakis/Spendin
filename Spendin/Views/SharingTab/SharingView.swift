@@ -24,7 +24,7 @@ struct SharingView: View {
                     .foregroundColor(.gray)
             }
             .onAppear {
-                let item = spendingVM.listDataStore.getListForID(id: spendingVM.currentList.id)
+                guard let item = spendingVM.getListFor(id: spendingVM.currentList.id) else { return }
                 list = item.objectID
             }
             .toolbar {

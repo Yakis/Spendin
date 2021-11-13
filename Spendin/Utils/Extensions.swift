@@ -29,6 +29,7 @@ extension View {
 
 extension Notification.Name {
     static let storeHasChanges = Notification.Name.init("storeHasChanges")
+    static let didFindRelevantTransactions = Notification.Name("didFindRelevantTransactions")
 }
 
 
@@ -75,13 +76,13 @@ extension Date {
 }
 
 
-extension CDItem {
-    static var sortedFetchRequest: NSFetchRequest<CDItem> {
-        let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-        return request
-    }
-}
+//extension CDItem {
+//    static var sortedFetchRequest: NSFetchRequest<CDItem> {
+//        let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+//        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
+//        return request
+//    }
+//}
 
 
 extension CDList {
