@@ -43,32 +43,24 @@ class ItemDataStore {
     }
     
     
-    func save(item: Item, list: ItemList, completion: @escaping (Result<Item, Error>) -> ()) {
+    func save(item: Item, list: CDList?, completion: @escaping (Result<Item, Error>) -> ()) {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-            let newItem = CDItem(context: moc)
-            newItem.name = item.name
-            newItem.amount = Double(item.amount) ?? 0
-            newItem.type = item.type.rawValue
-            newItem.category = item.category
-            newItem.date = item.date
-            newItem.id = UUID().uuidString
-            
-            let fetchRequest: NSFetchRequest<CDList> = CDList.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
-            do {
-                guard let list = try moc.fetch(fetchRequest).first else { return }
-                newItem.list = list
-            } catch {
-                
-            }
-            
-            
-            do {
-                try moc.saveIfNeeded()
-                completion(.success(Item(from: newItem)))
-            } catch {
-                completion(.failure(error))
-            }
+        let newItem = CDItem(context: moc)
+        newItem.name = item.name
+        newItem.amount = Double(item.amount) ?? 0
+        newItem.type = item.type.rawValue
+        newItem.category = item.category
+        newItem.date = item.date
+        newItem.id = UUID().uuidString
+        if let list = list {
+            newItem.list = moc.object(with: list.objectID) as? CDList
+        }
+        do {
+            try moc.saveIfNeeded()
+            completion(.success(Item(from: newItem)))
+        } catch {
+            completion(.failure(error))
+        }
     }
     
     

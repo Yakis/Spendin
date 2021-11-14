@@ -10,6 +10,7 @@ import CoreData
 
 struct SpendingsListView: View {
     
+    @Environment(\.managedObjectContext) var managedObjectContext
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
@@ -19,12 +20,15 @@ struct SpendingsListView: View {
     
     var body: some View {
         List {
-            ForEach(spendingVM.currentList.items, id: \.id) { item in
-                SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
-                    .environmentObject(spendingVM)
+            ForEach(0..<(spendingVM.currentList?.itemsArray.count ?? 0), id: \.self) { index in
+                if let item = spendingVM.currentList?.itemsArray[index] {
+                    SpendingsListCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal)
+                        .environmentObject(spendingVM)
+                }
             }
             .onDelete {
-                delete(item: spendingVM.currentList.items[$0.first!])
+                guard let itemToDelete = spendingVM.currentList?.itemsArray[$0.first!] else {return}
+                delete(item: itemToDelete)
             }
             .listRowBackground(AdaptColors.cellBackground)
         }
@@ -32,20 +36,12 @@ struct SpendingsListView: View {
     }
     
     
-    private func delete(item: Item) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<CDItem>
-        fetchRequest = CDItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
-        let itemsToDelete = try! moc.fetch(fetchRequest)
-        for item in itemsToDelete {
-            moc.delete(item)
-            do {
-                try moc.saveIfNeeded()
-                spendingVM.fetchLists()
-            } catch {
-                print(error)
-            }
+    private func delete(item: CDItem) {
+        managedObjectContext.delete(item)
+        do {
+            try managedObjectContext.saveIfNeeded()
+        } catch {
+            print(error)
         }
     }
     

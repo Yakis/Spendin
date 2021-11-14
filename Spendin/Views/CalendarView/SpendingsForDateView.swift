@@ -22,19 +22,19 @@ struct SpendingsForDateView: View {
                 .foregroundColor(AdaptColors.theOrange)
                 .padding()
             List {
-                ForEach(spendingVM.currentList.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}, id: \.id) { item in
-                    SpendingsListCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
+                ForEach(spendingVM.currentList?.itemsArray.filter { calendar.compare($0.date ?? Date(), to: selectedDate, toGranularity: .day) == .orderedSame} ?? [], id: \.id) { item in
+                    SpendingsListCell(item: item, index: 0, isUpdate: $isUpdate, showModal: $showModal)
                         .environmentObject(spendingVM)
                 }
                 .listRowBackground(AdaptColors.cellBackground)
             }
-            .frame(maxHeight: spendingVM.currentList.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : .infinity)
-            .opacity(spendingVM.currentList.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : 1)
+            .frame(maxHeight: spendingVM.currentList?.itemsArray.filter { calendar.compare($0.date ?? Date(), to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ?? true ? 0 : .infinity)
+            .opacity(spendingVM.currentList?.itemsArray.filter { calendar.compare($0.date ?? Date(), to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ?? true ? 0 : 1)
             Text("Nothing today")
                 .font(.callout)
                 .fontWeight(.bold)
-                .frame(maxHeight: spendingVM.currentList.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? .infinity : 0)
-                .opacity(spendingVM.currentList.items.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0.6 : 0)
+                .frame(maxHeight: spendingVM.currentList?.itemsArray.filter { calendar.compare($0.date ?? Date(), to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ?? true ? .infinity : 0)
+                .opacity(spendingVM.currentList?.itemsArray.filter { calendar.compare($0.date ?? Date(), to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ?? true ? 0.6 : 0)
             HStack {
                 Spacer()
                 Image(systemName: "plus.circle.fill")

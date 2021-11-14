@@ -18,27 +18,33 @@ enum ItemType: String, CaseIterable {
 struct SpendingsView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
-    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.title, ascending: true)])
+    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
     var lists: FetchedResults<CDList>
     
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var selectedList: ItemList?
     @State private var showDetailedList = false
+    @State private var selectedIndex = 0
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(lists, id: \.id) { list in
+                ForEach(0..<lists.count, id: \.self) { index in
                     VStack(alignment: .leading) {
-                        Text(list.title ?? "No name").font(.title3).padding(5)
-                        Text("Items: \(list.items?.count ?? 0)").font(.caption).padding(5)
+                        Text(lists[index].title ?? "No name").font(.title3).padding(5)
+                        Text("Items: \(lists[index].items?.count ?? 0)").font(.caption).padding(5)
                     }.onTapGesture {
-                        spendingVM.currentList = ItemList(from: list)
+                        spendingVM.currentList = lists[index]
+                        selectedIndex = index
+                        spendingVM.calculateSpendings()
                         showDetailedList = true
                     }
                 }
                 .onDelete {
-                    delete(list: spendingVM.lists[$0.first!])
+                    delete(list: lists[$0.first!])
+                }
+                .onChange(of: lists.shuffled()) { newValue in
+                    spendingVM.calculateSpendings()
                 }
             }
             .popover(isPresented: $showDetailedList) {
@@ -60,20 +66,12 @@ struct SpendingsView: View {
     }
     
     
-    private func delete(list: ItemList) {
-            let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-            let fetchRequest: NSFetchRequest<CDList>
-            fetchRequest = CDList.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
-            let listsToDelete = try! moc.fetch(fetchRequest)
-            for list in listsToDelete {
-                moc.delete(list)
-                do {
-                    try moc.saveIfNeeded()
-                    spendingVM.fetchLists()
-                } catch {
-                    print(error)
-                }
+    private func delete(list: CDList) {
+        managedObjectContext.delete(list)
+        do {
+            try managedObjectContext.saveIfNeeded()
+        } catch {
+            print(error)
         }
     }
     
@@ -88,7 +86,6 @@ struct SpendingsViewContent: View {
     @State var isUpdate: Bool = false
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
-    
     
     var body: some View {
         ZStack {

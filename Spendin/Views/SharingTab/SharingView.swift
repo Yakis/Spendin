@@ -24,8 +24,8 @@ struct SharingView: View {
                     .foregroundColor(.gray)
             }
             .onAppear {
-                guard let item = spendingVM.getListFor(id: spendingVM.currentList.id) else { return }
-                list = item.objectID
+                guard let currentList = spendingVM.currentList?.objectID else { return }
+                list = currentList
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

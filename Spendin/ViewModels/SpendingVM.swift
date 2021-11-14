@@ -14,14 +14,13 @@ class SpendingVM: ObservableObject {
     @Published var total: Double = 0
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
-    @Published var lists = [ItemList]()
-    @Published var currentList = ItemList()
-    @Published var shareableList: CDList?
+//    @Published var lists = [ItemList]()
+    @Published var currentList: CDList?
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
     let listDataStore: ListDataStore
     let suggestionDataStore: SuggestionDataStore
-    
+    @Published var amountList: Dictionary<Int, String> = [:]
     private var cancellables = Set<AnyCancellable>()
     
     
@@ -41,7 +40,7 @@ class SpendingVM: ObservableObject {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
             .sink { notification in
-                self.fetchLists()
+//                self.fetchLists()
             }
             .store(in: &cancellables)
     }
@@ -51,17 +50,17 @@ class SpendingVM: ObservableObject {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
             var temp: Double = 0
-            switch self.currentList.items.count {
+            switch self.currentList?.itemsArray.count {
             case 0: self.total = 0
             default:
-                self.currentList.items.enumerated().forEach {
-                    guard !$1.date.isPast() else { return }
-                    if $1.type == .expense {
-                        temp -= Double($1.amount)!
-                        self.currentList.items[$0].amountLeft = String(format: "%.2f", temp)
+                self.currentList?.itemsArray.enumerated().forEach {
+//                    guard !$1.date.isPast() else { return }
+                    if $1.type == "expense" {
+                        temp -= $1.amount
+                        self.amountList[$0] = String(format: "%.2f", temp)
                     } else {
-                        temp += Double($1.amount)!
-                        self.currentList.items[$0].amountLeft = String(format: "%.2f", temp)
+                        temp += $1.amount
+                        self.amountList[$0] = String(format: "%.2f", temp)
                     }
                     self.total = temp
                 }
@@ -75,26 +74,12 @@ class SpendingVM: ObservableObject {
     
     
     
-    func fetchLists() {
-        listDataStore.fetchLists { result in
-            switch result {
-            case .failure(let error): print("Error retrieving items: \(error)")
-            case .success(let fetchedLists):
-                self.lists = fetchedLists
-                self.currentList = fetchedLists.last ?? ItemList()
-                self.calculateSpendings()
-            }
-        }
-    }
-    
-    
-    
     func save(list: ItemList) {
         listDataStore.save(list: list) { result in
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                self.fetchLists()
+                self.calculateSpendings()
             }
         }
     }
@@ -105,7 +90,7 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error updating item: \(error)")
             case .success(_):
-                self.fetchLists()
+                self.calculateSpendings()
                 list.items.forEach { item in self.saveSuggestion(item: item) }
             }
         }
@@ -117,7 +102,7 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                self.fetchLists()
+                self.calculateSpendings()
                 self.saveSuggestion(item: item)
             }
         }
@@ -129,7 +114,7 @@ class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error updating item: \(error)")
             case .success(_):
-                fetchLists()
+                calculateSpendings()
                 saveSuggestion(item: item)
             }
         }
