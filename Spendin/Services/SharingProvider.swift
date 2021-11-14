@@ -41,10 +41,10 @@ extension CKShare: RenderableShare {
 }
 
 protocol SharingProvider {
-    func isShared(object: NSManagedObject) -> Bool
-    func isShared(objectID: NSManagedObjectID) -> Bool
-    func participants(for object: NSManagedObject) -> [RenderableShareParticipant]
-    func shares(matching objectIDs: [NSManagedObjectID]) throws -> [NSManagedObjectID: RenderableShare]
-    func canEdit(object: NSManagedObject) -> Bool
-    func canDelete(object: NSManagedObject) -> Bool
+    static func isShared(object: NSManagedObject) -> Bool
+    static func isShared(objectID: NSManagedObjectID) -> Bool
+    static func participants(for object: NSManagedObject) -> [ShareParticipant]
+    static func shares(matching objectIDs: [NSManagedObjectID]) throws -> [NSManagedObjectID: RenderableShare]
+    static func canEdit(object: NSManagedObject) -> Bool
+    static func canDelete(object: NSManagedObject) -> Bool
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct SpendingsListView: View {
+struct ItemsView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @EnvironmentObject var spendingVM: SpendingVM
@@ -38,6 +38,8 @@ struct SpendingsListView: View {
     
     private func delete(item: CDItem) {
         managedObjectContext.delete(item)
+        spendingVM.currentList?.removeFromItems(item)
+        spendingVM.calculateSpendings()
         do {
             try managedObjectContext.saveIfNeeded()
         } catch {

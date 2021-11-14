@@ -8,6 +8,7 @@
 import SwiftUI
 import Combine
 import CoreData
+import CloudKit
 
 enum ItemType: String, CaseIterable {
     case expense, income
@@ -17,61 +18,9 @@ enum ItemType: String, CaseIterable {
 
 struct SpendingsView: View {
     
-    @Environment(\.managedObjectContext) var managedObjectContext
-    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
-    var lists: FetchedResults<CDList>
-    
-    @EnvironmentObject var spendingVM: SpendingVM
-    @State private var selectedList: ItemList?
-    @State private var showDetailedList = false
-    @State private var selectedIndex = 0
-    
     var body: some View {
         NavigationView {
-            List {
-                ForEach(0..<lists.count, id: \.self) { index in
-                    VStack(alignment: .leading) {
-                        Text(lists[index].title ?? "No name").font(.title3).padding(5)
-                        Text("Items: \(lists[index].items?.count ?? 0)").font(.caption).padding(5)
-                    }.onTapGesture {
-                        spendingVM.currentList = lists[index]
-                        selectedIndex = index
-                        spendingVM.calculateSpendings()
-                        showDetailedList = true
-                    }
-                }
-                .onDelete {
-                    delete(list: lists[$0.first!])
-                }
-                .onChange(of: lists.shuffled()) { newValue in
-                    spendingVM.calculateSpendings()
-                }
-            }
-            .popover(isPresented: $showDetailedList) {
-                SpendingsViewContent()
-                    .background(AdaptColors.container)
-                    .navigationTitle("Spendings")
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        let list = ItemList(name: "Cheltuieli \(Date())")
-                        spendingVM.save(list: list)
-                    } label: {
-                        Text("Create list")
-                    }
-                }
-            }
-        }
-    }
-    
-    
-    private func delete(list: CDList) {
-        managedObjectContext.delete(list)
-        do {
-            try managedObjectContext.saveIfNeeded()
-        } catch {
-            print(error)
+            ListsView()
         }
     }
     
@@ -90,7 +39,7 @@ struct SpendingsViewContent: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 20) {
-                SpendingsListView(showModal: $showModal, isUpdate: $isUpdate)
+                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
                 
@@ -106,3 +55,5 @@ struct SpendingsViewContent: View {
         UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
     }
 }
+
+

@@ -21,6 +21,7 @@
 		154BECA2273FDB0B00850A76 /* CDList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154BEC9E273FDB0B00850A76 /* CDList+CoreDataProperties.swift */; };
 		154D4003273D826000743B96 /* ListDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154D4002273D826000743B96 /* ListDataStore.swift */; };
 		154D4005273D82A200743B96 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154D4004273D82A200743B96 /* List.swift */; };
+		154DEA5D27417C5C00F7CF7E /* ListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154DEA5C27417C5B00F7CF7E /* ListsView.swift */; };
 		155013D427343AEC00FF14AD /* ItemDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155013D327343AEC00FF14AD /* ItemDataStore.swift */; };
 		155013D6273448A500FF14AD /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155013D5273448A500FF14AD /* Item.swift */; };
 		1553D6EB2736D54800191DCC /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1553D6EA2736D54700191DCC /* Sidebar.swift */; };
@@ -31,7 +32,7 @@
 		1553D6FB2736E97900191DCC /* CDSuggestion+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1553D6F92736E97900191DCC /* CDSuggestion+CoreDataClass.swift */; };
 		1553D6FC2736E97900191DCC /* CDSuggestion+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1553D6FA2736E97900191DCC /* CDSuggestion+CoreDataProperties.swift */; };
 		1555D8E225303CD40091D21C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E125303CD40091D21C /* Extensions.swift */; };
-		1555D8E725303CFD0091D21C /* SpendingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E625303CFD0091D21C /* SpendingsListView.swift */; };
+		1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E625303CFD0091D21C /* ItemsView.swift */; };
 		1555D9042530426B0091D21C /* SpendingsListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D9032530426B0091D21C /* SpendingsListCell.swift */; };
 		155E65842530466600082584 /* TotalBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65832530466600082584 /* TotalBottomView.swift */; };
 		155E658925304DBE00082584 /* SaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E658825304DBE00082584 /* SaveButton.swift */; };
@@ -88,6 +89,7 @@
 		154BEC9E273FDB0B00850A76 /* CDList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		154D4002273D826000743B96 /* ListDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDataStore.swift; sourceTree = "<group>"; };
 		154D4004273D82A200743B96 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
+		154DEA5C27417C5B00F7CF7E /* ListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsView.swift; sourceTree = "<group>"; };
 		155013D327343AEC00FF14AD /* ItemDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDataStore.swift; sourceTree = "<group>"; };
 		155013D5273448A500FF14AD /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		1553D6EA2736D54700191DCC /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
@@ -98,7 +100,7 @@
 		1553D6F92736E97900191DCC /* CDSuggestion+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDSuggestion+CoreDataClass.swift"; sourceTree = "<group>"; };
 		1553D6FA2736E97900191DCC /* CDSuggestion+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CDSuggestion+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1555D8E125303CD40091D21C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		1555D8E625303CFD0091D21C /* SpendingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsListView.swift; sourceTree = "<group>"; };
+		1555D8E625303CFD0091D21C /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		1555D9032530426B0091D21C /* SpendingsListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsListCell.swift; sourceTree = "<group>"; };
 		155E65832530466600082584 /* TotalBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalBottomView.swift; sourceTree = "<group>"; };
 		155E658825304DBE00082584 /* SaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButton.swift; sourceTree = "<group>"; };
@@ -278,7 +280,8 @@
 			isa = PBXGroup;
 			children = (
 				151F965C24C49D92002C27F4 /* SpendingsView.swift */,
-				1555D8E625303CFD0091D21C /* SpendingsListView.swift */,
+				154DEA5C27417C5B00F7CF7E /* ListsView.swift */,
+				1555D8E625303CFD0091D21C /* ItemsView.swift */,
 				1555D9032530426B0091D21C /* SpendingsListCell.swift */,
 				155E65832530466600082584 /* TotalBottomView.swift */,
 			);
@@ -525,9 +528,10 @@
 				1553D6F62736E78900191DCC /* SuggestionDataStore.swift in Sources */,
 				15709776273D789000339D9A /* ShareController.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
-				1555D8E725303CFD0091D21C /* SpendingsListView.swift in Sources */,
+				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,
 				155E65AC25307BBF00082584 /* PersistenceManager.swift in Sources */,
 				155013D6273448A500FF14AD /* Item.swift in Sources */,
+				154DEA5D27417C5C00F7CF7E /* ListsView.swift in Sources */,
 				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
 				1553D6FB2736E97900191DCC /* CDSuggestion+CoreDataClass.swift in Sources */,
 				1553D6FC2736E97900191DCC /* CDSuggestion+CoreDataProperties.swift in Sources */,
