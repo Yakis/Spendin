@@ -10,7 +10,6 @@ import SwiftUI
 enum NavElements: CaseIterable {
     case spending
     case calendar
-    case sharing
     case settings
     
     var title: String {
@@ -19,8 +18,6 @@ enum NavElements: CaseIterable {
             return "Spending"
         case .calendar:
             return "Calendar"
-        case .sharing:
-            return "Sharing"
         case .settings:
             return "Settings"
         }
@@ -33,8 +30,6 @@ enum NavElements: CaseIterable {
             return "creditcard"
         case .calendar:
             return "calendar"
-        case .sharing:
-            return "person.2.circle"
         case .settings:
             return "gear"
         }
@@ -57,10 +52,6 @@ struct SideBarView: View {
                 }
             case .calendar:
                 NavigationLink(destination: CustomizedCalendarView()) {
-                    Label(element.title, systemImage: element.image)
-                }
-            case .sharing:
-                NavigationLink(destination: SharingView()) {
                     Label(element.title, systemImage: element.image)
                 }
             case .settings:

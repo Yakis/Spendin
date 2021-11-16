@@ -19,9 +19,7 @@ enum ItemType: String, CaseIterable {
 struct SpendingsView: View {
     
     var body: some View {
-        NavigationView {
-            ListsView()
-        }
+        ListsView()
     }
     
     
@@ -30,16 +28,41 @@ struct SpendingsView: View {
 
 
 struct SpendingsViewContent: View {
+    @Environment(\.managedObjectContext) var managedObjectContext
     @EnvironmentObject var spendingVM: SpendingVM
     @State var showModal: Bool = false
     @State var isUpdate: Bool = false
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
+    @State private var showAlert = false
+    var list: CDList
+    @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
+    var deleteAction: () -> ()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 20) {
-                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
+                Text(list.title ?? "")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .padding()
+                HStack(alignment: .center) {
+                    ShareInfoView(list: list, participants: $participants)
+                    Spacer()
+                    CloudKitSharingButton(list: list.objectID)
+                        .frame(width: 50, height: 50, alignment: .center)
+                    Button {
+                        showAlert = true
+                    } label: {
+                        Image(systemName: "trash.fill")
+                            .font(.title3)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                }
+                .frame(maxHeight: 50)
+                .background(AdaptColors.container)
+                ItemsView(showModal: $showModal, isUpdate: $isUpdate, list: list)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
                 
@@ -47,13 +70,23 @@ struct SpendingsViewContent: View {
             .background(AdaptColors.container)
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
         }
+        .onAppear {
+            UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
+            UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Warning"),
+                message: Text("Are you shure you want to delete this list?"),
+                primaryButton: .destructive(Text("Delete")) {
+                    deleteAction()
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
     
     
-    init() {
-        UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
-        UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
-    }
 }
 
 

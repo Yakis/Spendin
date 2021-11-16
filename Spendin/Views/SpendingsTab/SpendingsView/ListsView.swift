@@ -18,119 +18,79 @@ struct ListsView: View {
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var selectedList: ItemList?
     @State private var showDetailedList = false
-    @State private var selectedIndex = 0
+    @State private var currentIndex = 0
     @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
-    
+    @State private var size: CGSize = .zero
+    @State private var showNewListView = false
     
     var body: some View {
-        List {
-            ForEach(0..<lists.count, id: \.self) { index in
-                VStack(alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        Text(lists[index].title ?? "No name")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .lineLimit(2)
-                            .padding(5)
-                        Text("Items: \(lists[index].items?.count ?? 0)")
-                            .font(.callout)
-                            .padding(5)
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack {
+                TabView {
+                    ForEach(lists, id: \.objectID) { list in
+                        SpendingsViewContent(list: list, participants: $participants, deleteAction: {
+                            if !lists.isEmpty {
+                                delete(list: list)
+                            }
+                        })
+                            .frame(width: size.width, height: size.height, alignment: .center)
+                            .onAppear {
+                                spendingVM.currentList = list
+//                                currentIndex = index
+                                spendingVM.calculateSpendings()
+                            }
                     }
-                    ShareInfo(index: index, participants: $participants)
+                    VStack {
+                        Text("Add a new list")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.gray)
+                            .opacity(0.5)
+                            .padding()
+                        Button {
+                            showNewListView = true
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.title)
+                        }
+                    }
                 }
-                .onTapGesture {
-                    spendingVM.currentList = lists[index]
-                    selectedIndex = index
-                    spendingVM.calculateSpendings()
-                    showDetailedList = true
-                }
+                .tabViewStyle(PageTabViewStyle())
+                .frame(width: size.width, height: size.height, alignment: .center)
             }
-            .onDelete {
-                delete(list: lists[$0.first!])
-            }
-        }
-        .onAppear(perform: {
-            lists.forEach { list in
-                participants[list] = PersistenceManager.participants(for: list)
-            }
+            .frame(width: size.width, height: size.height, alignment: .center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }.readSize(onChange: { size in
+            self.size = size
         })
-        .onChange(of: lists.shuffled()) { newValue in
-            spendingVM.calculateSpendings()
-        }
-        .popover(isPresented: $showDetailedList) {
-            SpendingsViewContent()
-                .background(AdaptColors.container)
-                .navigationTitle("Spendings")
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    let list = ItemList(name: "Cheltuieli \(Date())")
-                    spendingVM.save(list: list)
-                } label: {
-                    Text("Create list")
+            .onAppear(perform: {
+                lists.forEach { list in
+                    participants[list] = PersistenceManager.participants(for: list)
                 }
+            })
+//            .onChange(of: lists.count) { newValue in
+//                spendingVM.calculateSpendings()
+//            }
+            .sheet(isPresented: $showNewListView) {
+                
+            } content: {
+                NewListView()
             }
-        }
+        
     }
+    
     
     private func delete(list: CDList) {
         managedObjectContext.delete(list)
         do {
             try managedObjectContext.saveIfNeeded()
         } catch {
-            print(error)
+            print("Error deleting list: ", error)
         }
     }
     
     
 }
 
-struct ShareInfo: View {
-    
-    @Environment(\.managedObjectContext) var managedObjectContext
-    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
-    var lists: FetchedResults<CDList>
-    
-    var index: Int
-    @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
-    @State private var showAlert = false
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                ForEach(participants[lists[index]] ?? [], id: \.participantID) { participant in
-                    if !participant.firstName.isEmpty {
-                        HStack {
-                            Image(systemName: participant.isCurrentUser ? "person.fill" : "person")
-                                .font(.caption)
-                                .foregroundColor(participant.isCurrentUser ? .green : .gray)
-                                .padding(5)
-                            Text(participant.firstName + " " + (participant.userID.contains("defaultOwner") ? "(owner)" : "(\(participant.permission.name))"))
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                    }
-                }
-            }
-            Spacer()
-            //            Button {
-            //                showAlert = true
-            //            } label: {
-            //                Image(systemName: "xmark.icloud.fill")
-            //                    .font(.title)
-            //            }
-        }
-        .alert(isPresented: $showAlert) {
-            Alert(
-                title: Text("Warning"),
-                message: Text("Are you shure you want to stop sharing this list?"),
-                primaryButton: .destructive(Text("Stop Sharing")) {
-                    // Need to figure out how to stop sharing
-                    PersistenceManager.stopSharing(for: lists[index])
-                },
-                secondaryButton: .cancel()
-            )
-        }
-    }
-}
+
+

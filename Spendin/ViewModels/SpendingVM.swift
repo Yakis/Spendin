@@ -14,7 +14,6 @@ class SpendingVM: ObservableObject {
     @Published var total: Double = 0
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
-//    @Published var lists = [ItemList]()
     @Published var currentList: CDList?
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore

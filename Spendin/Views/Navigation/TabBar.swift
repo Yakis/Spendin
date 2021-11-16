@@ -25,14 +25,10 @@ struct CustomTabView: View {
                 .tabItem {
                     Label(NavElements.calendar.title, systemImage: NavElements.calendar.image)
                 }.tag(1)
-            SharingView()
-                .tabItem {
-                    Label(NavElements.sharing.title, systemImage: NavElements.sharing.image)
-                }.tag(2)
             SettingsView()
                 .tabItem {
                     Label(NavElements.settings.title, systemImage: NavElements.settings.image)
-                }.tag(3)
+                }.tag(2)
         }
         .accentColor(AdaptColors.theOrange)
         .background(AdaptColors.container)

@@ -173,6 +173,8 @@ struct ShareParticipant {
     var email: String
     var permission: CKShare.ParticipantPermission
     var isCurrentUser: Bool
+    var role: CKShare.ParticipantRole
+    var acceptanceStatus: CKShare.ParticipantAcceptanceStatus
     
     
     init(from participant: CKShare.Participant) {
@@ -182,6 +184,8 @@ struct ShareParticipant {
         let participantID = participant.value(forKeyPath: "participantID") as? String ?? ""
         let email = participant.userIdentity.lookupInfo?.emailAddress ?? ""
         let userID = participant.userIdentity.userRecordID?.recordName ?? ""
+        let role = participant.role
+        let acceptanceStatus = participant.acceptanceStatus
         self.userID = userID
         self.participantID = participantID
         self.firstName = firstName
@@ -189,6 +193,8 @@ struct ShareParticipant {
         self.email = email
         self.permission = participant.permission
         self.isCurrentUser = isCurrentUser == 0 ? false : true
+        self.role = role
+        self.acceptanceStatus = acceptanceStatus
     }
     
     
@@ -203,6 +209,21 @@ extension CKShare.ParticipantPermission {
         case .none: return "none"
         case .readOnly: return "read only"
         case .readWrite: return "read & write"
+        default: return ""
+        }
+    }
+    
+}
+
+
+extension CKShare.ParticipantRole {
+    
+    var name: String {
+        switch self {
+        case .unknown: return "unknown"
+        case .owner: return "owner"
+        case .privateUser: return "private user"
+        case .publicUser: return "public user"
         default: return ""
         }
     }

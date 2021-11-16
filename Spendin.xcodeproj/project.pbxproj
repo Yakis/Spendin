@@ -10,7 +10,6 @@
 		151F966224C49D93002C27F4 /* SpendingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* SpendingsView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
-		151F966624C49D93002C27F4 /* SharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966024C49D93002C27F4 /* SharingView.swift */; };
 		151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966124C49D93002C27F4 /* AddSpenderView.swift */; };
 		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
 		1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */; };
@@ -51,9 +50,11 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
-		15709776273D789000339D9A /* ShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15709775273D789000339D9A /* ShareController.swift */; };
+		15709776273D789000339D9A /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15709775273D789000339D9A /* ShareButton.swift */; };
 		15874449273EA659001534C0 /* Schema.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15874448273EA659001534C0 /* Schema.swift */; };
 		1587444B273EAA42001534C0 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1587444A273EAA42001534C0 /* SharingProvider.swift */; };
+		159DB40827442E95004921AD /* ShareInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB40727442E95004921AD /* ShareInfoView.swift */; };
+		159DB40A274434EF004921AD /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB409274434EF004921AD /* NewListView.swift */; };
 		15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15F8760424D1BA3B00CDF163 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +79,6 @@
 		151F965C24C49D92002C27F4 /* SpendingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingsView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
-		151F966024C49D93002C27F4 /* SharingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharingView.swift; sourceTree = "<group>"; };
 		151F966124C49D93002C27F4 /* AddSpenderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddSpenderView.swift; sourceTree = "<group>"; };
 		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsForDateView.swift; sourceTree = "<group>"; };
@@ -125,9 +125,11 @@
 		1569390724C49C4400521D57 /* SpendinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		15709775273D789000339D9A /* ShareController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareController.swift; sourceTree = "<group>"; };
+		15709775273D789000339D9A /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 		15874448273EA659001534C0 /* Schema.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schema.swift; sourceTree = "<group>"; };
 		1587444A273EAA42001534C0 /* SharingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
+		159DB40727442E95004921AD /* ShareInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareInfoView.swift; sourceTree = "<group>"; };
+		159DB409274434EF004921AD /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		15F8760224D1BA1B00CDF163 /* Spendin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spendin.entitlements; sourceTree = "<group>"; };
 		15F8760424D1BA3B00CDF163 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -176,7 +178,6 @@
 				153682DA24C627D400772897 /* SpendingsTab */,
 				1545DDF5273536C500194A0B /* CalendarView */,
 				153682DD24C6285400772897 /* SettingsTab */,
-				153682DE24C6285D00772897 /* SharingTab */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,15 +197,6 @@
 				151F965D24C49D92002C27F4 /* SettingsView.swift */,
 			);
 			path = SettingsTab;
-			sourceTree = "<group>";
-		};
-		153682DE24C6285D00772897 /* SharingTab */ = {
-			isa = PBXGroup;
-			children = (
-				151F966024C49D93002C27F4 /* SharingView.swift */,
-				15709775273D789000339D9A /* ShareController.swift */,
-			);
-			path = SharingTab;
 			sourceTree = "<group>";
 		};
 		153682E024C6289A00772897 /* Supporting Files */ = {
@@ -279,11 +271,14 @@
 		1555D8F82530413D0091D21C /* SpendingsView */ = {
 			isa = PBXGroup;
 			children = (
+				15709775273D789000339D9A /* ShareButton.swift */,
 				151F965C24C49D92002C27F4 /* SpendingsView.swift */,
 				154DEA5C27417C5B00F7CF7E /* ListsView.swift */,
 				1555D8E625303CFD0091D21C /* ItemsView.swift */,
 				1555D9032530426B0091D21C /* SpendingsListCell.swift */,
 				155E65832530466600082584 /* TotalBottomView.swift */,
+				159DB40727442E95004921AD /* ShareInfoView.swift */,
+				159DB409274434EF004921AD /* NewListView.swift */,
 			);
 			path = SpendingsView;
 			sourceTree = "<group>";
@@ -509,7 +504,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				151F966624C49D93002C27F4 /* SharingView.swift in Sources */,
 				154BEC9F273FDB0B00850A76 /* CDItem+CoreDataClass.swift in Sources */,
 				154D4003273D826000743B96 /* ListDataStore.swift in Sources */,
 				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
@@ -524,9 +518,10 @@
 				1555D9042530426B0091D21C /* SpendingsListCell.swift in Sources */,
 				154BECA1273FDB0B00850A76 /* CDList+CoreDataClass.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
+				159DB40A274434EF004921AD /* NewListView.swift in Sources */,
 				1587444B273EAA42001534C0 /* SharingProvider.swift in Sources */,
 				1553D6F62736E78900191DCC /* SuggestionDataStore.swift in Sources */,
-				15709776273D789000339D9A /* ShareController.swift in Sources */,
+				15709776273D789000339D9A /* ShareButton.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,
 				155E65AC25307BBF00082584 /* PersistenceManager.swift in Sources */,
@@ -542,6 +537,7 @@
 				155E658925304DBE00082584 /* SaveButton.swift in Sources */,
 				154BECA0273FDB0B00850A76 /* CDItem+CoreDataProperties.swift in Sources */,
 				155E659825304E0500082584 /* AmountTextField.swift in Sources */,
+				159DB40827442E95004921AD /* ShareInfoView.swift in Sources */,
 				1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */,
 				155E65842530466600082584 /* TotalBottomView.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
