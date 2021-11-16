@@ -16,17 +16,16 @@ struct CloudKitSharingButton: UIViewRepresentable {
     var list: NSManagedObjectID
     
     func makeUIView(context: UIViewRepresentableContext<CloudKitSharingButton>) -> UIButton {
-        let button = UIButton(frame: .zero)
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePlacement = .all
+        configuration.image = UIImage(systemName: "person.crop.circle.badge.plus")
+        let button = UIButton(configuration: configuration, primaryAction: nil)
         button.addTarget(context.coordinator, action: #selector(context.coordinator.pressed(_:)), for: .touchUpInside)
         context.coordinator.button = button
         return button
     }
     
     func updateUIView(_ uiView: UIButton, context: UIViewRepresentableContext<CloudKitSharingButton>) {
-        let image = UIImage(systemName: "person.crop.circle.badge.plus")!
-        uiView.setImage(image, for: .normal)
-        uiView.imageView?.contentMode = .scaleAspectFit
-        uiView.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
     
     func makeCoordinator() -> Coordinator {

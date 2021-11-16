@@ -18,7 +18,7 @@ struct ListsView: View {
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var selectedList: ItemList?
     @State private var showDetailedList = false
-    @State private var currentIndex = 0
+    @State private var currentIndex: Int?
     @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
     @State private var size: CGSize = .zero
     @State private var showNewListView = false
@@ -35,9 +35,12 @@ struct ListsView: View {
                         })
                             .frame(width: size.width, height: size.height, alignment: .center)
                             .onAppear {
+                                guard let indexOfList = lists.firstIndex(of: list) else {return}
                                 spendingVM.currentList = list
-//                                currentIndex = index
+                                currentIndex = indexOfList
                                 spendingVM.calculateSpendings()
+                                print("Index of list: \(indexOfList)")
+                                print(spendingVM.currentList?.title)
                             }
                     }
                     VStack {
@@ -53,6 +56,8 @@ struct ListsView: View {
                             Image(systemName: "plus.circle.fill")
                                 .font(.title)
                         }
+                    }.onAppear {
+                        currentIndex = lists.count
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
@@ -68,9 +73,10 @@ struct ListsView: View {
                     participants[list] = PersistenceManager.participants(for: list)
                 }
             })
-//            .onChange(of: lists.count) { newValue in
-//                spendingVM.calculateSpendings()
-//            }
+            .onChange(of: currentIndex) { newValue in
+                print(newValue)
+                spendingVM.calculateSpendings()
+            }
             .sheet(isPresented: $showNewListView) {
                 
             } content: {
