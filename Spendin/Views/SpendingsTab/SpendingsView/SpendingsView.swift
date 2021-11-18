@@ -36,18 +36,31 @@ struct SpendingsViewContent: View {
     @State private var cancellable: AnyCancellable?
     @State private var showAlert = false
     var list: CDList
-    @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
+    var participants: Dictionary<NSManagedObject, [ShareParticipant]>
+    @Binding var showDetailedList: Bool
     var deleteAction: () -> ()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading, spacing: 20) {
+                HStack {
+                    Spacer()
+                    Button {
+                        withAnimation {
+                            showDetailedList = false                            
+                        }
+                    } label: {
+                        Image(systemName: "xmark.circle")
+                            .font(.title2)
+                            .foregroundColor(.blue)
+                    }
+                }.padding()
                 Text(list.title ?? "")
                     .font(.largeTitle)
                     .fontWeight(.semibold)
                     .padding()
                 HStack(alignment: .center) {
-                    ShareInfoView(list: list, participants: $participants)
+                    ShareInfoView(list: list, participants: participants)
                     Spacer()
                     CloudKitSharingButton(list: list.objectID)
                         .frame(width: 50, height: 50, alignment: .center)

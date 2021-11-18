@@ -13,7 +13,7 @@ struct ShareInfoView: View {
     
     var list: CDList
     
-    @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
+    var participants: Dictionary<NSManagedObject, [ShareParticipant]>
     
     var body: some View {
             VStack(alignment: .leading) {
@@ -25,11 +25,11 @@ struct ShareInfoView: View {
                     if !participant.firstName.isEmpty {
                         Text(participant.firstName + " " + (participant.role == .owner ? "(owner)" : "(\(participant.permission.name))"))
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
                     } else {
                         Text(participant.email + " - " + participant.acceptanceStatus.name)
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
                     }
                 }
             }.opacity(PersistenceManager.isShared(object: list) ? 1 : 0)

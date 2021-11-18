@@ -16,7 +16,7 @@ struct ListsView: View {
     var lists: FetchedResults<CDList>
     
     @EnvironmentObject var spendingVM: SpendingVM
-    @State private var selectedList: ItemList?
+    @State private var selectedList: CDList?
     @State private var showDetailedList = false
     @State private var currentIndex: Int?
     @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
@@ -24,24 +24,55 @@ struct ListsView: View {
     @State private var showNewListView = false
     
     var body: some View {
+        if showDetailedList {
+            SpendingsViewContent(list: spendingVM.currentList!, participants: participants, showDetailedList: $showDetailedList) {
+                delete(list: spendingVM.currentList!)
+            }
+        } else {
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHStack {
                 TabView {
                     ForEach(lists, id: \.objectID) { list in
-                        SpendingsViewContent(list: list, participants: $participants, deleteAction: {
-                            if !lists.isEmpty {
-                                delete(list: list)
+                        VStack(alignment: .leading) {
+                            Text(list.title ?? "")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .padding()
+                            ShareInfoView(list: list, participants: participants)
+                                .opacity(0.8)
+                            VStack(alignment: .leading) {
+                            ForEach(list.itemsArray, id: \.objectID) { item in
+                                HStack {
+                                Text(item.name ?? "")
+                                    .font(.caption)
+                                    Spacer()
+                                Text("£ \(String(format: "%.2f", item.amount))")
+                                    .font(.caption)
+                                }
                             }
-                        })
-                            .frame(width: size.width, height: size.height, alignment: .center)
-                            .onAppear {
-                                guard let indexOfList = lists.firstIndex(of: list) else {return}
-                                spendingVM.currentList = list
-                                currentIndex = indexOfList
-                                spendingVM.calculateSpendings()
-                                print("Index of list: \(indexOfList)")
-                                print(spendingVM.currentList?.title)
+                                Text("Amount left: \(String(format: "%.2f", spendingVM.total))")
+                                    .font(.caption)
+                                    .fontWeight(.bold)
+                                    .padding(.top, 5)
                             }
+                            .shadow(radius: 2)
+                            .padding()
+                            Spacer()
+                        }
+                        .frame(width: size.width / 1.3, height: size.height / 1.3, alignment: .leading)
+                        .background(AdaptColors.theOrange)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .onAppear {
+                            guard let indexOfList = lists.firstIndex(of: list) else {return}
+                            spendingVM.currentList = list
+                            currentIndex = indexOfList
+                        }
+                        .onTapGesture {
+                            withAnimation {
+                                showDetailedList = true
+                            }
+                        }
+
                     }
                     VStack {
                         Text("Add a new list")
@@ -74,7 +105,6 @@ struct ListsView: View {
                 }
             })
             .onChange(of: currentIndex) { newValue in
-                print(newValue)
                 spendingVM.calculateSpendings()
             }
             .sheet(isPresented: $showNewListView) {
@@ -82,7 +112,7 @@ struct ListsView: View {
             } content: {
                 NewListView()
             }
-        
+        }
     }
     
     
