@@ -53,7 +53,6 @@ class SpendingVM: ObservableObject {
             case 0: self.total = 0
             default:
                 self.currentList?.itemsArray.enumerated().forEach {
-//                    guard !$1.date.isPast() else { return }
                     if $1.type == "expense" {
                         temp -= $1.amount
                         self.amountList[$0] = String(format: "%.2f", temp)

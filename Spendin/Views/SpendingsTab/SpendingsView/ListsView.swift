@@ -64,8 +64,14 @@ struct ListsView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .onAppear {
                             guard let indexOfList = lists.firstIndex(of: list) else {return}
-                            spendingVM.currentList = list
                             currentIndex = indexOfList
+                            spendingVM.currentList = list
+                            //                            let encoder = JSONEncoder()
+                            //                            encoder.outputFormatting = .prettyPrinted
+                            //                            let json = try! encoder.encode(ItemList(from: list))
+                            //                            print("=================================")
+                            //                            print(String(decoding: json, as: UTF8.self))
+                            //                            print("=================================")
                         }
                         .onTapGesture {
                             withAnimation {
@@ -108,7 +114,8 @@ struct ListsView: View {
                 spendingVM.calculateSpendings()
             }
             .sheet(isPresented: $showNewListView) {
-                
+                self.currentIndex = lists.count - 1
+                spendingVM.currentList = lists[lists.count - 1]
             } content: {
                 NewListView()
             }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Item {
+struct Item: Encodable {
     
     var id: String
     var name: String

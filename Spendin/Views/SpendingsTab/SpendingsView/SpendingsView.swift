@@ -10,7 +10,7 @@ import Combine
 import CoreData
 import CloudKit
 
-enum ItemType: String, CaseIterable {
+enum ItemType: String, CaseIterable, Encodable {
     case expense, income
 }
 
