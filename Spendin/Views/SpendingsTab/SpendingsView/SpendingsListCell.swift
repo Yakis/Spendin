@@ -50,7 +50,7 @@ struct SpendingsListCell: View {
                         .font(.caption2)
                         .fontWeight(.thin)
                 }
-            }.opacity(item.date?.isPast() ?? false ? 0.5 : 1)
+            }
                 .frame(maxWidth: .infinity)
                 .shadow(radius: 1)
         }

@@ -78,7 +78,6 @@ struct CloudKitSharingButton: UIViewRepresentable {
                     completion(share, container, error)
                 }
             }
-            
             sharingController.delegate = self
             if let button = self.button {
                 sharingController.popoverPresentationController?.sourceView = button

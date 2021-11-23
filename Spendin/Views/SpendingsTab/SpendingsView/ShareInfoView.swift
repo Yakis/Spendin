@@ -25,11 +25,13 @@ struct ShareInfoView: View {
                     if !participant.firstName.isEmpty {
                         Text(participant.firstName + " " + (participant.role == .owner ? "(owner)" : "(\(participant.permission.name))"))
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(AdaptColors.categoryIcon)
+                            .opacity(0.8)
                     } else {
                         Text(participant.email + " - " + participant.acceptanceStatus.name)
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(AdaptColors.categoryIcon)
+                            .opacity(0.8)
                     }
                 }
             }.opacity(PersistenceManager.isShared(object: list) ? 1 : 0)

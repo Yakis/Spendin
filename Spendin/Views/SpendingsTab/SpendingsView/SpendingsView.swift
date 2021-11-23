@@ -90,7 +90,7 @@ struct SpendingsViewContent: View {
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text("Warning"),
-                message: Text("Are you shure you want to delete this list?"),
+                message: Text("Are you sure you want to delete this list?"),
                 primaryButton: .destructive(Text("Delete")) {
                     deleteAction()
                 },
