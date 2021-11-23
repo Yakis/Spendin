@@ -19,7 +19,7 @@ enum ItemType: String, CaseIterable, Encodable {
 struct SpendingsView: View {
     
     var body: some View {
-        ListsView()
+        PageView()
     }
     
     
@@ -27,7 +27,7 @@ struct SpendingsView: View {
 
 
 
-struct SpendingsViewContent: View {
+struct DetailedListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     @EnvironmentObject var spendingVM: SpendingVM
     @State var showModal: Bool = false
