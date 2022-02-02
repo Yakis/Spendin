@@ -42,8 +42,12 @@ struct DetailedListView: View {
     
     var body: some View {
         ZStack {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading) {
                 HStack {
+                    Text(list.title ?? "")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .padding()
                     Spacer()
                     Button {
                         withAnimation {
@@ -55,10 +59,6 @@ struct DetailedListView: View {
                             .foregroundColor(.blue)
                     }
                 }.padding()
-                Text(list.title ?? "")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                    .padding()
                 HStack(alignment: .center) {
                     ShareInfoView(list: list, participants: participants)
                     Spacer()

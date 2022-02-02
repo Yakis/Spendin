@@ -30,7 +30,10 @@ struct PageView: View {
                 }
             }
         } else {
-            ListCardView(participants: $participants, currentIndex: $currentIndex, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
+            ListCardView(participants: $participants, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
+//                .onAppear {
+//                    spendingVM.calculateSpendings()
+//                }
         }
     }
     

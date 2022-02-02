@@ -10,12 +10,12 @@ import CoreData
 
 class ListDataStore {
     
-    func fetchLists(completion: @escaping(Result<[ItemList], Error>) -> ()) {
+    func fetchLists(completion: @escaping(Result<[CDList], Error>) -> ()) {
             let moc = PersistenceManager.persistentContainer.newBackgroundContext()
             let fetchRequest = CDList.sortedFetchRequest
             do {
                 let result = try moc.fetch(fetchRequest)
-                completion(.success(result.map { ItemList(from: $0) }))
+                completion(.success(result))
             } catch {
                 completion(.failure(error))
             }

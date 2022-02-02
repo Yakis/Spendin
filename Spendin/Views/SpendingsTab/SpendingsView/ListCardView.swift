@@ -15,7 +15,7 @@ struct ListCardView: View {
     @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
     var lists: FetchedResults<CDList>
     @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
-    @Binding var currentIndex: Int?
+    @State private var currentIndex: Int? = 0
     @Binding var showNewListView: Bool
     @Binding var showDetailedList: Bool
     
@@ -50,11 +50,12 @@ struct ListCardView: View {
                         Spacer()
                     }
                     .frame(width: proxy.size.width / 1.3, height: proxy.size.height / 1.3, alignment: .leading)
-                    .background(AdaptColors.theOrange)
+                    .background(.gray.opacity(0.2))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .tag(lists.firstIndex(of: list))
                     .onTapGesture {
                         withAnimation {
+                            spendingVM.currentList = lists[currentIndex ?? 0]
                             showDetailedList = true
                         }
                     }
@@ -72,7 +73,7 @@ struct ListCardView: View {
                         Image(systemName: "plus.circle.fill")
                             .font(.title)
                     }
-                }.tag(lists.count)
+                }.tag(4)
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))
             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)

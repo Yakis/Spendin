@@ -9,7 +9,8 @@ import SwiftUI
 import CoreData
 import Combine
 
-class SpendingVM: ObservableObject {
+@MainActor
+final class SpendingVM: ObservableObject {
     
     @Published var total: Double = 0
     @Published var itemToUpdate: Item?
@@ -28,8 +29,9 @@ class SpendingVM: ObservableObject {
         listDataStore = ListDataStore()
         suggestionDataStore = SuggestionDataStore()
         fetchSuggestions()
-//        fetchLists()
+        fetchLists()
         registerToRemoteStoreChanges()
+        
     }
     
     
@@ -39,6 +41,7 @@ class SpendingVM: ObservableObject {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
             .sink { notification in
+                print("Remote changes...")
 //                self.fetchLists()
             }
             .store(in: &cancellables)
@@ -46,25 +49,39 @@ class SpendingVM: ObservableObject {
     
     
     func calculateSpendings() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
-            var temp: Double = 0
-            switch self.currentList?.itemsArray.count {
-            case 0: self.total = 0
-            default:
-                self.currentList?.itemsArray.enumerated().forEach {
-                    if $1.type == "expense" {
-                        temp -= $1.amount
-                        self.amountList[$0] = String(format: "%.2f", temp)
-                    } else {
-                        temp += $1.amount
-                        self.amountList[$0] = String(format: "%.2f", temp)
-                    }
-                    self.total = temp
+        var temp: Double = 0
+        switch self.currentList?.itemsArray.count {
+        case 0: self.total = 0
+        default:
+            self.currentList?.itemsArray.enumerated().forEach {
+                if $1.type == "expense" {
+                    temp -= $1.amount
+                    self.amountList[$0] = String(format: "%.2f", temp)
+                } else {
+                    temp += $1.amount
+                    self.amountList[$0] = String(format: "%.2f", temp)
+                }
+                self.total = temp
+            }
+        }
+    }
+    
+    
+    func fetchLists() {
+        listDataStore.fetchLists { result in
+            switch result {
+            case .failure(let error): print("Error fetching lists: \(error)")
+            case .success(let lists):
+                if self.currentList == nil {
+                    self.currentList = lists.first
+                    self.calculateSpendings()
                 }
             }
         }
     }
+    
+    
+    
     
     func getListFor(id: String) -> CDList? {
         return listDataStore.getListFor(id: id)
