@@ -111,21 +111,28 @@ struct ListCardView: View {
     
     private func importList() {
         guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
-        let fileURL = driveURL.appendingPathComponent("Feb-March" + "." + "json")
-        do {
-            let data = try Data(contentsOf: fileURL)
-            let decoder = JSONDecoder()
-            let list = try decoder.decode(ItemList.self, from: data)
-//            print(list.items)
-            Task.init {
-                spendingVM.save(list: list)
-                for item in list.items {
-                    spendingVM.save(item: item)
+//        let fileURL = driveURL.appendingPathComponent("Feb-March" + "." + "json")
+        
+        let enumerator = FileManager.default.enumerator(atPath: driveURL.path)
+        let filePaths = enumerator?.allObjects as! [String]
+        let jsonFilePaths = filePaths.filter{$0.contains(".json")}
+        for jsonFilePath in jsonFilePaths {
+            print(jsonFilePath)
+            do {
+                let data = try Data(contentsOf: driveURL.appendingPathComponent(jsonFilePath))
+                let decoder = JSONDecoder()
+                let list = try decoder.decode(ItemList.self, from: data)
+                Task.init {
+                    spendingVM.save(list: list)
+                    for item in list.items {
+                        spendingVM.save(item: item)
+                    }
                 }
+            } catch {
+                print("Error importing json: \(error)")
             }
-        } catch {
-            print("Error importing json: \(error)")
         }
+        
     }
     
     
