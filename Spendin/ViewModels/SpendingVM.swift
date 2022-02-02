@@ -36,15 +36,15 @@ final class SpendingVM: ObservableObject {
     
     
     func registerToRemoteStoreChanges() {
-        NotificationCenter.default
-            .publisher(for: .NSPersistentStoreRemoteChange)
-            .receive(on: RunLoop.main)
-            .eraseToAnyPublisher()
-            .sink { notification in
-                print("Remote changes...")
-//                self.fetchLists()
-            }
-            .store(in: &cancellables)
+//        NotificationCenter.default
+//            .publisher(for: .NSPersistentStoreRemoteChange)
+//            .receive(on: RunLoop.main)
+//            .eraseToAnyPublisher()
+//            .sink { notification in
+//                print("Remote changes...")
+////                self.fetchLists()
+//            }
+//            .store(in: &cancellables)
     }
     
     
@@ -94,6 +94,7 @@ final class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
+                self.fetchLists()
                 self.calculateSpendings()
             }
         }

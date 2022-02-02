@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ItemList: Encodable {
+struct ItemList: Codable {
     
     var id: String
     var name: String

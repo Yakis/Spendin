@@ -10,7 +10,7 @@ import Combine
 import CoreData
 import CloudKit
 
-enum ItemType: String, CaseIterable, Encodable {
+enum ItemType: String, CaseIterable, Codable {
     case expense, income
 }
 
@@ -65,6 +65,15 @@ struct DetailedListView: View {
                     CloudKitSharingButton(list: list.objectID)
                         .frame(width: 50, height: 50, alignment: .center)
                     Button {
+                        print("Export")
+                        exportJson()
+                    } label: {
+                        Image(systemName: "arrow.down.doc.fill")
+                            .font(.title3)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    Button {
                         showAlert = true
                     } label: {
                         Image(systemName: "trash.fill")
@@ -98,6 +107,22 @@ struct DetailedListView: View {
             )
         }
     }
+    
+    
+    
+    private func exportJson() {
+        let encoder = JSONEncoder()
+        do {
+            let encodableList = ItemList(from: list)
+            let jsonObject = try encoder.encode(encodableList)
+            guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
+            let fileURL = driveURL.appendingPathComponent(encodableList.name + "." + "json")
+            try jsonObject.write(to: fileURL)
+        } catch {
+            print("Error encoding json: \(error)")
+        }
+    }
+    
     
     
 }

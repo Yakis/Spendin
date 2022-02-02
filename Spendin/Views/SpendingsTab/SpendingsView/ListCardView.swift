@@ -73,6 +73,19 @@ struct ListCardView: View {
                         Image(systemName: "plus.circle.fill")
                             .font(.title)
                     }
+                    Text("or import from file")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                        .opacity(0.5)
+                        .padding()
+                    Button {
+                        importList()
+                    } label: {
+                        Image(systemName: "arrow.up.doc.fill")
+                            .font(.title)
+                    }
+
                 }.tag(4)
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))
@@ -94,5 +107,26 @@ struct ListCardView: View {
             }
         }
     }
+    
+    
+    private func importList() {
+        guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
+        let fileURL = driveURL.appendingPathComponent("Feb-March" + "." + "json")
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let decoder = JSONDecoder()
+            let list = try decoder.decode(ItemList.self, from: data)
+//            print(list.items)
+            Task.init {
+                spendingVM.save(list: list)
+                for item in list.items {
+                    spendingVM.save(item: item)
+                }
+            }
+        } catch {
+            print("Error importing json: \(error)")
+        }
+    }
+    
     
 }
