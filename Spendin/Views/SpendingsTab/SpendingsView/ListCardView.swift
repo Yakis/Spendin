@@ -27,27 +27,36 @@ struct ListCardView: View {
                         Text(list.title ?? "")
                             .font(.title2)
                             .fontWeight(.bold)
+                            .foregroundColor(AdaptColors.theOrange)
                             .padding()
                         ShareInfoView(list: list, participants: participants)
                             .opacity(0.8)
                         VStack(alignment: .leading) {
-                            ForEach(list.itemsArray, id: \.objectID) { item in
-                                HStack {
-                                    Text(item.name ?? "")
-                                        .font(.caption)
-                                    Spacer()
-                                    Text("£ \(String(format: "%.2f", item.amount))")
-                                        .font(.caption)
+                            if list.items!.count > 10 {
+                                ForEach(0..<10, id: \.self) { index in
+                                    CardItem(list: list, index: index)
+                                }
+                                Text("...\(list.itemsArray.count - 10) more items")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                    .opacity(0.5)
+                                    .padding(.top, 2)
+                            } else {
+                                ForEach(0..<list.items!.count, id: \.self) { index in
+                                    CardItem(list: list, index: index)
                                 }
                             }
                             Text("Amount left: \(String(format: "%.2f", spendingVM.total))")
-                                .font(.caption)
+                                .font(.callout)
                                 .fontWeight(.bold)
                                 .padding(.top, 5)
                         }
                         .shadow(radius: 2)
                         .padding()
                         Spacer()
+                        Rectangle()
+                            .frame(width: proxy.size.width / 1.3, height: 10, alignment: .bottom)
+                            .foregroundColor(AdaptColors.theOrange)
                     }
                     .frame(width: proxy.size.width / 1.3, height: proxy.size.height / 1.3, alignment: .leading)
                     .background(.gray.opacity(0.2))
@@ -103,7 +112,9 @@ struct ListCardView: View {
             .onChange(of: currentIndex) { newValue in
                 print("Current index: \(newValue!)")
                 spendingVM.currentList = lists[newValue!]
-                spendingVM.calculateSpendings()
+                Task.init {
+                    spendingVM.calculateSpendings()
+                }
             }
         }
     }
@@ -111,8 +122,6 @@ struct ListCardView: View {
     
     private func importList() {
         guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
-//        let fileURL = driveURL.appendingPathComponent("Feb-March" + "." + "json")
-        
         let enumerator = FileManager.default.enumerator(atPath: driveURL.path)
         let filePaths = enumerator?.allObjects as! [String]
         let jsonFilePaths = filePaths.filter{$0.contains(".json")}
@@ -136,4 +145,20 @@ struct ListCardView: View {
     }
     
     
+}
+
+struct CardItem: View {
+    
+    var list: CDList
+    var index: Int
+    
+    var body: some View {
+        HStack {
+            Text(list.itemsArray[index].name ?? "")
+                .font(.caption)
+            Spacer()
+            Text("£ \(String(format: "%.2f", list.itemsArray[index].amount))")
+                .font(.caption)
+        }
+    }
 }

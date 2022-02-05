@@ -65,7 +65,6 @@ struct DetailedListView: View {
                     CloudKitSharingButton(list: list.objectID)
                         .frame(width: 50, height: 50, alignment: .center)
                     Button {
-                        print("Export")
                         exportJson()
                     } label: {
                         Image(systemName: "arrow.down.doc.fill")

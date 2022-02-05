@@ -31,9 +31,9 @@ struct PageView: View {
             }
         } else {
             ListCardView(participants: $participants, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
-//                .onAppear {
-//                    spendingVM.calculateSpendings()
-//                }
+                .task {
+                    spendingVM.calculateSpendings()
+                }
         }
     }
     
