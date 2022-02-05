@@ -31,8 +31,21 @@ struct ListCardView: View {
                             .padding()
                         ShareInfoView(list: list, participants: participants)
                             .opacity(0.8)
-                        VStack(alignment: .leading) {
-                            if list.items!.count > 10 {
+                        VStack(alignment: list.itemsArray.isEmpty ? .center : .leading) {
+                            switch list.itemsArray.count {
+                            case 0:
+                                Text("Empty list, \ntap to add items.")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .multilineTextAlignment(.center)
+                                    .opacity(0.5)
+                                    .frame(width: proxy.size.width / 1.3, height: proxy.size.height / 2, alignment: .center)
+                                    .offset(x: -16, y: 0)
+                            case 1...10:
+                                ForEach(0..<list.items!.count, id: \.self) { index in
+                                    CardItem(list: list, index: index)
+                                }
+                            case 11...Int.max:
                                 ForEach(0..<10, id: \.self) { index in
                                     CardItem(list: list, index: index)
                                 }
@@ -41,15 +54,13 @@ struct ListCardView: View {
                                     .fontWeight(.semibold)
                                     .opacity(0.5)
                                     .padding(.top, 2)
-                            } else {
-                                ForEach(0..<list.items!.count, id: \.self) { index in
-                                    CardItem(list: list, index: index)
-                                }
+                            default: EmptyView()
                             }
                             Text("Amount left: \(String(format: "%.2f", spendingVM.total))")
                                 .font(.callout)
                                 .fontWeight(.bold)
                                 .padding(.top, 5)
+                                .opacity(list.itemsArray.isEmpty ? 0 : 1)
                         }
                         .shadow(radius: 2)
                         .padding()
