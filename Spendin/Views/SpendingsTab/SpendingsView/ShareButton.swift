@@ -45,7 +45,7 @@ struct CloudKitSharingButton: UIViewRepresentable {
                
         
         func cloudSharingControllerDidSaveShare(_ csc: UICloudSharingController) {
-            print("cloudSharingControllerDidSaveShare: \(String(describing: csc.share))")
+//            print("cloudSharingControllerDidSaveShare: \(String(describing: csc.share))")
         }
         
         

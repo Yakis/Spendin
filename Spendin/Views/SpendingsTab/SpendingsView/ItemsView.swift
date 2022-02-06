@@ -11,6 +11,10 @@ import CoreData
 struct ItemsView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
+    
+    @FetchRequest(entity: CDItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDItem.date, ascending: true)])
+    var items: FetchedResults<CDItem>
+    
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
@@ -21,14 +25,14 @@ struct ItemsView: View {
     
     var body: some View {
         List {
-            ForEach(0..<list.itemsArray.count, id: \.self) { index in
-                if let item = list.itemsArray[index] {
-                    SpendingsListCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal)
+            ForEach(0..<items.filter { $0.list?.objectID == list.objectID }.count, id: \.self) { index in
+                if let item = items.filter { $0.list?.objectID == list.objectID }[index] {
+                    DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal)
                         .environmentObject(spendingVM)
                 }
             }
             .onDelete {
-                let itemToDelete = list.itemsArray[$0.first!]
+                let itemToDelete = items.filter { $0.list?.objectID == list.objectID }[$0.first!]
                 delete(item: itemToDelete)
             }
             .listRowBackground(AdaptColors.cellBackground)

@@ -29,6 +29,7 @@ struct SpendingsView: View {
 
 struct DetailedListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
+    
     @EnvironmentObject var spendingVM: SpendingVM
     @State var showModal: Bool = false
     @State var isUpdate: Bool = false

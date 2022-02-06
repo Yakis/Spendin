@@ -10,7 +10,7 @@ import SwiftUI
 var shouldCalculateDate: Bool = true
 
 
-struct SpendingsListCell: View {
+struct DetailedListItemCell: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     var item: CDItem
@@ -71,7 +71,7 @@ struct SpendingsListCell: View {
                     .background(AdaptColors.theOrange)
                     .opacity(item.date?.isToday() ?? false ? 1 : 0)
                     .rotationEffect(Angle(degrees: -90))
-                    .position(x: -5, y: 60 / 2)
+                    .position(x: -9, y: 60 / 2)
             }
         }
     }
