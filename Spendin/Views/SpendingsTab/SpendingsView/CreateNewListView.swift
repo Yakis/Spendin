@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct NewListView: View {
+struct CreateNewListView: View {
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var spendingVM: SpendingVM

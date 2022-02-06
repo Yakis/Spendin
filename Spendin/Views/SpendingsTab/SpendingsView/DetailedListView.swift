@@ -16,17 +16,6 @@ enum ItemType: String, CaseIterable, Codable {
 
 
 
-struct SpendingsView: View {
-    
-    var body: some View {
-        PageView()
-    }
-    
-    
-}
-
-
-
 struct DetailedListView: View {
     @Environment(\.managedObjectContext) var managedObjectContext
     

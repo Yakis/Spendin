@@ -16,6 +16,7 @@ final class SpendingVM: ObservableObject {
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
     @Published var currentList: CDList?
+    @Published var currentIndex: Int? = 0
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
     let listDataStore: ListDataStore
@@ -42,7 +43,7 @@ final class SpendingVM: ObservableObject {
 //            .eraseToAnyPublisher()
 //            .sink { notification in
 //                print("Remote changes...")
-////                self.fetchLists()
+//                self.fetchLists()
 //            }
 //            .store(in: &cancellables)
     }

@@ -9,6 +9,16 @@ import SwiftUI
 import CoreData
 import CloudKit
 
+
+struct SpendingsView: View {
+    
+    var body: some View {
+        PageView()
+    }
+    
+}
+
+
 struct PageView: View {
     
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -30,10 +40,10 @@ struct PageView: View {
                 }
             }
         } else {
-            ListCardView(participants: $participants, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
-                .task {
-                    spendingVM.calculateSpendings()
-                }
+            CardListView(participants: $participants, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
+//                .onAppear {
+//                    spendingVM.fetchLists()
+//                }
         }
     }
     
