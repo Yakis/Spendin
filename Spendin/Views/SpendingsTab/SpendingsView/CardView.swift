@@ -8,11 +8,10 @@
 import SwiftUI
 import CoreData
 
-
 struct CardView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    var proxy: GeometryProxy
+    var geometry: GeometryProxy
     @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
     var lists: FetchedResults<CDList>
     var currentList: CDList
@@ -20,65 +19,84 @@ struct CardView: View {
     @Binding var showDetailedList: Bool
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(currentList.title ?? "")
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(AdaptColors.theOrange)
-                .padding()
-            ShareInfoView(list: currentList, participants: participants)
-                .opacity(0.8)
-            VStack(alignment: currentList.itemsArray.isEmpty ? .center : .leading) {
-                switch currentList.itemsArray.count {
-                case 0:
-                    Text("Empty list, \ntap to add items.")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.center)
-                        .opacity(0.5)
-                        .frame(width: proxy.size.width / 1.3, height: proxy.size.height / 2, alignment: .center)
-                        .offset(x: -16, y: 0)
-                case 1...10:
-                    ForEach(0..<currentList.items!.count, id: \.self) { index in
-                        CardItem(list: currentList, index: index)
-                    }
-                case 11...Int.max:
-                    ForEach(0..<10, id: \.self) { index in
-                        CardItem(list: currentList, index: index)
-                    }
-                    Text("...\(currentList.itemsArray.count - 10) more items")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .opacity(0.5)
-                        .padding(.top, 2)
-                default: EmptyView()
-                }
-                Text("Amount left: \(String(format: "%.2f", spendingVM.total))")
-                    .font(.callout)
+        VStack {
+            VStack(alignment: .leading) {
+                Text(currentList.title ?? "")
+                    .font(.title)
                     .fontWeight(.bold)
-                    .padding(.top, 5)
-                    .opacity(currentList.itemsArray.isEmpty ? 0 : 1)
+                    .foregroundColor(.white)
+                    .padding([.leading, .bottom])
+                    .frame(width: geometry.size.width / 1.3, alignment: .leading)
+                ShareInfoView(list: currentList, participants: participants)
+                    .opacity(0.8)
             }
-            .shadow(radius: 2)
-            .padding()
+            .frame(width: geometry.size.width / 1.3, height: geometry.size.height / 4, alignment: .center)
+            .background(AdaptColors.theOrange)
+            Spacer()
+            CardListContentView(currentList: currentList, geometry: geometry)
             Spacer()
             Rectangle()
-                .frame(width: proxy.size.width / 1.3, height: 10, alignment: .bottom)
+                .frame(width: geometry.size.width / 1.3, height: 10, alignment: .center)
                 .foregroundColor(AdaptColors.theOrange)
         }
-        .frame(width: proxy.size.width / 1.3, height: proxy.size.height / 1.3, alignment: .leading)
-        .background(.gray.opacity(0.2))
+        .frame(width: geometry.size.width / 1.3, height: geometry.size.height / 1.3, alignment: .center)
+        .background(AdaptColors.container)
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .tag(lists.firstIndex(of: currentList))
         .onTapGesture {
             withAnimation {
-                guard let index = spendingVM.currentIndex else { return }
-                spendingVM.currentList = lists[index]
+                spendingVM.currentList = lists[spendingVM.currentIndex]
                 showDetailedList = true
             }
         }
     }
     
+    
+}
+
+
+
+struct CardListContentView: View {
+    
+    @EnvironmentObject var spendingVM: SpendingVM
+    var currentList: CDList
+    var geometry: GeometryProxy
+    
+    
+    var body: some View {
+        VStack(alignment: currentList.itemsArray.isEmpty ? .center : .leading) {
+            switch currentList.itemsArray.count {
+            case 0:
+                Text("Empty list, \ntap to add items.")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    .opacity(0.5)
+                    .frame(width: geometry.size.width / 1.3, height: geometry.size.height / 2, alignment: .center)
+                    .offset(x: -16, y: 0)
+            case 1...10:
+                ForEach(0..<currentList.items!.count, id: \.self) { index in
+                    CardItem(list: currentList, index: index)
+                }
+            case 11...Int.max:
+                ForEach(0..<10, id: \.self) { index in
+                    CardItem(list: currentList, index: index)
+                }
+                Text("...\(currentList.itemsArray.count - 10) more items")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .opacity(0.5)
+                    .padding(.top, 2)
+            default: EmptyView()
+            }
+            Text("Amount left: \(String(format: "%.2f", spendingVM.total))")
+                .font(.callout)
+                .fontWeight(.bold)
+                .padding(.top, 5)
+                .opacity(currentList.itemsArray.isEmpty ? 0 : 1)
+        }
+        .shadow(radius: 2)
+        .padding()
+    }
     
 }
 

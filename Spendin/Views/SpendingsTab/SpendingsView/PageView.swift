@@ -42,34 +42,37 @@ struct PageView: View {
                 }
             }
         } else {
+//            GeometryReader { geometry in
             VStack {
-                HStack {
-                    Spacer().frame(height: 40)
-                    Button {
-                        showCreateNewListView = true
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 40, height: 40, alignment: .center)
-                            .foregroundColor(AdaptColors.theOrange)
-                    }
-                }
-                .frame(maxHeight: 80, alignment: .top)
-                .padding([.top, .trailing], 20)
+//                HStack {
+//                    Spacer().frame(height: 40)
+//                    Button {
+//                        showCreateNewListView = true
+//                    } label: {
+//                        Image(systemName: "plus.circle.fill")
+//                            .resizable()
+//                            .frame(width: 40, height: 40, alignment: .center)
+//                            .foregroundColor(AdaptColors.theOrange)
+//                            .padding(.trailing, 20)
+//                    }
+//                }
+//                .frame(maxHeight: 80, alignment: .center)
+//                .background(.blue)
                 if lists.isEmpty {
                     Text("No list")
                         .font(.title)
                         .opacity(0.5)
                 } else {
                     CardListView(participants: $participants, showDetailedList: $showDetailedList)
-                        .offset(x: 0, y: -30)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .sheet(isPresented: $showCreateNewListView) {
                 spendingVM.currentIndex = lists.isEmpty ? 0 : lists.count - 1
             } content: {
                 CreateNewListView()
             }
+//            }
         }
     }
     
@@ -78,8 +81,8 @@ struct PageView: View {
         managedObjectContext.delete(list)
         do {
             try managedObjectContext.saveIfNeeded()
-            if spendingVM.currentIndex != nil && spendingVM.currentIndex != 0 {
-                spendingVM.currentIndex! -= 1
+            if spendingVM.currentIndex != 0 {
+                spendingVM.currentIndex -= 1
             }
         } catch {
             print("Error deleting list: ", error)
