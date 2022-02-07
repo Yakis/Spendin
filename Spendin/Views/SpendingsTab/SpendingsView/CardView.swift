@@ -72,7 +72,8 @@ struct CardView: View {
         .tag(lists.firstIndex(of: currentList))
         .onTapGesture {
             withAnimation {
-                spendingVM.currentList = lists[spendingVM.currentIndex ?? 0]
+                guard let index = spendingVM.currentIndex else { return }
+                spendingVM.currentList = lists[index]
                 showDetailedList = true
             }
         }

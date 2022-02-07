@@ -9,6 +9,7 @@ import Foundation
 
 struct Suggestion {
     
+    var id: UUID = UUID()
     var name: String = ""
     var type: String = ""
     var category: String = ""

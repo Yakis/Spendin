@@ -42,7 +42,7 @@ struct NameTextField: View {
                 ToolbarItem(placement: .keyboard) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
-                            ForEach(suggestions, id: \.name) { suggestion in
+                            ForEach(suggestions, id: \.id) { suggestion in
                                 Button {
                                     item.name = suggestion.name
                                     item.amount = String(format: "%.2f", suggestion.amount)
