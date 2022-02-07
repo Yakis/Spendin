@@ -16,7 +16,7 @@ struct CardListView: View {
     var lists: FetchedResults<CDList>
     @Binding var participants: Dictionary<NSManagedObject, [ShareParticipant]>
     
-    @Binding var showNewListView: Bool
+    @Binding var showCreateNewListView: Bool
     @Binding var showDetailedList: Bool
     
     var body: some View {
@@ -26,13 +26,13 @@ struct CardListView: View {
                     CardView(proxy: proxy, currentList: list, participants: $participants, showDetailedList: $showDetailedList)
                         .environmentObject(spendingVM)
                 }
-                NewListPlaceholder(showNewListView: $showNewListView) {
+                NewListPlaceholder(showCreateNewListView: $showCreateNewListView) {
                     importList()
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .automatic))
             .frame(width: proxy.size.width, height: proxy.size.height, alignment: .center)
-            .sheet(isPresented: $showNewListView) {
+            .sheet(isPresented: $showCreateNewListView) {
                 spendingVM.currentIndex = lists.count - 1
             } content: {
                 CreateNewListView()

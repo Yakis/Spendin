@@ -29,7 +29,7 @@ struct PageView: View {
     @State private var currentIndex: Int?
     @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
     @State private var size: CGSize = .zero
-    @State private var showNewListView = false
+    @State private var showCreateNewListView = false
     
     var body: some View {
         if showDetailedList {
@@ -40,7 +40,7 @@ struct PageView: View {
                 }
             }
         } else {
-            CardListView(participants: $participants, showNewListView: $showNewListView, showDetailedList: $showDetailedList)
+            CardListView(participants: $participants, showCreateNewListView: $showCreateNewListView, showDetailedList: $showDetailedList)
 //                .onAppear {
 //                    spendingVM.fetchLists()
 //                }

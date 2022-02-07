@@ -10,7 +10,7 @@ import SwiftUI
 
 struct NewListPlaceholder: View {
     
-    @Binding var showNewListView: Bool
+    @Binding var showCreateNewListView: Bool
     var importAction: () -> ()
     
     var body: some View {
@@ -22,7 +22,7 @@ struct NewListPlaceholder: View {
                 .opacity(0.5)
                 .padding()
             Button {
-                showNewListView = true
+                showCreateNewListView = true
             } label: {
                 Image(systemName: "plus.circle.fill")
                     .font(.title)
