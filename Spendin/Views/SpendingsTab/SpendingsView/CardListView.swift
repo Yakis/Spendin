@@ -20,23 +20,23 @@ struct CardListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            TabView(selection: $spendingVM.currentIndex) {
-                ForEach(0..<lists.count, id: \.self) { index in
-                    CardView(geometry: geometry, currentList: lists[index], participants: $participants, showDetailedList: $showDetailedList)
-                        .environmentObject(spendingVM)
-                        .tag(index)
+                TabView(selection: $spendingVM.currentIndex) {
+                    ForEach(0..<lists.count, id: \.self) { index in
+                        CardView(geometry: geometry, currentList: lists[index], participants: $participants, showDetailedList: $showDetailedList)
+                            .environmentObject(spendingVM)
+                            .tag(index)
+                    }
                 }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .automatic))
-            .onAppear(perform: {
-                lists.forEach { list in
-                    participants[list] = PersistenceManager.participants(for: list)
-                }
-            })
-            .onChange(of: spendingVM.currentIndex) { newValue in
-                print("Current index: \(newValue)")
-                spendingVM.currentList = lists[newValue]
-                spendingVM.calculateSpendings()
+                .tabViewStyle(.page(indexDisplayMode: .automatic))
+                .onAppear(perform: {
+                    lists.forEach { list in
+                        participants[list] = PersistenceManager.participants(for: list)
+                    }
+                })
+                .onChange(of: spendingVM.currentIndex) { newValue in
+                    print("Current index: \(newValue)")
+                    spendingVM.currentList = lists[newValue]
+                    spendingVM.calculateSpendings()
             }
         }
     }

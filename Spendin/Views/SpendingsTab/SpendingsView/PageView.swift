@@ -42,37 +42,34 @@ struct PageView: View {
                 }
             }
         } else {
-//            GeometryReader { geometry in
-            VStack {
-//                HStack {
-//                    Spacer().frame(height: 40)
-//                    Button {
-//                        showCreateNewListView = true
-//                    } label: {
-//                        Image(systemName: "plus.circle.fill")
-//                            .resizable()
-//                            .frame(width: 40, height: 40, alignment: .center)
-//                            .foregroundColor(AdaptColors.theOrange)
-//                            .padding(.trailing, 20)
-//                    }
-//                }
-//                .frame(maxHeight: 80, alignment: .center)
-//                .background(.blue)
-                if lists.isEmpty {
-                    Text("No list")
-                        .font(.title)
-                        .opacity(0.5)
-                } else {
-                    CardListView(participants: $participants, showDetailedList: $showDetailedList)
+            NavigationView {
+                VStack {
+                    if lists.isEmpty {
+                        let image = Image(systemName: "plus.circle.fill")
+                        Text("Nothing here, you can add a list from the \(image) button")
+                            .font(.title)
+                            .multilineTextAlignment(.center)
+                            .opacity(0.5)
+                    } else {
+                        CardListView(participants: $participants, showDetailedList: $showDetailedList)
+                    }
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .sheet(isPresented: $showCreateNewListView) {
+                    spendingVM.currentIndex = lists.isEmpty ? 0 : lists.count - 1
+                } content: {
+                    CreateNewListView()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            showCreateNewListView.toggle()
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                        }
+                    }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .sheet(isPresented: $showCreateNewListView) {
-                spendingVM.currentIndex = lists.isEmpty ? 0 : lists.count - 1
-            } content: {
-                CreateNewListView()
-            }
-//            }
         }
     }
     

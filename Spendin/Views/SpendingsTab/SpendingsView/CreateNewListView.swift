@@ -17,6 +17,11 @@ struct CreateNewListView: View {
     
     var body: some View {
         VStack {
+            Image(systemName: "pencil.circle.fill")
+                .resizable()
+                .frame(width: 60, height: 60, alignment: .center)
+                .foregroundColor(AdaptColors.theOrange)
+                .padding()
             Text("New list")
                 .font(.largeTitle)
                 .fontWeight(.bold)
@@ -32,7 +37,8 @@ struct CreateNewListView: View {
                 .accentColor(AdaptColors.theOrange)
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                 .shadow(color: .black, radius: -4)
-                .padding([.top, .bottom], 5)
+                .padding(.top, 5)
+                .padding(.bottom, 20)
             Button {
                 let list = ItemList(name: listName)
                 spendingVM.save(list: list)
