@@ -25,7 +25,6 @@ struct DetailedListView: View {
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
     @State private var showAlert = false
-    var list: CDList
     var participants: Dictionary<NSManagedObject, [ShareParticipant]>
     @Binding var showDetailedList: Bool
     var deleteAction: () -> ()
@@ -34,7 +33,7 @@ struct DetailedListView: View {
         ZStack {
             VStack(alignment: .leading) {
                 HStack {
-                    Text(list.title ?? "")
+                    Text(spendingVM.currentList!.title ?? "")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .padding()
@@ -50,9 +49,9 @@ struct DetailedListView: View {
                     }
                 }.padding()
                 HStack(alignment: .center) {
-                    ShareInfoView(list: list, participants: participants)
+                    ShareInfoView(participants: participants).environmentObject(spendingVM)
                     Spacer()
-                    CloudKitSharingButton(list: list.objectID)
+                    CloudKitSharingButton(list: spendingVM.currentList!.objectID)
                         .frame(width: 50, height: 50, alignment: .center)
                     Button {
                         exportJson()
@@ -73,7 +72,7 @@ struct DetailedListView: View {
                 }
                 .frame(maxHeight: 50)
                 .background(AdaptColors.container)
-                ItemsView(showModal: $showModal, isUpdate: $isUpdate, list: list)
+                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
                 
@@ -102,7 +101,7 @@ struct DetailedListView: View {
     private func exportJson() {
         let encoder = JSONEncoder()
         do {
-            let encodableList = ItemList(from: list)
+            let encodableList = ItemList(from: spendingVM.currentList!)
             let jsonObject = try encoder.encode(encodableList)
             guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
             let fileURL = driveURL.appendingPathComponent(encodableList.name + "." + "json")

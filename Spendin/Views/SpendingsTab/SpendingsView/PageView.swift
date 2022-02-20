@@ -35,7 +35,7 @@ struct PageView: View {
     
     var body: some View {
         if showDetailedList {
-            DetailedListView(list: spendingVM.currentList!, participants: participants, showDetailedList: $showDetailedList) {
+            DetailedListView(participants: participants, showDetailedList: $showDetailedList) {
                 delete(list: spendingVM.currentList!)
                 withAnimation {
                     showDetailedList = false

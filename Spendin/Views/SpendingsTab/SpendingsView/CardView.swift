@@ -27,7 +27,7 @@ struct CardView: View {
                     .foregroundColor(.white)
                     .padding([.leading, .bottom])
                     .frame(width: geometry.size.width / 1.3, alignment: .leading)
-                ShareInfoView(list: currentList, participants: participants)
+                ShareInfoView(participants: participants)
                     .opacity(0.8)
             }
             .frame(width: geometry.size.width / 1.3, height: geometry.size.height / 4, alignment: .center)

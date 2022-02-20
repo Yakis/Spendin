@@ -64,4 +64,19 @@ class ItemDataStore {
     }
     
     
+    func delete(item: CDItem, completion: @escaping () -> ()) {
+        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
+        let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id!)
+        do {
+            guard let itemToDelete = try moc.fetch(fetchRequest).first else { return }
+            moc.delete(itemToDelete)
+            try moc.saveIfNeeded()
+            completion()
+        } catch {
+            print("Error deleting item: \(error)")
+        }
+    }
+    
+    
 }

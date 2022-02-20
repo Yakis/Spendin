@@ -51,6 +51,7 @@ final class SpendingVM: ObservableObject {
     
     func calculateSpendings() {
         var temp: Double = 0
+        print("Items count: \(self.currentList?.itemsArray.count)")
         switch self.currentList?.itemsArray.count {
         case 0: self.total = 0
         default:
@@ -63,6 +64,8 @@ final class SpendingVM: ObservableObject {
                     self.amountList[$0] = String(format: "%.2f", temp)
                 }
                 self.total = temp
+                print("Items: \(self.currentList?.itemsArray.map { $0.name! + " - " + String($0.amount) })")
+                print("TOTAL========== \(self.total) =========")
             }
         }
     }
@@ -75,8 +78,11 @@ final class SpendingVM: ObservableObject {
             case .success(let lists):
                 if self.currentList == nil {
                     self.currentList = lists.first
-                    self.calculateSpendings()
+                } else {
+                    guard let newList = lists.filter { $0.objectID == self.currentList?.objectID }.first else { return }
+                    self.currentList = newList
                 }
+                self.calculateSpendings()
             }
         }
     }
@@ -96,7 +102,6 @@ final class SpendingVM: ObservableObject {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
                 self.fetchLists()
-                self.calculateSpendings()
             }
         }
     }
@@ -119,7 +124,7 @@ final class SpendingVM: ObservableObject {
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
             case .success(_):
-                self.calculateSpendings()
+                self.fetchLists()
                 self.saveSuggestion(item: item)
             }
         }
@@ -136,6 +141,14 @@ final class SpendingVM: ObservableObject {
             }
         }
     }
+    
+    
+    func delete(item: CDItem) {
+        itemDataStore.delete(item: item) {
+            self.calculateSpendings()
+        }
+    }
+    
     
     
     func saveSuggestion(item: Item) {

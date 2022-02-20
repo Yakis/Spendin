@@ -11,8 +11,7 @@ import CloudKit
 
 struct ShareInfoView: View {
     
-    var list: CDList
-    
+    @EnvironmentObject var spendingVM: SpendingVM
     var participants: Dictionary<NSManagedObject, [ShareParticipant]>
     
     var body: some View {
@@ -21,7 +20,7 @@ struct ShareInfoView: View {
                     .font(.caption)
                     .fontWeight(.bold)
                     .padding(.bottom, 2)
-                ForEach(participants[list] ?? [], id: \.participantID) { participant in
+                ForEach(participants[spendingVM.currentList!] ?? [], id: \.participantID) { participant in
                     if !participant.firstName.isEmpty {
                         Text(participant.firstName + " " + (participant.role == .owner ? "(owner)" : "(\(participant.permission.name))"))
                             .font(.caption)
@@ -34,7 +33,7 @@ struct ShareInfoView: View {
                             .opacity(0.8)
                     }
                 }
-            }.opacity(PersistenceManager.isShared(object: list) ? 1 : 0)
+            }.opacity(PersistenceManager.isShared(object: spendingVM.currentList!) ? 1 : 0)
             .padding(.leading)
     }
 }
