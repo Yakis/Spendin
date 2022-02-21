@@ -11,6 +11,11 @@ import Combine
 
 struct AddSpenderView: View {
     
+    
+    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
+    var lists: FetchedResults<CDList>
+    
+    @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var viewModel: SpendingVM
     @Environment(\.presentationMode) var presentationMode
     @State private var cancellable: AnyCancellable?
@@ -33,9 +38,15 @@ struct AddSpenderView: View {
                     SaveButton(item: item, saveAction: {
                         item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         if isUpdate {
-                            viewModel.update(item: item)
+                            update(item: item)
+//                            Task {
+//                                let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+//                                fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
+//                                guard let result = try! moc.fetch(fetchRequest).first else { return }
+//                            }
+//                            viewModel.update(item: item)
                         } else {
-                            viewModel.save(item: item)
+                            save(item: item, list: viewModel.currentList)
                         }
                         viewModel.itemToUpdate = nil
                         item = Item()
@@ -73,5 +84,42 @@ struct AddSpenderView: View {
             }
         }
     }
+    
+    
+    private func save(item: Item, list: CDList?) {
+        let newItem = CDItem(context: moc)
+        newItem.name = item.name
+        newItem.amount = Double(item.amount) ?? 0
+        newItem.type = item.type.rawValue
+        newItem.category = item.category
+        newItem.date = item.date
+        newItem.id = UUID().uuidString
+        if let list = list {
+            newItem.list = moc.object(with: list.objectID) as? CDList
+        }
+        do {
+            try moc.saveIfNeeded()
+        } catch {
+            print("Error saving item: \(error)")
+        }
+    }
+    
+    
+    private func update(item: Item) {
+        let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
+        guard let result = try! moc.fetch(fetchRequest).first else { return }
+        moc.perform {
+            result.name = item.name
+            result.amount = Double(item.amount)!
+            result.type = item.type.rawValue
+            result.category = item.category
+            result.date = item.date
+            try! moc.saveIfNeeded()
+            viewModel.calculateSpendings(list: result.list)
+        }
+    }
+    
+    
     
 }

@@ -17,7 +17,6 @@ enum ItemType: String, CaseIterable, Codable {
 
 
 struct DetailedListView: View {
-    @Environment(\.managedObjectContext) var managedObjectContext
     
     @EnvironmentObject var spendingVM: SpendingVM
     @State var showModal: Bool = false
@@ -25,33 +24,17 @@ struct DetailedListView: View {
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
     @State private var showAlert = false
+    var list: CDList
     var participants: Dictionary<NSManagedObject, [ShareParticipant]>
-    @Binding var showDetailedList: Bool
     var deleteAction: () -> ()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                HStack {
-                    Text(spendingVM.currentList!.title ?? "")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding()
-                    Spacer()
-                    Button {
-                        withAnimation {
-                            showDetailedList = false                            
-                        }
-                    } label: {
-                        Image(systemName: "xmark.circle")
-                            .font(.title2)
-                            .foregroundColor(.blue)
-                    }
-                }.padding()
                 HStack(alignment: .center) {
                     ShareInfoView(participants: participants).environmentObject(spendingVM)
                     Spacer()
-                    CloudKitSharingButton(list: spendingVM.currentList!.objectID)
+                    CloudKitSharingButton(list: list.objectID)
                         .frame(width: 50, height: 50, alignment: .center)
                     Button {
                         exportJson()
@@ -72,17 +55,16 @@ struct DetailedListView: View {
                 }
                 .frame(maxHeight: 50)
                 .background(AdaptColors.container)
-                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
+                ItemsView(list: list, showModal: $showModal, isUpdate: $isUpdate)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
                 
             }
             .background(AdaptColors.container)
+            .onAppear {
+                spendingVM.currentList = list
+            }
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
-        }
-        .onAppear {
-            UITableViewCell.appearance().backgroundColor = UIColor.init(named: "CellContainer")
-            UITableView.appearance().backgroundColor = UIColor.init(named: "Container")
         }
         .alert(isPresented: $showAlert) {
             Alert(
@@ -94,6 +76,8 @@ struct DetailedListView: View {
                 secondaryButton: .cancel()
             )
         }
+        .navigationTitle(list.title ?? "No name, no face, no number")
+        .navigationBarTitleDisplayMode(.large)
     }
     
     
@@ -101,7 +85,7 @@ struct DetailedListView: View {
     private func exportJson() {
         let encoder = JSONEncoder()
         do {
-            let encodableList = ItemList(from: spendingVM.currentList!)
+            let encodableList = ItemList(from: list)
             let jsonObject = try encoder.encode(encodableList)
             guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
             let fileURL = driveURL.appendingPathComponent(encodableList.name + "." + "json")

@@ -23,56 +23,63 @@ class ItemDataStore {
     //    }
     
     
-    func update(item: Item, completion: (Result<Item, Error>) -> ()) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+    func update(item: Item) async throws {
+        let moc = PersistenceManager.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<CDItem>
+        fetchRequest = CDItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
-        do {
-            guard let result = try moc.fetch(fetchRequest).first else { return }
-            result.name = item.name
-            result.amount = Double(item.amount)!
-            result.type = item.type.rawValue
-            result.category = item.category
-            result.date = item.date
-            try moc.saveIfNeeded()
-            completion(.success(Item(from: result)))
-        } catch {
-            completion(.failure(error))
-            print("Core data error: \(error)")
-        }
+        let results = try! moc.fetch(fetchRequest)
+//        await moc.perform {
+            print("Service: \(Thread.current)")
+            for itemToUpdate in results {
+                itemToUpdate.objectWillChange.send()
+                itemToUpdate.name = item.name
+                itemToUpdate.amount = Double(item.amount) ?? 0
+                itemToUpdate.type = item.type.rawValue
+                itemToUpdate.category = item.category
+                itemToUpdate.date = item.date
+                print("CDItem to update: \(itemToUpdate.id)")
+            }
+            try! moc.saveIfNeeded()
+            return
+//        }
     }
-    
-    
-    func save(item: Item, list: CDList?, completion: @escaping (Result<Item, Error>) -> ()) {
+    //
+    //
+    //    func save(item: Item, list: CDList?, completion: @escaping (Result<Item, Error>) -> ()) {
+    //        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
+    //        let newItem = CDItem(context: moc)
+    //        newItem.name = item.name
+    //        newItem.amount = Double(item.amount) ?? 0
+    //        newItem.type = item.type.rawValue
+    //        newItem.category = item.category
+    //        newItem.date = item.date
+    //        newItem.id = UUID().uuidString
+    //        if let list = list {
+    //            newItem.list = moc.object(with: list.objectID) as? CDList
+    //            newItem.list?.title = newItem.list?.title
+    //        }
+    //        do {
+    //            try moc.saveIfNeeded()
+    //            completion(.success(Item(from: newItem)))
+    //        } catch {
+    //            completion(.failure(error))
+    //        }
+    //    }
+    //
+    //
+    func delete(item: CDItem) async throws {
         let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let newItem = CDItem(context: moc)
-        newItem.name = item.name
-        newItem.amount = Double(item.amount) ?? 0
-        newItem.type = item.type.rawValue
-        newItem.category = item.category
-        newItem.date = item.date
-        newItem.id = UUID().uuidString
-        if let list = list {
-            newItem.list = moc.object(with: list.objectID) as? CDList
-        }
-        do {
-            try moc.saveIfNeeded()
-            completion(.success(Item(from: newItem)))
-        } catch {
-            completion(.failure(error))
-        }
-    }
-    
-    
-    func delete(item: CDItem, completion: @escaping () -> ()) {
-        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-        let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
+        let fetchRequest: NSFetchRequest<CDItem>
+        fetchRequest = CDItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id = %@", item.id!)
+        guard let itemToDelete = try! moc.fetch(fetchRequest).first else { return }
+        itemToDelete.list?.title = itemToDelete.list?.title
+        moc.delete(itemToDelete)
         do {
-            guard let itemToDelete = try moc.fetch(fetchRequest).first else { return }
-            moc.delete(itemToDelete)
             try moc.saveIfNeeded()
-            completion()
+            print("Item \(itemToDelete) deleted.")
+            return
         } catch {
             print("Error deleting item: \(error)")
         }

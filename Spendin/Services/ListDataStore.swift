@@ -30,7 +30,7 @@ class ListDataStore {
     }
     
     
-    func update(list: ItemList, completion: @escaping(Result<ItemList, Error>) -> ()) {
+    func update(list: ItemList, completion: @escaping(Result<CDList, Error>) -> ()) {
             let moc = PersistenceManager.persistentContainer.newBackgroundContext()
             let fetchRequest: NSFetchRequest<CDList> = CDList.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id = %@", list.id)
@@ -51,7 +51,7 @@ class ListDataStore {
                     items.add(item)
                 }
                 try moc.saveIfNeeded()
-                completion(.success(ItemList(from: result)))
+                completion(.success(result))
             } catch {
                 completion(.failure(error))
                 print("Core data error: \(error)")

@@ -13,6 +13,7 @@ struct TotalBottomView: View {
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
     @State private var date = Date()
+//    var list: CDList
     
     var body: some View {
         HStack {
@@ -36,5 +37,6 @@ struct TotalBottomView: View {
                 }
         }
     }
+    
     
 }

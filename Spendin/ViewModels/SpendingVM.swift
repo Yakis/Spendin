@@ -16,7 +16,6 @@ final class SpendingVM: ObservableObject {
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
     @Published var currentList: CDList?
-    @Published var currentIndex: Int = 0
     @Published var suggestions = [Suggestion]()
     let itemDataStore: ItemDataStore
     let listDataStore: ListDataStore
@@ -30,32 +29,34 @@ final class SpendingVM: ObservableObject {
         listDataStore = ListDataStore()
         suggestionDataStore = SuggestionDataStore()
         fetchSuggestions()
-        fetchLists()
+//        fetchLists()
         registerToRemoteStoreChanges()
         
     }
     
     
     func registerToRemoteStoreChanges() {
-//        NotificationCenter.default
-//            .publisher(for: .NSPersistentStoreRemoteChange)
-//            .receive(on: RunLoop.main)
-//            .eraseToAnyPublisher()
-//            .sink { notification in
-//                print("Remote changes...")
-//                self.fetchLists()
-//            }
-//            .store(in: &cancellables)
+        NotificationCenter.default
+            .publisher(for: .NSPersistentStoreRemoteChange)
+            .receive(on: RunLoop.main)
+            .eraseToAnyPublisher()
+            .sink { notification in
+                print("Remote changes...")
+                self.calculateSpendings(list: self.currentList)
+                self.total = self.total
+            }
+            .store(in: &cancellables)
     }
     
     
-    func calculateSpendings() {
+    func calculateSpendings(list: CDList?) {
+        guard let list = list else { return }
         var temp: Double = 0
-        print("Items count: \(self.currentList?.itemsArray.count)")
-        switch self.currentList?.itemsArray.count {
+        print("Items count: \(list.itemsArray.count)")
+        switch list.itemsArray.count {
         case 0: self.total = 0
         default:
-            self.currentList?.itemsArray.enumerated().forEach {
+            list.itemsArray.enumerated().forEach {
                 if $1.type == "expense" {
                     temp -= $1.amount
                     self.amountList[$0] = String(format: "%.2f", temp)
@@ -64,28 +65,29 @@ final class SpendingVM: ObservableObject {
                     self.amountList[$0] = String(format: "%.2f", temp)
                 }
                 self.total = temp
-                print("Items: \(self.currentList?.itemsArray.map { $0.name! + " - " + String($0.amount) })")
+                print("Items: \(list.itemsArray.map { $0.name! + " - " + String($0.amount) })")
                 print("TOTAL========== \(self.total) =========")
             }
         }
     }
     
     
-    func fetchLists() {
-        listDataStore.fetchLists { result in
-            switch result {
-            case .failure(let error): print("Error fetching lists: \(error)")
-            case .success(let lists):
-                if self.currentList == nil {
-                    self.currentList = lists.first
-                } else {
-                    guard let newList = lists.filter { $0.objectID == self.currentList?.objectID }.first else { return }
-                    self.currentList = newList
-                }
-                self.calculateSpendings()
-            }
-        }
-    }
+//    func fetchLists() {
+//        listDataStore.fetchLists { result in
+//            switch result {
+//            case .failure(let error): print("Error fetching lists: \(error)")
+//            case .success(let lists):
+//                if self.currentList == nil {
+//                    self.currentList = lists.first
+////                    self.calculateSpendings(list: lists.first)
+//                } else {
+//                    guard let newList = lists.filter { $0.objectID == self.currentList?.objectID }.first else { return }
+//                    self.currentList = newList
+////                    self.calculateSpendings(list: newList)
+//                }
+//            }
+//        }
+//    }
     
     
     
@@ -100,8 +102,8 @@ final class SpendingVM: ObservableObject {
         listDataStore.save(list: list) { result in
             switch result {
             case .failure(let error): print("Error saving item: \(error)")
-            case .success(_):
-                self.fetchLists()
+            case .success(_): print("List saved.")
+//                self.fetchLists()
             }
         }
     }
@@ -111,42 +113,34 @@ final class SpendingVM: ObservableObject {
         listDataStore.update(list: list) { result in
             switch result {
             case .failure(let error): print("Error updating item: \(error)")
-            case .success(_):
-                self.calculateSpendings()
-                list.items.forEach { item in self.saveSuggestion(item: item) }
+            case .success(_): list.items.forEach { item in self.saveSuggestion(item: item) }
             }
         }
     }
     
     
-    func save(item: Item) {
-        itemDataStore.save(item: item, list: currentList) { result in
-            switch result {
-            case .failure(let error): print("Error saving item: \(error)")
-            case .success(_):
-                self.fetchLists()
-                self.saveSuggestion(item: item)
-            }
-        }
-    }
-    
-    
+//    func save(item: Item) {
+//        itemDataStore.save(item: item, list: currentList) { result in
+//            switch result {
+//            case .failure(let error): print("Error saving item: \(error)")
+//            case .success(_):
+//                self.saveSuggestion(item: item)
+//            }
+//        }
+//    }
+//
+//
     func update(item: Item) {
-        itemDataStore.update(item: item) { result in
-            switch result {
-            case .failure(let error): print("Error updating item: \(error)")
-            case .success(_):
-                calculateSpendings()
-                saveSuggestion(item: item)
-            }
+        Task {
+            print("VM: \(Thread.current)")
+            print("Item to update: \(item.id)")
+            try await itemDataStore.update(item: item)
+            saveSuggestion(item: item)            
         }
     }
     
-    
-    func delete(item: CDItem) {
-        itemDataStore.delete(item: item) {
-            self.calculateSpendings()
-        }
+    func delete(item: CDItem) async throws {
+        try await itemDataStore.delete(item: item)
     }
     
     

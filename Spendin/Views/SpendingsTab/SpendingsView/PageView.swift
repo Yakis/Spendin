@@ -26,47 +26,68 @@ struct PageView: View {
     @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
     var lists: FetchedResults<CDList>
     
+    
+    @FetchRequest(entity: CDItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDItem.date, ascending: true)])
+    var items: FetchedResults<CDItem>
+    
+    
     @EnvironmentObject var spendingVM: SpendingVM
-    @State private var showDetailedList = false
     @State private var currentIndex: Int?
     @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
     
     var body: some View {
-        if showDetailedList {
-            DetailedListView(participants: participants, showDetailedList: $showDetailedList) {
-                delete(list: spendingVM.currentList!)
-                withAnimation {
-                    showDetailedList = false
-                }
-            }
-        } else {
-            NavigationView {
-                VStack {
-                    if lists.isEmpty {
+        NavigationView {
+            GeometryReader { geometry in
+                if lists.isEmpty {
+                    VStack {
                         let image = Image(systemName: "plus.circle.fill")
                         Text("Nothing here, you can add a list from the \(image) button")
                             .font(.title)
                             .multilineTextAlignment(.center)
                             .opacity(0.5)
-                    } else {
-                        CardListView(participants: $participants, showDetailedList: $showDetailedList)
+                    }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    ScrollView {
+                        LazyVGrid(
+                            columns: [GridItem.init(.fixed(100), spacing: 10)],
+                            spacing: 16
+                        ) {
+                            ForEach(lists, id: \.id) { list in
+                                NavigationLink {
+                                    DetailedListView(list: list, participants: participants) {
+                                        delete(list: spendingVM.currentList!)
+                                    }
+                                } label: {
+                                    ListCell(list: list, geometry: geometry)
+                                }
+                            }
+                        }
+                        .onAppear {
+                            if spendingVM.currentList == nil {
+                                spendingVM.currentList = lists.first
+                            }
+                        }
+                        .onChange(of: items.filter { $0.list?.objectID == spendingVM.currentList?.objectID }) { newValue in
+                            print("ITEMS CHANGED!")
+                            spendingVM.calculateSpendings(list: spendingVM.currentList)
+                        }
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .sheet(isPresented: $showCreateNewListView) {
-                    spendingVM.currentIndex = lists.isEmpty ? 0 : lists.count - 1
-                } content: {
-                    CreateNewListView()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            showCreateNewListView.toggle()
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                        }
+            }
+            .navigationTitle("Lists")
+            .sheet(isPresented: $showCreateNewListView) {
+                
+            } content: {
+                CreateNewListView()
+            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showCreateNewListView.toggle()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
                     }
                 }
             }
@@ -78,16 +99,42 @@ struct PageView: View {
         managedObjectContext.delete(list)
         do {
             try managedObjectContext.saveIfNeeded()
-            if spendingVM.currentIndex != 0 {
-                spendingVM.currentIndex -= 1
-            }
         } catch {
             print("Error deleting list: ", error)
         }
     }
     
     
+    
 }
 
+
+
+
+struct ListCell: View {
+    
+    var list: CDList
+    var geometry: GeometryProxy
+    
+    var body: some View {
+        HStack {
+            Text(list.title ?? "")
+                .font(.title3)
+                .fontWeight(.bold)
+                .padding(10)
+            Spacer()
+            Text("\(list.items?.count ?? 0) items")
+                .font(.caption)
+                .fontWeight(.light)
+                .padding(10)
+        }
+        .frame(height: 100)
+        .frame(minWidth: geometry.size.width)
+        .background(AdaptColors.container)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+    
+    
+}
 
 

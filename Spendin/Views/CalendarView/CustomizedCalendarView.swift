@@ -10,7 +10,6 @@ import SwiftUI
 struct CustomizedCalendarView: View {
     
     @Environment(\.calendar) var calendar
-    
     private var year: DateInterval {
         let components = DateComponents(year: 1)
         let currentYear = calendar.dateInterval(of: .year, for: Date())
