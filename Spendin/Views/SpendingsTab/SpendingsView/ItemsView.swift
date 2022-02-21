@@ -35,7 +35,6 @@ struct ItemsView: View {
         }
         .listStyle(InsetGroupedListStyle())
         .onChange(of: items.filter { $0.list?.objectID == list.objectID }) { newValue in
-            print("Items changed!!!")
             spendingVM.calculateSpendings(list: list)
         }
     }

@@ -70,19 +70,27 @@ struct PageView: View {
                             }
                         }
                         .onChange(of: items.filter { $0.list?.objectID == spendingVM.currentList?.objectID }) { newValue in
-                            print("ITEMS CHANGED!")
                             spendingVM.calculateSpendings(list: spendingVM.currentList)
                         }
-                    }
+                    }.padding(.top, 10)
                 }
             }
-            .navigationTitle("Lists")
+            .navigationViewStyle(.stack)
+            //            .navigationTitle("Lists")
             .sheet(isPresented: $showCreateNewListView) {
                 
             } content: {
                 CreateNewListView()
             }
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading, content: {
+                    Text("Lists")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .multilineTextAlignment(.leading)
+                        .frame(alignment: .leading)
+                        .padding(.top, 30)
+                })
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showCreateNewListView.toggle()
@@ -129,9 +137,10 @@ struct ListCell: View {
                 .padding(10)
         }
         .frame(height: 100)
-        .frame(minWidth: geometry.size.width)
+        .frame(minWidth: geometry.size.width - 32)
         .background(AdaptColors.container)
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding([.leading, .trailing], 16)
     }
     
     

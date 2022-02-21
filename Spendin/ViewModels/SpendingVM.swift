@@ -22,14 +22,13 @@ final class SpendingVM: ObservableObject {
     let suggestionDataStore: SuggestionDataStore
     @Published var amountList: Dictionary<Int, String> = [:]
     private var cancellables = Set<AnyCancellable>()
-    
+    private var timerObserverCancellable: AnyCancellable?
     
     init() {
         itemDataStore = ItemDataStore()
         listDataStore = ListDataStore()
         suggestionDataStore = SuggestionDataStore()
         fetchSuggestions()
-//        fetchLists()
         registerToRemoteStoreChanges()
         
     }
@@ -41,18 +40,31 @@ final class SpendingVM: ObservableObject {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
             .sink { notification in
+                let start = Date()
+                self.timerManager(start: start)
+            }
+            .store(in: &cancellables)
+    }
+    
+    
+    func timerManager(start: Date) {
+        timerObserverCancellable = Timer.publish(every: 1, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] value in
+                guard let self = self else {return}
+                let diff = value.timeIntervalSinceReferenceDate - start.timeIntervalSinceReferenceDate
+                guard diff > 2 else { return }
                 print("Remote changes...")
                 self.calculateSpendings(list: self.currentList)
                 self.total = self.total
+                self.timerObserverCancellable?.cancel()
             }
-            .store(in: &cancellables)
     }
     
     
     func calculateSpendings(list: CDList?) {
         guard let list = list else { return }
         var temp: Double = 0
-        print("Items count: \(list.itemsArray.count)")
         switch list.itemsArray.count {
         case 0: self.total = 0
         default:
@@ -65,8 +77,6 @@ final class SpendingVM: ObservableObject {
                     self.amountList[$0] = String(format: "%.2f", temp)
                 }
                 self.total = temp
-                print("Items: \(list.itemsArray.map { $0.name! + " - " + String($0.amount) })")
-                print("TOTAL========== \(self.total) =========")
             }
         }
     }
