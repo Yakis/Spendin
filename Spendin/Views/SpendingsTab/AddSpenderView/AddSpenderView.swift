@@ -39,12 +39,6 @@ struct AddSpenderView: View {
                         item.name = item.name.trimmingCharacters(in: .whitespacesAndNewlines)
                         if isUpdate {
                             update(item: item)
-//                            Task {
-//                                let fetchRequest: NSFetchRequest<CDItem> = CDItem.fetchRequest()
-//                                fetchRequest.predicate = NSPredicate(format: "id = %@", item.id)
-//                                guard let result = try! moc.fetch(fetchRequest).first else { return }
-//                            }
-//                            viewModel.update(item: item)
                         } else {
                             save(item: item, list: viewModel.currentList)
                         }
@@ -99,6 +93,7 @@ struct AddSpenderView: View {
         }
         do {
             try moc.saveIfNeeded()
+            viewModel.saveSuggestion(item: item)
         } catch {
             print("Error saving item: \(error)")
         }
@@ -117,6 +112,7 @@ struct AddSpenderView: View {
             result.date = item.date
             try! moc.saveIfNeeded()
             viewModel.calculateSpendings(list: result.list)
+            isUpdate = false
         }
     }
     

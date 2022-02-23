@@ -33,7 +33,6 @@
 		1555D8E225303CD40091D21C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E125303CD40091D21C /* Extensions.swift */; };
 		1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E625303CFD0091D21C /* ItemsView.swift */; };
 		1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D9032530426B0091D21C /* DetailedListItemCell.swift */; };
-		155ABA21274D1C6600C96C25 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155ABA20274D1C6600C96C25 /* CardListView.swift */; };
 		155E65842530466600082584 /* TotalBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65832530466600082584 /* TotalBottomView.swift */; };
 		155E658925304DBE00082584 /* SaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E658825304DBE00082584 /* SaveButton.swift */; };
 		155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E658D25304DDA00082584 /* ItemDatePicker.swift */; };
@@ -105,7 +104,6 @@
 		1555D8E125303CD40091D21C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1555D8E625303CFD0091D21C /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		1555D9032530426B0091D21C /* DetailedListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedListItemCell.swift; sourceTree = "<group>"; };
-		155ABA20274D1C6600C96C25 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		155E65832530466600082584 /* TotalBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalBottomView.swift; sourceTree = "<group>"; };
 		155E658825304DBE00082584 /* SaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButton.swift; sourceTree = "<group>"; };
 		155E658D25304DDA00082584 /* ItemDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDatePicker.swift; sourceTree = "<group>"; };
@@ -282,7 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				154DEA5C27417C5B00F7CF7E /* PageView.swift */,
-				155ABA20274D1C6600C96C25 /* CardListView.swift */,
 				151F965C24C49D92002C27F4 /* DetailedListView.swift */,
 				1595CDAF27B0835D00C1C30A /* CardView.swift */,
 				15709775273D789000339D9A /* ShareButton.swift */,
@@ -527,7 +524,6 @@
 				1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */,
 				154BECA1273FDB0B00850A76 /* CDList+CoreDataClass.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
-				155ABA21274D1C6600C96C25 /* CardListView.swift in Sources */,
 				159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */,
 				1587444B273EAA42001534C0 /* SharingProvider.swift in Sources */,
 				1553D6F62736E78900191DCC /* SuggestionDataStore.swift in Sources */,

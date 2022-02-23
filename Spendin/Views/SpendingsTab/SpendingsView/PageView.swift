@@ -68,6 +68,9 @@ struct PageView: View {
                             if spendingVM.currentList == nil {
                                 spendingVM.currentList = lists.first
                             }
+                            lists.forEach { list in
+                                participants[list] = PersistenceManager.participants(for: list)
+                            }
                         }
                         .onChange(of: items.filter { $0.list?.objectID == spendingVM.currentList?.objectID }) { newValue in
                             spendingVM.calculateSpendings(list: spendingVM.currentList)
@@ -75,22 +78,22 @@ struct PageView: View {
                     }.padding(.top, 10)
                 }
             }
-            .navigationViewStyle(.stack)
-            //            .navigationTitle("Lists")
+            .navigationTitle("Lists")
             .sheet(isPresented: $showCreateNewListView) {
                 
             } content: {
                 CreateNewListView()
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading, content: {
-                    Text("Lists")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.leading)
-                        .frame(alignment: .leading)
-                        .padding(.top, 30)
-                })
+//                ToolbarItem(placement: .navigationBarLeading, content: {
+//                    Text("Lists")
+//                        .font(.largeTitle)
+//                        .fontWeight(.bold)
+//                        .multilineTextAlignment(.leading)
+//                        .frame(alignment: .leading)
+//                        .padding(.top, 30)
+//                })
+                
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showCreateNewListView.toggle()

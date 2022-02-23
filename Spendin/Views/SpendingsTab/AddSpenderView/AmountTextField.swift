@@ -22,7 +22,9 @@ struct AmountTextField: View {
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .shadow(color: .black, radius: -4)
             .padding([.top, .bottom], 5)
-            
+            .onTapGesture {
+                amount.removeAll()
+            }
         
     }
     

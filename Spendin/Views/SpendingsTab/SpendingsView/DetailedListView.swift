@@ -32,10 +32,11 @@ struct DetailedListView: View {
         ZStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-                    ShareInfoView(participants: participants).environmentObject(spendingVM)
-                    Spacer()
-                    CloudKitSharingButton(list: list.objectID)
-                        .frame(width: 50, height: 50, alignment: .center)
+                    // Still buggy with SwiftUI, waiting for apple to do something
+//                    ShareInfoView(participants: participants).environmentObject(spendingVM)
+//                    Spacer()
+//                    CloudKitSharingButton(list: list.objectID)
+//                        .frame(width: 50, height: 50, alignment: .center)
                     Button {
                         exportJson()
                     } label: {

@@ -78,7 +78,7 @@ class ItemDataStore {
         moc.delete(itemToDelete)
         do {
             try moc.saveIfNeeded()
-            print("Item \(itemToDelete) deleted.")
+            print("Item \(itemToDelete.name) deleted.")
             return
         } catch {
             print("Error deleting item: \(error)")

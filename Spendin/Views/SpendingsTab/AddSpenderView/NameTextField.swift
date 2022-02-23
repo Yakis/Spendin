@@ -38,6 +38,9 @@ struct NameTextField: View {
                     }
                 }
             })
+            .onTapGesture {
+                item.name.removeAll()
+            }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
                     ScrollView(.horizontal, showsIndicators: false) {

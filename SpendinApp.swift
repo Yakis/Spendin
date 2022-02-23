@@ -31,15 +31,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
         return true
     }
     
     
     func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         print("userDidAcceptCloudKitShareWith=======")
-            let sharedStore = PersistenceManager.sharedPersistentStore
-            let container = PersistenceManager.persistentContainer
-            container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
+        let sharedStore = PersistenceManager.sharedPersistentStore
+        let container = PersistenceManager.persistentContainer
+        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
     }
     
 }
@@ -65,11 +66,11 @@ struct SpendinApp: App {
                 }
         }
         .onChange(of: scenePhase) { phase in
-                do {
-                    try PersistenceManager.persistentContainer.viewContext.save()
-                } catch {
-                    print("Error saving data")
-                }
+            do {
+                try PersistenceManager.persistentContainer.viewContext.save()
+            } catch {
+                print("Error saving data")
+            }
         }
     }
 }
@@ -79,9 +80,9 @@ class MySceneDelegate : NSObject, UIWindowSceneDelegate {
     var originalDelegate: UISceneDelegate?
     
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
-            let sharedStore = PersistenceManager.sharedPersistentStore
-            let container = PersistenceManager.persistentContainer
-            container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
+        let sharedStore = PersistenceManager.sharedPersistentStore
+        let container = PersistenceManager.persistentContainer
+        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
     }
     
     // forward all other UIWindowSceneDelegate/UISceneDelegate callbacks to original, like
