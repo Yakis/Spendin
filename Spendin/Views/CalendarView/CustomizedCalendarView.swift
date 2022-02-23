@@ -51,7 +51,9 @@ struct CustomizedCalendarView: View {
                 }
             }
             .background(AdaptColors.container)
+            .padding(.bottom, 1)
             .navigationTitle(spendingVM.currentList?.title?.capitalized ?? "Nothing")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
@@ -62,7 +64,7 @@ struct CustomizedCalendarView: View {
                         }
                     }
                 label: {
-                    Label("Sort", systemImage: "arrowtriangle.down.fill")
+                    Image(systemName: "list.bullet.circle.fill")
                 }
                 }
             }

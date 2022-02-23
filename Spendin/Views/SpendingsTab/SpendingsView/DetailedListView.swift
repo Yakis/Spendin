@@ -37,14 +37,14 @@ struct DetailedListView: View {
 //                    Spacer()
 //                    CloudKitSharingButton(list: list.objectID)
 //                        .frame(width: 50, height: 50, alignment: .center)
-                    Button {
-                        exportJson()
-                    } label: {
-                        Image(systemName: "arrow.down.doc.fill")
-                            .font(.title3)
-                            .foregroundColor(.red)
-                            .padding()
-                    }
+//                    Button {
+//                        exportJson()
+//                    } label: {
+//                        Image(systemName: "arrow.down.doc.fill")
+//                            .font(.title3)
+//                            .foregroundColor(.red)
+//                            .padding()
+//                    }
                     Button {
                         showAlert = true
                     } label: {
