@@ -107,9 +107,15 @@ struct PageView: View {
     
     
     private func delete(list: CDList) {
+        let oldIndex = lists.firstIndex(of: list)
         managedObjectContext.delete(list)
         do {
             try managedObjectContext.saveIfNeeded()
+            if let oldIndex = oldIndex, !lists.isEmpty {
+                guard !lists.isEmpty else { return }
+                spendingVM.currentList = lists[oldIndex - 1]
+                print("Fallback to previous index")
+            }
         } catch {
             print("Error deleting list: ", error)
         }

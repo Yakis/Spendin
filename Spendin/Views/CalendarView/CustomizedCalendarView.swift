@@ -47,6 +47,12 @@ struct CustomizedCalendarView: View {
                     .padding()
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
+                        guard !lists.isEmpty else { return }
+                        guard let list = spendingVM.currentList, let updatedIndex = lists.firstIndex(of: list) else {
+                            selectedIndex = 0
+                            return
+                        }
+                        selectedIndex = updatedIndex
                     }
                 }
             }
