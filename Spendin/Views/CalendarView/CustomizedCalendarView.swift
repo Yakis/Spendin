@@ -11,9 +11,6 @@ struct CustomizedCalendarView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     
-    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
-    var lists: FetchedResults<CDList>
-    
     @State private var selectedIndex: Int = 0
     
     @Environment(\.calendar) var calendar
@@ -47,8 +44,8 @@ struct CustomizedCalendarView: View {
                     .padding()
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
-                        guard !lists.isEmpty else { return }
-                        guard let list = spendingVM.currentList, let updatedIndex = lists.firstIndex(of: list) else {
+                        guard !spendingVM.lists.isEmpty else { return }
+                        guard let list = spendingVM.currentList, let updatedIndex = spendingVM.lists.firstIndex(of: list) else {
                             selectedIndex = 0
                             return
                         }
@@ -58,14 +55,14 @@ struct CustomizedCalendarView: View {
             }
             .background(AdaptColors.container)
             .padding(.bottom, 1)
-            .navigationTitle(spendingVM.currentList?.title?.capitalized ?? "Nothing")
+            .navigationTitle(spendingVM.currentList?.name.capitalized ?? "Nothing")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Picker("", selection: $selectedIndex) {
-                            ForEach(0..<lists.count, id: \.self) { index in
-                                Text(lists[index].title ?? "").tag(index)
+                            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
+                                Text(spendingVM.lists[index].name).tag(index)
                             }
                         }
                     }
@@ -75,7 +72,7 @@ struct CustomizedCalendarView: View {
                 }
             }
             .onChange(of: selectedIndex) { newValue in
-                spendingVM.currentList = lists[selectedIndex]
+                spendingVM.currentList = spendingVM.lists[selectedIndex]
             }
         }
     }

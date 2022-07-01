@@ -6,21 +6,11 @@
 //
 
 import SwiftUI
-import CloudKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
     
     var window: UIWindow?
-    var locationManager: CLLocationManager = CLLocationManager()
-    var locationAuthorized: Bool {
-#if targetEnvironment(macCatalyst)
-        return locationManager.authorizationStatus == .authorizedAlways
-#else
-        return locationManager.authorizationStatus == .authorizedWhenInUse
-#endif //#if targetEnvironment(macCatalyst)
-    }
-    
     
     static let sharedAppDelegate: AppDelegate = {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -36,13 +26,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
     
     
-    func application(_ application: UIApplication, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
-        print("userDidAcceptCloudKitShareWith=======")
-        let sharedStore = PersistenceManager.sharedPersistentStore
-        let container = PersistenceManager.persistentContainer
-        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
-    }
-    
 }
 
 
@@ -53,7 +36,6 @@ struct SpendinApp: App {
     @StateObject var spendingVM: SpendingVM
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let sceneDelegate = MySceneDelegate()
-    @StateObject var persistenceManager = PersistenceManager.shared
     
     
     init() {
@@ -65,19 +47,10 @@ struct SpendinApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(spendingVM)
-                .environmentObject(persistenceManager)
-                .environment(\.managedObjectContext, PersistenceManager.persistentContainer.viewContext)
                 .withHostingWindow { window in
                     sceneDelegate.originalDelegate = window?.windowScene!.delegate
                     window?.windowScene!.delegate = sceneDelegate
                 }
-        }
-        .onChange(of: scenePhase) { phase in
-            do {
-                try PersistenceManager.persistentContainer.viewContext.save()
-            } catch {
-                print("Error saving data")
-            }
         }
     }
     
@@ -88,13 +61,6 @@ struct SpendinApp: App {
 class MySceneDelegate : NSObject, UIWindowSceneDelegate {
     var originalDelegate: UISceneDelegate?
     
-    func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
-        let sharedStore = PersistenceManager.sharedPersistentStore
-        let container = PersistenceManager.persistentContainer
-        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore) { metadata, error in
-            print(metadata ?? "")
-        }
-    }
     
     // forward all other UIWindowSceneDelegate/UISceneDelegate callbacks to original, like
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {

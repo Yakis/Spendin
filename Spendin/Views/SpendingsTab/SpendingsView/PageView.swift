@@ -21,26 +21,15 @@ struct SpendingsView: View {
 
 struct PageView: View {
     
-    @Environment(\.managedObjectContext) var managedObjectContext
-    
-    @FetchRequest(entity: CDList.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDList.created, ascending: true)])
-    var lists: FetchedResults<CDList>
-    
-    
-    @FetchRequest(entity: CDItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \CDItem.date, ascending: true)])
-    var items: FetchedResults<CDItem>
-    
-    
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var currentIndex: Int?
-    @State private var participants: Dictionary<NSManagedObject, [ShareParticipant]> = [:]
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
     
     var body: some View {
         NavigationView {
             GeometryReader { geometry in
-                if lists.isEmpty {
+                if spendingVM.lists.isEmpty {
                     VStack {
                         let image = Image(systemName: "plus.circle.fill")
                         Text("Nothing here, you can add a list from the \(image) button")
@@ -54,26 +43,25 @@ struct PageView: View {
                             columns: [GridItem.init(.fixed(100), spacing: 10)],
                             spacing: 16
                         ) {
-                            ForEach(lists, id: \.id) { list in
+                            ForEach(spendingVM.lists, id: \.id) { list in
                                 NavigationLink {
-                                    DetailedListView(list: list, participants: participants) {
+                                    DetailedListView(list: list) {
                                         delete(list: spendingVM.currentList!)
                                     }
                                 } label: {
-                                    ListCell(list: list, geometry: geometry)
+                                    ListCell(list: list, items: spendingVM.currentListItems, geometry: geometry)
                                 }
                             }
                         }
                         .onAppear {
                             if spendingVM.currentList == nil {
-                                spendingVM.currentList = lists.first
+                                spendingVM.currentList = spendingVM.lists.first
                             }
-                            lists.forEach { list in
-                                participants[list] = PersistenceManager.participants(for: list)
+                                spendingVM.lists.forEach { list in
                             }
                         }
-                        .onChange(of: items.filter { $0.list?.objectID == spendingVM.currentList?.objectID }) { newValue in
-                            spendingVM.calculateSpendings(list: spendingVM.currentList)
+                        .onChange(of: spendingVM.currentListItems) { newValue in
+                            spendingVM.calculateSpendings()
                         }
                     }.padding(.top, 10)
                 }
@@ -106,19 +94,9 @@ struct PageView: View {
     }
     
     
-    private func delete(list: CDList) {
-        let oldIndex = lists.firstIndex(of: list)
-        managedObjectContext.delete(list)
-        do {
-            try managedObjectContext.saveIfNeeded()
-            if let oldIndex = oldIndex, !lists.isEmpty {
-                guard !lists.isEmpty else { return }
-                spendingVM.currentList = lists[oldIndex - 1]
-                print("Fallback to previous index")
-            }
-        } catch {
-            print("Error deleting list: ", error)
-        }
+    private func delete(list: ItemList) {
+        let oldIndex = spendingVM.lists.firstIndex(of: list)
+        
     }
     
     
@@ -130,17 +108,18 @@ struct PageView: View {
 
 struct ListCell: View {
     
-    var list: CDList
+    var list: ItemList
+    var items: [Item]
     var geometry: GeometryProxy
     
     var body: some View {
         HStack {
-            Text(list.title ?? "")
+            Text(list.name)
                 .font(.title3)
                 .fontWeight(.bold)
                 .padding(10)
             Spacer()
-            Text("\(list.items?.count ?? 0) items")
+            Text("\(items.count) items")
                 .font(.caption)
                 .fontWeight(.light)
                 .padding(10)

@@ -26,13 +26,4 @@ struct Suggestion {
     }
     
     
-    init(from cdSuggestion: CDSuggestion) {
-        self.name = cdSuggestion.name ?? ""
-        self.type = cdSuggestion.type ?? ""
-        self.category = cdSuggestion.category ?? ""
-        self.amount = cdSuggestion.amount
-        self.count = cdSuggestion.count
-    }
-    
-    
 }

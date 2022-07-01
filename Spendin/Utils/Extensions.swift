@@ -76,28 +76,41 @@ extension Date {
 }
 
 
-//extension CDItem {
-//    static var sortedFetchRequest: NSFetchRequest<CDItem> {
-//        let request: NSFetchRequest<CDItem> = CDItem.fetchRequest()
-//        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
-//        return request
-//    }
-//}
 
-
-extension CDList {
-    static var sortedFetchRequest: NSFetchRequest<CDList> {
-        let request: NSFetchRequest<CDList> = CDList.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "created", ascending: true)]
-        return request
+extension String {
+    
+    func isoToDate() -> Date {
+        if let date = DateFormatter.isoDateFormatter.date(from: self) {
+            return date
+        } else {
+            return Date()
+        }
     }
+    
 }
 
 
-extension CDSuggestion {
-    static var sortedFetchRequest: NSFetchRequest<CDSuggestion> {
-        let request: NSFetchRequest<CDSuggestion> = CDSuggestion.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "count", ascending: false)]
-        return request
-    }
+extension DateFormatter {
+    
+    // This gains a lot of performance, as you don't create it every time, just reuse it, and DateFormatter is expensive!!!
+    static let isoDateFormatter: ISO8601DateFormatter = {
+        let isoFormater = ISO8601DateFormatter()
+        return isoFormater
+    }()
+    
+    
+    static let relativeFormatter: RelativeDateTimeFormatter = {
+        let dateFormatter = RelativeDateTimeFormatter()
+        dateFormatter.unitsStyle = .full
+        return dateFormatter
+    }()
+    
+    static let standardFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .none
+        return dateFormatter
+    }()
+    
+    
 }

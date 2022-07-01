@@ -7,47 +7,59 @@
 
 import Foundation
 
+struct ListID: Codable {
+    var id: String = ""
+}
+
+
 struct Item: Codable {
     
-    var id: String
-    var name: String
-    var amount: String
-    var amountLeft: String
-    var category: String
-    var date: Date
-    var type: ItemType
+    var id: String = ""
+    var name: String = ""
+    var amount: String = ""
+    var amountLeft: String = ""
+    var category: String = "cart.fill"
+    var itemType: ItemType = .expense
+    var list: ListID = ListID()
+    var due: String = ""
+    
+    var date: Date {
+        return due.isoToDate()
+    }
     
     init() {
-        self.id = UUID().uuidString
+        self.id = ""
         self.name = ""
         self.amount = ""
         self.amountLeft = ""
         self.category = "cart.fill"
-        self.date = Date()
-        self.type = .expense
+        self.itemType = .expense
+        self.list = ListID()
+        self.due = ""
     }
     
     
-    init(id: String, name: String, amount: String, category: String, date: Date, type: ItemType) {
+    init(id: String, name: String, amount: String, category: String, due: String, type: ItemType) {
         self.id = id
         self.name = name
         self.amount = amount
         self.amountLeft = ""
         self.category = category
-        self.date = date
-        self.type = type
+        self.due = due
+        self.itemType = type
+        self.list = ListID()
     }
     
     
-    init(from item: CDItem) {
-        self.amount = String(format: "%.2f", item.amount)
-        self.amountLeft = ""
-        self.category = item.category ?? ""
-        self.date = item.date ?? Date()
-        self.id = item.id ?? ""
-        self.name = item.name ?? ""
-        self.type = ItemType(rawValue: item.type!) ?? .expense
+}
+
+
+extension Item: Hashable, Equatable {
+    static func == (lhs: Item, rhs: Item) -> Bool {
+        lhs.id == rhs.id
     }
-    
-    
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

@@ -49,7 +49,7 @@ struct NameTextField: View {
                                 Button {
                                     item.name = suggestion.name
                                     item.amount = String(format: "%.2f", suggestion.amount)
-                                    item.type = ItemType(rawValue: suggestion.type)!
+                                    item.itemType = ItemType(rawValue: suggestion.type)!
                                     item.category = suggestion.category
                                     isInputActive = false
                                 } label: {

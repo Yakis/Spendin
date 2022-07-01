@@ -12,6 +12,18 @@ import CloudKit
 
 enum ItemType: String, CaseIterable, Codable {
     case expense, income
+    
+    init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawString = try container.decode(String.self)
+            
+            if let type = ItemType(rawValue: rawString.lowercased()) {
+                self = type
+            } else {
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
+            }
+        }
+    
 }
 
 
@@ -24,19 +36,13 @@ struct DetailedListView: View {
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
     @State private var showAlert = false
-    var list: CDList
-    var participants: Dictionary<NSManagedObject, [ShareParticipant]>
+    var list: ItemList
     var deleteAction: () -> ()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-//                     Still buggy with SwiftUI, waiting for apple to do something
-                    ShareInfoView(participants: participants).environmentObject(spendingVM)
-                    Spacer()
-                    CloudKitSharingButton(list: list.objectID)
-                        .frame(width: 50, height: 50, alignment: .center)
                     Button {
                         exportJson()
                     } label: {
@@ -56,7 +62,7 @@ struct DetailedListView: View {
                 }
                 .frame(maxHeight: 50)
                 .background(AdaptColors.container)
-                ItemsView(list: list, showModal: $showModal, isUpdate: $isUpdate)
+                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
                 
@@ -77,7 +83,7 @@ struct DetailedListView: View {
                 secondaryButton: .cancel()
             )
         }
-        .navigationTitle(list.title ?? "No name, no face, no number")
+        .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.large)
     }
     
@@ -86,10 +92,9 @@ struct DetailedListView: View {
     private func exportJson() {
         let encoder = JSONEncoder()
         do {
-            let encodableList = ItemList(from: list)
-            let jsonObject = try encoder.encode(encodableList)
+            let jsonObject = try encoder.encode(list)
             guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
-            let fileURL = driveURL.appendingPathComponent(encodableList.name + "." + "json")
+            let fileURL = driveURL.appendingPathComponent(list.name + "." + "json")
             try jsonObject.write(to: fileURL)
         } catch {
             print("Error encoding json: \(error)")
