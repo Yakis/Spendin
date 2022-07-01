@@ -10,7 +10,11 @@ import CoreData
 import CloudKit
 import Combine
 
-class PersistenceManager: NSObject {
+class PersistenceManager: ObservableObject {
+    
+    
+    static let shared = PersistenceManager()
+    
     
     static private var _privatePersistentStore: NSPersistentStore?
     static var privatePersistentStore: NSPersistentStore {

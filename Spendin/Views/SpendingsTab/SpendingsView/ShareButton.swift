@@ -74,8 +74,15 @@ struct CloudKitSharingButton: UIViewRepresentable {
                         listToShare.managedObjectContext?.performAndWait {
                             actualShare[CKShare.SystemFieldKey.title] = listToShare.title
                         }
+                        completion(share, container, error)
+                    } else {
+                        let recordIDs = try! PersistenceManager.persistentContainer.fetchShares(matching: [listToShare.objectID])
+                        guard let existingShare = recordIDs[listToShare.objectID] else { return }
+                        listToShare.managedObjectContext?.performAndWait {
+                            existingShare[CKShare.SystemFieldKey.title] = listToShare.title
+                        }
+                        completion(existingShare, container, error)
                     }
-                    completion(share, container, error)
                 }
             }
             sharingController.delegate = self

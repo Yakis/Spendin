@@ -396,6 +396,8 @@
 			dependencies = (
 			);
 			name = Spendin;
+			packageProductDependencies = (
+			);
 			productName = Spendy;
 			productReference = 156938E324C49C4300521D57 /* Spendin.app */;
 			productType = "com.apple.product-type.application";
@@ -467,6 +469,8 @@
 				Base,
 			);
 			mainGroup = 156938DA24C49C4300521D57;
+			packageReferences = (
+			);
 			productRefGroup = 156938E424C49C4300521D57 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -724,7 +728,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -737,7 +741,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -748,7 +752,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -761,7 +765,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

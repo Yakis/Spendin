@@ -32,19 +32,19 @@ struct DetailedListView: View {
         ZStack {
             VStack(alignment: .leading) {
                 HStack(alignment: .center) {
-                    // Still buggy with SwiftUI, waiting for apple to do something
-//                    ShareInfoView(participants: participants).environmentObject(spendingVM)
-//                    Spacer()
-//                    CloudKitSharingButton(list: list.objectID)
-//                        .frame(width: 50, height: 50, alignment: .center)
-//                    Button {
-//                        exportJson()
-//                    } label: {
-//                        Image(systemName: "arrow.down.doc.fill")
-//                            .font(.title3)
-//                            .foregroundColor(.red)
-//                            .padding()
-//                    }
+//                     Still buggy with SwiftUI, waiting for apple to do something
+                    ShareInfoView(participants: participants).environmentObject(spendingVM)
+                    Spacer()
+                    CloudKitSharingButton(list: list.objectID)
+                        .frame(width: 50, height: 50, alignment: .center)
+                    Button {
+                        exportJson()
+                    } label: {
+                        Image(systemName: "arrow.down.doc.fill")
+                            .font(.title3)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                     Button {
                         showAlert = true
                     } label: {

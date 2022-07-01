@@ -38,7 +38,7 @@ class ItemDataStore {
                 itemToUpdate.type = item.type.rawValue
                 itemToUpdate.category = item.category
                 itemToUpdate.date = item.date
-                print("CDItem to update: \(itemToUpdate.id)")
+                print("CDItem to update: \(String(describing: itemToUpdate.id))")
             }
             try! moc.saveIfNeeded()
             return
@@ -78,7 +78,7 @@ class ItemDataStore {
         moc.delete(itemToDelete)
         do {
             try moc.saveIfNeeded()
-            print("Item \(itemToDelete.name) deleted.")
+            print("Item \(String(describing: itemToDelete.name)) deleted.")
             return
         } catch {
             print("Error deleting item: \(error)")

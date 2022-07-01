@@ -49,7 +49,7 @@ struct ItemsView: View {
         moc.delete(itemToDelete)
         do {
             try moc.saveIfNeeded()
-            print("Item \(itemToDelete.name) deleted.")
+            print("Item \(String(describing: itemToDelete.name)) deleted.")
             return
         } catch {
             print("Error deleting item: \(error)")

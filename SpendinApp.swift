@@ -50,15 +50,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct SpendinApp: App {
     
     @Environment(\.scenePhase) var scenePhase
-    @StateObject var spendingVM = SpendingVM()
+    @StateObject var spendingVM: SpendingVM
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let sceneDelegate = MySceneDelegate()
+    @StateObject var persistenceManager = PersistenceManager.shared
+    
+    
+    init() {
+        _spendingVM = StateObject(wrappedValue: SpendingVM())
+    }
     
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(spendingVM)
+                .environmentObject(persistenceManager)
                 .environment(\.managedObjectContext, PersistenceManager.persistentContainer.viewContext)
                 .withHostingWindow { window in
                     sceneDelegate.originalDelegate = window?.windowScene!.delegate
@@ -73,6 +80,8 @@ struct SpendinApp: App {
             }
         }
     }
+    
+    
 }
 
 
@@ -82,7 +91,9 @@ class MySceneDelegate : NSObject, UIWindowSceneDelegate {
     func windowScene(_ windowScene: UIWindowScene, userDidAcceptCloudKitShareWith cloudKitShareMetadata: CKShare.Metadata) {
         let sharedStore = PersistenceManager.sharedPersistentStore
         let container = PersistenceManager.persistentContainer
-        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore, completion: nil)
+        container.acceptShareInvitations(from: [cloudKitShareMetadata], into: sharedStore) { metadata, error in
+            print(metadata ?? "")
+        }
     }
     
     // forward all other UIWindowSceneDelegate/UISceneDelegate callbacks to original, like
