@@ -16,8 +16,8 @@ struct Item: Codable {
     
     var id: String = ""
     var name: String = ""
-    var amount: String = ""
-    var amountLeft: String = ""
+    var amount: Double = 0
+    var amountLeft: Double = 0
     var category: String = "cart.fill"
     var itemType: ItemType = .expense
     var list: ListID = ListID()
@@ -30,8 +30,8 @@ struct Item: Codable {
     init() {
         self.id = ""
         self.name = ""
-        self.amount = ""
-        self.amountLeft = ""
+        self.amount = 0
+        self.amountLeft = 0
         self.category = "cart.fill"
         self.itemType = .expense
         self.list = ListID()
@@ -39,11 +39,11 @@ struct Item: Codable {
     }
     
     
-    init(id: String, name: String, amount: String, category: String, due: String, type: ItemType) {
+    init(id: String, name: String, amount: Double, category: String, due: String, type: ItemType) {
         self.id = id
         self.name = name
         self.amount = amount
-        self.amountLeft = ""
+        self.amountLeft = 0
         self.category = category
         self.due = due
         self.itemType = type

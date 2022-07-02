@@ -42,6 +42,7 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
+		157E7EC6287061300088282F /* SuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E7EC5287061300088282F /* SuggestionService.swift */; };
 		1595CDB027B0835D00C1C30A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDAF27B0835D00C1C30A /* CardView.swift */; };
 		1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */; };
 		159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB409274434EF004921AD /* CreateNewListView.swift */; };
@@ -107,6 +108,7 @@
 		1569390724C49C4400521D57 /* SpendinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		157E7EC5287061300088282F /* SuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionService.swift; sourceTree = "<group>"; };
 		1595CDAF27B0835D00C1C30A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListPlaceholder.swift; sourceTree = "<group>"; };
 		159DB409274434EF004921AD /* CreateNewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListView.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			children = (
 				15341DF5286F39FC00C0F737 /* ListService.swift */,
 				15341DF9286F484300C0F737 /* ItemService.swift */,
+				157E7EC5287061300088282F /* SuggestionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */,
 				1553D6F82736E85300191DCC /* Suggestion.swift in Sources */,
 				1553D6EB2736D54800191DCC /* Sidebar.swift in Sources */,
+				157E7EC6287061300088282F /* SuggestionService.swift in Sources */,
 				155E65A225304E4200082584 /* NameTextField.swift in Sources */,
 				154D4005273D82A200743B96 /* List.swift in Sources */,
 			);

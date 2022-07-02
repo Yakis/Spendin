@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct Suggestion {
+struct Suggestion: Codable {
     
-    var id: UUID = UUID()
+    var id: String = ""
     var name: String = ""
-    var type: String = ""
+    var type: ItemType = .expense
     var category: String = ""
     var amount: Double = 0
-    var count: Int64 = 0
+    var count: Int = 0
     
     
-    init(name: String, type: String, category: String, amount: Double, count: Int64) {
+    init(name: String, type: ItemType, category: String, amount: Double, count: Int) {
         self.name = name
         self.type = type
         self.category = category

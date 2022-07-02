@@ -10,12 +10,15 @@ import SwiftUI
 struct NameTextField: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    @Binding var item: Item
-    @State private var suggestions = [Suggestion]()
     @FocusState var isInputActive: Bool
     
+    @Binding var itemName: String
+    @Binding var suggestions: [Suggestion]
+    var onNameChange: () -> ()
+    var onSuggestionTap: (_ suggestion: Suggestion) -> ()
+    
     var body: some View {
-        TextField("Name", text: $item.name)
+        TextField("Name", text: $itemName)
             .frame(height: 50)
             .padding(10)
             .focused($isInputActive)
@@ -26,20 +29,11 @@ struct NameTextField: View {
             .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             .shadow(color: .black, radius: -4)
             .padding([.top, .bottom], 5)
-            .onAppear(perform: {
-                suggestions = spendingVM.suggestions
-            })
-            .onChange(of: item.name, perform: { newValue in
-                if newValue.isEmpty {
-                    suggestions = spendingVM.suggestions
-                } else {
-                    suggestions = spendingVM.suggestions.filter { suggestion in
-                        suggestion.name.contains(item.name)
-                    }
-                }
+            .onChange(of: itemName, perform: { newValue in
+                onNameChange()
             })
             .onTapGesture {
-                item.name.removeAll()
+                itemName.removeAll()
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
@@ -47,10 +41,7 @@ struct NameTextField: View {
                         LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
                             ForEach(suggestions, id: \.id) { suggestion in
                                 Button {
-                                    item.name = suggestion.name
-                                    item.amount = String(format: "%.2f", suggestion.amount)
-                                    item.itemType = ItemType(rawValue: suggestion.type)!
-                                    item.category = suggestion.category
+                                    onSuggestionTap(suggestion)
                                     isInputActive = false
                                 } label: {
                                     Text(suggestion.name)

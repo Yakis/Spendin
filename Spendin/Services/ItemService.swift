@@ -36,6 +36,7 @@ enum ItemService {
     
     
     static func update(item: Item) async throws {
+        print("UPDATE: \(item)")
         var request = URLRequest(url: .update(itemID: item.id))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

@@ -22,7 +22,7 @@ struct XmarkView: View {
                 .foregroundColor(Color.init("Adapt Text"))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
-                    viewModel.itemToUpdate = nil
+                    viewModel.itemToSave = Item()
                 }
         }
     }

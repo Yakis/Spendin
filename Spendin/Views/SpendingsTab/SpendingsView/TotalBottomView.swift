@@ -28,6 +28,7 @@ struct TotalBottomView: View {
                 .shadow(radius: 2)
                 .padding([.trailing, .bottom], 20)
                 .onTapGesture {
+                    isUpdate = false
                     showModal = true
                 }
                 .sheet(isPresented: $showModal) {

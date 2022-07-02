@@ -39,6 +39,30 @@ fileprivate struct URLS {
 extension URL {
     
     
+    //MARK: Suggestions
+    static func allSuggestions() -> URL {
+        return URL(string: "\(URLS.env.url)suggestions")!
+    }
+    
+    static func saveSuggestion() -> URL {
+        return URL(string: "\(URLS.env.url)suggestions")!
+    }
+    
+    static func update(suggestionID: String) -> URL {
+        let percentEncodedID = suggestionID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? suggestionID
+        return URL(string: "\(URLS.env.url)suggestions/\(percentEncodedID)")!
+    }
+    
+    static func delete(suggestionID: String) -> URL {
+        let percentEncodedID = suggestionID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? suggestionID
+        return URL(string: "\(URLS.env.url)suggestions/\(percentEncodedID)")!
+    }
+    
+    static func deleteSuggestions() -> URL {
+        return URL(string: "\(URLS.env.url)suggestions")!
+    }
+    
+    
     //MARK: Lists
     static func list(id: String) -> URL {
         return URL(string: "\(URLS.env.url)lists/\(id)")!

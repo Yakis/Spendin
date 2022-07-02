@@ -13,7 +13,6 @@ import Combine
 final class SpendingVM: ObservableObject {
     
     @Published var total: Double = 0
-    @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
     @Published var currentListIndex: Int = 0
     @Published var currentListItems: [Item] = []
@@ -50,10 +49,10 @@ final class SpendingVM: ObservableObject {
         default:
             currentListItems.enumerated().forEach {
                 if $1.itemType == .expense {
-                    temp -= Double($1.amount)!
+                    temp -= $1.amount
                     self.amountList[$0] = String(format: "%.2f", temp)
                 } else {
-                    temp += Double($1.amount)!
+                    temp += $1.amount
                     self.amountList[$0] = String(format: "%.2f", temp)
                 }
                 self.total = temp
@@ -66,8 +65,10 @@ final class SpendingVM: ObservableObject {
         Task {
             lists = try! await ListService.getAllLists()
             currentListItems.removeAll()
+            guard !lists.isEmpty else { return }
             let currentList = lists[currentListIndex]
-            self.currentListItems = await getItemsFor(currentList.id).sorted { $0.date < $1.date }
+            currentListItems = await getItemsFor(currentList.id).sorted { $0.date < $1.date }
+            fetchSuggestions()
         }
     }
     
@@ -97,22 +98,22 @@ final class SpendingVM: ObservableObject {
     }
     
     
-    func save() {
+    func saveItem() {
         Task {
             let currentList = lists[currentListIndex]
             try await ItemService.save(item: itemToSave, listID: currentList.id)
+            saveSuggestion(item: itemToSave)
             fetchLists()
-            itemToUpdate = nil
             itemToSave = Item()
         }
     }
     
     
-    func update() {
+    func updateItem() {
         Task {
             try await ItemService.update(item: itemToSave)
+            saveSuggestion(item: itemToSave)
             fetchLists()
-            itemToUpdate = nil
             itemToSave = Item()
         }
     }
@@ -131,18 +132,38 @@ final class SpendingVM: ObservableObject {
     
     
     func saveSuggestion(item: Item) {
-        
+        Task {
+            let suggestion = Suggestion(name: item.name, type: item.itemType, category: item.category, amount: item.amount, count: 0)
+            if suggestions.contains(where: { $0.name == suggestion.name }) {
+                try await SuggestionService.update(suggestion: suggestions.filter({ $0.name == suggestion.name }).first!)
+            } else {
+                try await SuggestionService.save(suggestion: suggestion)
+            }
+        }
+        fetchSuggestions()
     }
     
     
     func fetchSuggestions() {
-        
+        Task {
+            suggestions = try await SuggestionService.getSuggestions()
+        }
     }
     
     
     func deleteSuggestions() {
-        //        suggestionDataStore.deleteSuggestions()
-        suggestions.removeAll()
+        Task {
+            try await SuggestionService.deleteAllSuggestions()
+            suggestions.removeAll()
+        }
+    }
+    
+    
+    func delete(suggestion: Suggestion) {
+        Task {
+            try await SuggestionService.delete(suggestion: suggestion)
+            suggestions.removeAll()
+        }
     }
     
 }
