@@ -39,7 +39,7 @@ struct NameTextField: View {
                 ToolbarItem(placement: .keyboard) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
-                            ForEach(suggestions, id: \.id) { suggestion in
+                            ForEach(suggestions.sorted(by: { $0.count > $1.count }), id: \.id) { suggestion in
                                 Button {
                                     onSuggestionTap(suggestion)
                                     isInputActive = false

@@ -30,7 +30,7 @@ struct AddSpenderView: View {
                 ScrollView {
                     ItemTypePicker(itemTypes: itemTypes, selectedType: $selectedType)
                         .padding([.top, .bottom], 5)
-                    NameTextField(itemName: $name, suggestions: $spendingVM.suggestions, onNameChange: {
+                    NameTextField(itemName: $name, suggestions: $suggestions, onNameChange: {
                         onNameChange()
                     }, onSuggestionTap: { suggestion in
                         onSuggestionTap(suggestion)
@@ -104,6 +104,7 @@ struct AddSpenderView: View {
         } else {
             date = Date()
         }
+        suggestions = spendingVM.suggestions
     }
     
 }
