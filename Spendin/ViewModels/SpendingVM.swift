@@ -15,7 +15,7 @@ final class SpendingVM: ObservableObject {
     @Published var total: Double = 0
     @Published var itemToUpdate: Item?
     @Published var isLoading: Bool = false
-    @Published var currentList: ItemList?
+    @Published var currentListIndex: Int = 0
     @Published var currentListItems: [Item] = []
     @Published var lists: [ItemList] = []
     @Published var suggestions = [Suggestion]()
@@ -26,6 +26,20 @@ final class SpendingVM: ObservableObject {
     init() {
         fetchSuggestions()
         fetchLists()
+        registerForListIndexChange()
+    }
+    
+    
+    private func registerForListIndexChange() {
+        $currentListIndex
+            .sink { newIndex in
+                guard !self.lists.isEmpty else { return }
+                let listID = self.lists[newIndex].id
+                Task {
+                    self.currentListItems = await self.getItemsFor(listID)
+                }
+            }
+            .store(in: &cancellables)
     }
     
     
@@ -51,9 +65,9 @@ final class SpendingVM: ObservableObject {
     func fetchLists() {
         Task {
             lists = try! await ListService.getAllLists()
-            currentList = lists.first
             currentListItems.removeAll()
-            self.currentListItems = await getItemsFor(currentList!.id).sorted { $0.date < $1.date }
+            let currentList = lists[currentListIndex]
+            self.currentListItems = await getItemsFor(currentList.id).sorted { $0.date < $1.date }
         }
     }
     
@@ -85,14 +99,14 @@ final class SpendingVM: ObservableObject {
     
     func save() {
         Task {
-            guard let currentList = currentList else { return }
+            let currentList = lists[currentListIndex]
             try await ItemService.save(item: itemToSave, listID: currentList.id)
             fetchLists()
             itemToUpdate = nil
             itemToSave = Item()
         }
     }
-
+    
     
     func update() {
         Task {
@@ -126,7 +140,7 @@ final class SpendingVM: ObservableObject {
     
     
     func deleteSuggestions() {
-//        suggestionDataStore.deleteSuggestions()
+        //        suggestionDataStore.deleteSuggestions()
         suggestions.removeAll()
     }
     

@@ -13,6 +13,7 @@ struct ItemList: Codable {
     var name: String
     var created: String
     var shared: Bool
+    var itemsCount: Int = 0
     
     init() {
         self.id = UUID().uuidString

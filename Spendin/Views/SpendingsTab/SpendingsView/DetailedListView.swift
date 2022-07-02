@@ -69,7 +69,7 @@ struct DetailedListView: View {
             }
             .background(AdaptColors.container)
             .onAppear {
-                spendingVM.currentList = list
+                spendingVM.currentListIndex = spendingVM.lists.firstIndex(of: list)!
             }
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
         }

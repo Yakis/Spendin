@@ -43,21 +43,16 @@ struct PageView: View {
                             columns: [GridItem.init(.fixed(100), spacing: 10)],
                             spacing: 16
                         ) {
-                            ForEach(spendingVM.lists, id: \.id) { list in
-                                NavigationLink {
-                                    DetailedListView(list: list) {
-                                        delete(list: spendingVM.currentList!)
+                            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
+                                if let list = spendingVM.lists[index] {
+                                    NavigationLink {
+                                        DetailedListView(list: list) {
+                                            delete(list: list)
+                                        }
+                                    } label: {
+                                        ListCell(list: list, geometry: geometry)
                                     }
-                                } label: {
-                                    ListCell(list: list, items: spendingVM.currentListItems, geometry: geometry)
                                 }
-                            }
-                        }
-                        .onAppear {
-                            if spendingVM.currentList == nil {
-                                spendingVM.currentList = spendingVM.lists.first
-                            }
-                                spendingVM.lists.forEach { list in
                             }
                         }
                         .onChange(of: spendingVM.currentListItems) { newValue in
@@ -73,14 +68,14 @@ struct PageView: View {
                 CreateNewListView()
             }
             .toolbar {
-//                ToolbarItem(placement: .navigationBarLeading, content: {
-//                    Text("Lists")
-//                        .font(.largeTitle)
-//                        .fontWeight(.bold)
-//                        .multilineTextAlignment(.leading)
-//                        .frame(alignment: .leading)
-//                        .padding(.top, 30)
-//                })
+                //                ToolbarItem(placement: .navigationBarLeading, content: {
+                //                    Text("Lists")
+                //                        .font(.largeTitle)
+                //                        .fontWeight(.bold)
+                //                        .multilineTextAlignment(.leading)
+                //                        .frame(alignment: .leading)
+                //                        .padding(.top, 30)
+                //                })
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -111,7 +106,6 @@ struct PageView: View {
 struct ListCell: View {
     
     var list: ItemList
-    var items: [Item]
     var geometry: GeometryProxy
     
     var body: some View {
@@ -121,7 +115,7 @@ struct ListCell: View {
                 .fontWeight(.bold)
                 .padding(10)
             Spacer()
-            Text("\(items.count) items")
+            Text("\(list.itemsCount) items")
                 .font(.caption)
                 .fontWeight(.light)
                 .padding(10)

@@ -45,17 +45,13 @@ struct CustomizedCalendarView: View {
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
                         guard !spendingVM.lists.isEmpty else { return }
-                        guard let list = spendingVM.currentList, let updatedIndex = spendingVM.lists.firstIndex(of: list) else {
-                            selectedIndex = 0
-                            return
-                        }
-                        selectedIndex = updatedIndex
+                        selectedIndex = spendingVM.currentListIndex
                     }
                 }
             }
             .background(AdaptColors.container)
             .padding(.bottom, 1)
-            .navigationTitle(spendingVM.currentList?.name.capitalized ?? "Nothing")
+            .navigationTitle(spendingVM.lists.isEmpty ? "" : spendingVM.lists[spendingVM.currentListIndex].name.capitalized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -72,7 +68,7 @@ struct CustomizedCalendarView: View {
                 }
             }
             .onChange(of: selectedIndex) { newValue in
-                spendingVM.currentList = spendingVM.lists[selectedIndex]
+                spendingVM.currentListIndex = newValue
             }
         }
     }
