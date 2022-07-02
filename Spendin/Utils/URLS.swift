@@ -48,6 +48,15 @@ extension URL {
         return URL(string: "\(URLS.env.url)lists")!
     }
     
+    static func saveList() -> URL {
+        return URL(string: "\(URLS.env.url)lists")!
+    }
+    
+    static func delete(listID: String) -> URL {
+        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
+    }
+    
     
     //MARK: Items
     static func items(for listID: String) -> URL {
@@ -61,6 +70,11 @@ extension URL {
     }
     
     static func update(itemID: String) -> URL {
+        let percentEncodedID = itemID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? itemID
+        return URL(string: "\(URLS.env.url)items/\(percentEncodedID)")!
+    }
+    
+    static func delete(itemID: String) -> URL {
         let percentEncodedID = itemID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? itemID
         return URL(string: "\(URLS.env.url)items/\(percentEncodedID)")!
     }

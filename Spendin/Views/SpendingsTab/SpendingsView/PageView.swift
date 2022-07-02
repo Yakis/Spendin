@@ -95,7 +95,9 @@ struct PageView: View {
     
     
     private func delete(list: ItemList) {
-        let oldIndex = spendingVM.lists.firstIndex(of: list)
+        Task {
+            try await spendingVM.delete(list: list)
+        }
         
     }
     

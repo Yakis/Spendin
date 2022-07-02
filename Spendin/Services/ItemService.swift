@@ -36,7 +36,6 @@ enum ItemService {
     
     
     static func update(item: Item) async throws {
-        print("UPDATE: \(item)")
         var request = URLRequest(url: .update(itemID: item.id))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -44,6 +43,17 @@ enum ItemService {
         let (_, response) = try await session().upload(for: request, from: encodedItem)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
+        }
+    }
+    
+    
+    static func delete(item: Item) async throws {
+        var request = URLRequest(url: .delete(itemID: item.id))
+        request.httpMethod = "DELETE"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (_, response) = try await session().data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while deleting item <\(item.id)>")
         }
     }
     

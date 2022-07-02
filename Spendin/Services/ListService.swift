@@ -29,4 +29,28 @@ enum ListService {
         return lists
     }
     
+    
+    static func save(list: ItemList) async throws {
+        var request = URLRequest(url: .saveList())
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let encodedList = try JSONEncoder().encode(list)
+        let (_, response) = try await session().upload(for: request, from: encodedList)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while fetching data")
+        }
+    }
+    
+    
+    static func delete(list: ItemList) async throws {
+        var request = URLRequest(url: .delete(listID: list.id))
+        request.httpMethod = "DELETE"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        let (_, response) = try await session().data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while deleting list <\(list.id)>")
+        }
+    }
+    
+    
 }

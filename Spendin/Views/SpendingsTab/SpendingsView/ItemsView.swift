@@ -34,43 +34,14 @@ struct ItemsView: View {
         }
     }
     
+    
     private func delete(at offsets: IndexSet) {
-//        let item = items.filter { $0.list?.objectID == list.objectID }[offsets.first!]
-//        let fetchRequest: NSFetchRequest<CDItem>
-//        fetchRequest = CDItem.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id!)
-//        guard let itemToDelete = try! moc.fetch(fetchRequest).first else { return }
-//        itemToDelete.list?.title = itemToDelete.list?.title
-//        moc.delete(itemToDelete)
-//        do {
-//            try moc.saveIfNeeded()
-//            print("Item \(String(describing: itemToDelete.name)) deleted.")
-//            return
-//        } catch {
-//            print("Error deleting item: \(error)")
-//        }
-        
+        let item = spendingVM.currentListItems[offsets.first!]
+        Task {
+            try await spendingVM.delete(item: item)
+            spendingVM.currentListItems.remove(at: offsets.first!)
+        }
     }
-    
-    
-    
-    
-//    func delete(item: CDItem) async throws {
-//        let moc = PersistenceManager.persistentContainer.newBackgroundContext()
-//        let fetchRequest: NSFetchRequest<CDItem>
-//        fetchRequest = CDItem.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id!)
-//        guard let itemToDelete = try! moc.fetch(fetchRequest).first else { return }
-//        itemToDelete.list?.title = itemToDelete.list?.title
-//        moc.delete(itemToDelete)
-//        do {
-//            try moc.saveIfNeeded()
-//            print("Item \(itemToDelete.name) deleted.")
-//            return
-//        } catch {
-//            print("Error deleting item: \(error)")
-//        }
-//    }
     
 
     

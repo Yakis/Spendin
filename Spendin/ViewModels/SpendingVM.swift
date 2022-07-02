@@ -50,8 +50,9 @@ final class SpendingVM: ObservableObject {
     
     func fetchLists() {
         Task {
-            self.lists = try! await ListService.getAllLists()
-            self.currentList = lists.first
+            lists = try! await ListService.getAllLists()
+            currentList = lists.first
+            currentListItems.removeAll()
             self.currentListItems = await getItemsFor(currentList!.id).sorted { $0.date < $1.date }
         }
     }
@@ -70,7 +71,10 @@ final class SpendingVM: ObservableObject {
     
     
     func save(list: ItemList) {
-        
+        Task {
+            try await ListService.save(list: list)
+            fetchLists()
+        }
     }
     
     
@@ -83,7 +87,7 @@ final class SpendingVM: ObservableObject {
         Task {
             guard let currentList = currentList else { return }
             try await ItemService.save(item: itemToSave, listID: currentList.id)
-            currentListItems = try! await ItemService.getItems(for: currentList.id)
+            fetchLists()
             itemToUpdate = nil
             itemToSave = Item()
         }
@@ -92,18 +96,23 @@ final class SpendingVM: ObservableObject {
     
     func update() {
         Task {
-            guard let currentList = currentList else { return }
             try await ItemService.update(item: itemToSave)
-            currentListItems = try! await ItemService.getItems(for: currentList.id)
+            fetchLists()
             itemToUpdate = nil
             itemToSave = Item()
         }
     }
     
     func delete(item: Item) async throws {
-//        try await itemDataStore.delete(item: item)
+        try await ItemService.delete(item: item)
     }
     
+    
+    func delete(list: ItemList) async throws {
+        guard let index = lists.firstIndex(of: list) else { return }
+        try await ListService.delete(list: list)
+        lists.remove(at: index)
+    }
     
     
     func saveSuggestion(item: Item) {
