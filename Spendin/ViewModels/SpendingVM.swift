@@ -126,6 +126,7 @@ final class SpendingVM: ObservableObject {
         guard let index = lists.firstIndex(of: list) else { return }
         try await ListService.delete(list: list)
         lists.remove(at: index)
+        currentListIndex = max(lists.count - 1, 0)
     }
     
     
