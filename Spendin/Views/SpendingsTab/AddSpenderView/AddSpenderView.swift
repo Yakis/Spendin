@@ -101,8 +101,6 @@ struct AddSpenderView: View {
             date = spendingVM.itemToSave.due.isoToDate()
             selectedType = spendingVM.itemToSave.itemType
             selectedCategory = spendingVM.itemToSave.category
-        } else {
-            date = Date()
         }
         suggestions = spendingVM.suggestions
     }

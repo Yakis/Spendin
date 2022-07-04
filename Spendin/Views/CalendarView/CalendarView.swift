@@ -77,6 +77,7 @@ struct CalendarView<DateView>: View where DateView: View {
                                 .onTapGesture {
                                     selectedDate = date
                                     showTodaySpendings = true
+                                    print(selectedDate)
                                 }
                                 .sheet(isPresented: $showTodaySpendings, content: {
                                     SpendingsForDateView(selectedDate: $selectedDate)

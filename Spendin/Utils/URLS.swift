@@ -15,9 +15,9 @@ enum ServerEnv {
     var url: String {
         switch self {
         case .development:
-            return "http://0.0.0.0:8080/"
+            return "https://47a9-82-37-115-33.eu.ngrok.io/"
         case .production:
-            return "http://0.0.0.0:8080/"
+            return "http://88.208.241.68/"
         }
     }
     

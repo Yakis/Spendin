@@ -3,10 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1506CFC928716DE500FDE913 /* JWTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFC828716DE500FDE913 /* JWTService.swift */; };
+		1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFCA28716E3E00FDE913 /* Keychain Item.swift */; };
+		1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 1506CFD028716FD900FDE913 /* SwiftJWT */; };
+		1506CFD32871709F00FDE913 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD22871709F00FDE913 /* AuthService.swift */; };
+		1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD42871711D00FDE913 /* AuthenticationView.swift */; };
+		1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD62871738F00FDE913 /* CloseableView.swift */; };
+		1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */; };
+		1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */; };
 		151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* DetailedListView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
@@ -67,6 +75,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1506CFC828716DE500FDE913 /* JWTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTService.swift; sourceTree = "<group>"; };
+		1506CFCA28716E3E00FDE913 /* Keychain Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain Item.swift"; sourceTree = "<group>"; };
+		1506CFD22871709F00FDE913 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		1506CFD42871711D00FDE913 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		1506CFD62871738F00FDE913 /* CloseableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseableView.swift; sourceTree = "<group>"; };
+		1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-public.pem"; sourceTree = "<group>"; };
+		1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-private.pem"; sourceTree = "<group>"; };
 		151F965C24C49D92002C27F4 /* DetailedListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedListView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
@@ -121,6 +136,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */,
 				15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +158,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1506CFD82871762F00FDE913 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				1506CFD42871711D00FDE913 /* AuthenticationView.swift */,
+				1506CFD62871738F00FDE913 /* CloseableView.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		1506CFDD28717F9D00FDE913 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */,
+				1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
 		153682D724C6278800772897 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +191,7 @@
 			children = (
 				156938F424C49C4300521D57 /* LaunchScreen.storyboard */,
 				156938ED24C49C4300521D57 /* ContentView.swift */,
+				1506CFD82871762F00FDE913 /* Modules */,
 				1553D6F02736DA9300191DCC /* Navigation */,
 				153682DA24C627D400772897 /* SpendingsTab */,
 				1545DDF5273536C500194A0B /* CalendarView */,
@@ -197,6 +232,7 @@
 				155013D5273448A500FF14AD /* Item.swift */,
 				1553D6F72736E85300191DCC /* Suggestion.swift */,
 				154D4004273D82A200743B96 /* List.swift */,
+				1506CFCA28716E3E00FDE913 /* Keychain Item.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -217,6 +253,8 @@
 				15341DF5286F39FC00C0F737 /* ListService.swift */,
 				15341DF9286F484300C0F737 /* ItemService.swift */,
 				157E7EC5287061300088282F /* SuggestionService.swift */,
+				1506CFC828716DE500FDE913 /* JWTService.swift */,
+				1506CFD22871709F00FDE913 /* AuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -293,6 +331,7 @@
 		156938E524C49C4300521D57 /* Spendin */ = {
 			isa = PBXGroup;
 			children = (
+				1506CFDD28717F9D00FDE913 /* Keys */,
 				155013D227343AD800FF14AD /* Services */,
 				1555D8F7253041270091D21C /* ViewModels */,
 				15F8760224D1BA1B00CDF163 /* Spendin.entitlements */,
@@ -356,6 +395,7 @@
 			);
 			name = Spendin;
 			packageProductDependencies = (
+				1506CFD028716FD900FDE913 /* SwiftJWT */,
 			);
 			productName = Spendy;
 			productReference = 156938E324C49C4300521D57 /* Spendin.app */;
@@ -429,6 +469,7 @@
 			);
 			mainGroup = 156938DA24C49C4300521D57;
 			packageReferences = (
+				1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
 			);
 			productRefGroup = 156938E424C49C4300521D57 /* Products */;
 			projectDirPath = "";
@@ -446,9 +487,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */,
 				156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */,
 				156938F324C49C4300521D57 /* Preview Assets.xcassets in Resources */,
 				156938F024C49C4300521D57 /* Assets.xcassets in Resources */,
+				1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +517,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
+				1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */,
 				1553D6EF2736D60200191DCC /* CustomizedCalendarView.swift in Sources */,
 				151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */,
 				155E65A725304E5500082584 /* XMarkView.swift in Sources */,
@@ -484,6 +528,7 @@
 				1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
 				159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */,
+				1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */,
 				1595CDB027B0835D00C1C30A /* CardView.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,
@@ -495,12 +540,15 @@
 				155E658925304DBE00082584 /* SaveButton.swift in Sources */,
 				155E659825304E0500082584 /* AmountTextField.swift in Sources */,
 				1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */,
+				1506CFC928716DE500FDE913 /* JWTService.swift in Sources */,
 				1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */,
 				155E65842530466600082584 /* TotalBottomView.swift in Sources */,
 				15341DF8286F3AB600C0F737 /* URLS.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				155E659325304DF200082584 /* CategoryPicker.swift in Sources */,
 				15341DF6286F39FC00C0F737 /* ListService.swift in Sources */,
+				1506CFD32871709F00FDE913 /* AuthService.swift in Sources */,
+				1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */,
 				1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */,
 				1553D6F82736E85300191DCC /* Suggestion.swift in Sources */,
 				1553D6EB2736D54800191DCC /* Sidebar.swift in Sources */,
@@ -676,7 +724,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -700,7 +748,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -841,6 +889,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1506CFD028716FD900FDE913 /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 156938DB24C49C4300521D57 /* Project object */;
 }

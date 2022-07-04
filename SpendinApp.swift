@@ -34,6 +34,7 @@ struct SpendinApp: App {
     
     @Environment(\.scenePhase) var scenePhase
     @StateObject var spendingVM: SpendingVM
+    @StateObject var authService = AuthService()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let sceneDelegate = MySceneDelegate()
     
@@ -47,6 +48,7 @@ struct SpendinApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(spendingVM)
+                .environmentObject(authService)
                 .withHostingWindow { window in
                     sceneDelegate.originalDelegate = window?.windowScene!.delegate
                     window?.windowScene!.delegate = sceneDelegate

@@ -22,6 +22,7 @@ struct SpendingsView: View {
 struct PageView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
+    @EnvironmentObject var authService: AuthService
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
@@ -58,6 +59,9 @@ struct PageView: View {
                         .onChange(of: spendingVM.currentListItems) { newValue in
                             spendingVM.calculateSpendings()
                         }
+                        .onChange(of: authService.isAuthenticated) { isAuthenticated in
+                            spendingVM.fetchLists()
+                        }
                     }.padding(.top, 10)
                 }
             }
@@ -65,7 +69,13 @@ struct PageView: View {
             .sheet(isPresented: $showCreateNewListView) {
                 
             } content: {
-                CreateNewListView()
+                if authService.isAuthenticated {
+                    CreateNewListView()
+                } else {
+                    CloseableView {
+                        AuthenticationView()
+                    }
+                }
             }
             .toolbar {
                 //                ToolbarItem(placement: .navigationBarLeading, content: {

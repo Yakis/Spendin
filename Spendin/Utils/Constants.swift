@@ -30,3 +30,9 @@ enum ContextSaveContextualInfo: String {
     case deleteAttachment = "deleting an attachment"
     case saveFullImage = "saving a full image"
 }
+
+
+struct Fonts {
+    static let verdanaRegular = "Verdana"
+    static let robotoMedium = "Roboto-Medium"
+}

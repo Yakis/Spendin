@@ -12,21 +12,21 @@ struct ItemList: Codable {
     var id: String
     var name: String
     var created: String
-    var shared: Bool
+    var uid: String
     var itemsCount: Int = 0
     
     init() {
         self.id = UUID().uuidString
         self.name = ""
         self.created = ""
-        self.shared = false
+        self.uid = ""
     }
     
     init(name: String) {
         self.id = UUID().uuidString
         self.name = name
         self.created = ""
-        self.shared = false
+        self.uid = ""
     }
     
     

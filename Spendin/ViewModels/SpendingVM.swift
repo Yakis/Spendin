@@ -63,7 +63,7 @@ final class SpendingVM: ObservableObject {
     
     func fetchLists() {
         Task {
-            lists = try! await ListService.getAllLists()
+            lists = try await ListService.getAllLists()
             currentListItems.removeAll()
             guard !lists.isEmpty else { return }
             let currentList = lists[currentListIndex]
@@ -81,6 +81,7 @@ final class SpendingVM: ObservableObject {
     
     
     func getItemsFor(_ listID: String) async -> [Item] {
+        currentListItems.removeAll()
         return try! await ItemService.getItems(for: listID)
     }
     
