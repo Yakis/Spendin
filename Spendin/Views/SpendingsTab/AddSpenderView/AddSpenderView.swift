@@ -66,6 +66,7 @@ struct AddSpenderView: View {
                     } label: {
                         Image(systemName: "xmark.circle")
                             .font(.title3)
+                            .foregroundColor(AdaptColors.theOrange)
                     }
 
                 }

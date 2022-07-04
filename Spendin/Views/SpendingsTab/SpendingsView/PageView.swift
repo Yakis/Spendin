@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-import CoreData
-import CloudKit
-
+import Combine
 
 struct SpendingsView: View {
     
@@ -26,6 +24,7 @@ struct PageView: View {
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
+    @State private var cancellables = Set<AnyCancellable>()
     
     var body: some View {
         NavigationView {
@@ -58,9 +57,6 @@ struct PageView: View {
                         }
                         .onChange(of: spendingVM.currentListItems) { newValue in
                             spendingVM.calculateSpendings()
-                        }
-                        .onChange(of: authService.isAuthenticated) { isAuthenticated in
-                            spendingVM.fetchLists()
                         }
                     }.padding(.top, 10)
                 }
@@ -103,9 +99,7 @@ struct PageView: View {
         Task {
             try await spendingVM.delete(list: list)
         }
-        
     }
-    
     
     
 }

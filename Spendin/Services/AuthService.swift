@@ -52,6 +52,7 @@ class AuthService: ObservableObject {
             self.saveProviderInKeychain("apple.com")
             self.isLoading = false
             self.checkIfIsAuthenticated()
+            NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
             completion()
         }
     }
@@ -104,6 +105,7 @@ class AuthService: ObservableObject {
         KeychainItem.deleteUserEmailFromKeychain()
         KeychainItem.deleteAuthProviderFromKeychain()
         checkIfIsAuthenticated()
+        NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
         completion(NSLocalizedString("Logged out.", comment: ""))
     }
 }

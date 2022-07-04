@@ -80,8 +80,10 @@ struct CalendarView<DateView>: View where DateView: View {
                                     print(selectedDate)
                                 }
                                 .sheet(isPresented: $showTodaySpendings, content: {
+                                    CloseableView {
                                     SpendingsForDateView(selectedDate: $selectedDate)
                                         .background(AdaptColors.container)
+                                    }
                                 })
                         } else {
                             content(date).hidden()

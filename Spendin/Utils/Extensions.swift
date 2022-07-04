@@ -28,8 +28,7 @@ extension View {
 
 
 extension Notification.Name {
-    static let storeHasChanges = Notification.Name.init("storeHasChanges")
-    static let didFindRelevantTransactions = Notification.Name("didFindRelevantTransactions")
+    static let authDidChange = Notification.Name.init("authDidChange")
 }
 
 

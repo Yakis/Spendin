@@ -14,6 +14,7 @@ final class SpendingVM: ObservableObject {
     
     @Published var total: Double = 0
     @Published var isLoading: Bool = false
+    @Published var isAuthenticated: Bool = false
     @Published var currentListIndex: Int = 0
     @Published var currentListItems: [Item] = []
     @Published var lists: [ItemList] = []
@@ -26,6 +27,7 @@ final class SpendingVM: ObservableObject {
         fetchSuggestions()
         fetchLists()
         registerForListIndexChange()
+        registerForAuthStatus()
     }
     
     
@@ -39,6 +41,26 @@ final class SpendingVM: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    
+    private func registerForAuthStatus() {
+        NotificationCenter.default.publisher(for: .authDidChange)
+            .sink { [weak self] notification in
+                guard let self = self else { return }
+                guard let isAuthenticated = notification.userInfo?["isAuthenticated"] as?Bool else { return }
+                print("Is authenticated: \(isAuthenticated)")
+                if isAuthenticated {
+                    self.fetchLists()
+                } else {
+                    self.currentListItems.removeAll()
+                    self.lists.removeAll()
+                    self.suggestions.removeAll()
+                    self.currentListIndex = 0
+                }
+            }
+            .store(in: &cancellables)
+            
     }
     
     

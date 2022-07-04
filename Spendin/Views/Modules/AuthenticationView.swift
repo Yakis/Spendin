@@ -41,22 +41,22 @@ struct AuthenticationView: View {
                 .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? bounds.size.width - 60 : 300, height: 50, alignment: .center)
                 .frame(maxWidth: .infinity)
                 .padding(.bottom, 20)
-                Button(action: {
+//                Button(action: {
 //                    authService.loginWithGoogle()
-                }, label: {
-                    HStack {
-                        Image("googleSignIn").resizable()
-                            .frame(width: 14, height: 14, alignment: .center)
-                        Text(NSLocalizedString("GoogleSignInButton", comment: ""))
-                            .foregroundColor(AdaptColors.container)
-                            .font(.custom(Fonts.robotoMedium, size: 18))
-                    }
-                })
-                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? bounds.size.width - 60 : 300, height: 50, alignment: .center)
-                .background(AdaptColors.cellBackground)
-                .cornerRadius(5)
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 20)
+//                }, label: {
+//                    HStack {
+//                        Image("googleSignIn").resizable()
+//                            .frame(width: 14, height: 14, alignment: .center)
+//                        Text(NSLocalizedString("GoogleSignInButton", comment: ""))
+//                            .foregroundColor(AdaptColors.container)
+//                            .font(.custom(Fonts.robotoMedium, size: 18))
+//                    }
+//                })
+//                .frame(width: UIDevice.current.userInterfaceIdiom == .phone ? bounds.size.width - 60 : 300, height: 50, alignment: .center)
+//                .background(AdaptColors.cellBackground)
+//                .cornerRadius(5)
+//                .frame(maxWidth: .infinity)
+//                .padding(.bottom, 20)
                 ProgressView()
                     .opacity(authService.isLoading ? 1 : 0)
                 Spacer()
