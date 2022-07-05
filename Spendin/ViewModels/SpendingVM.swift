@@ -89,7 +89,7 @@ final class SpendingVM: ObservableObject {
             currentListItems.removeAll()
             guard !lists.isEmpty else { return }
             let currentList = lists[currentListIndex]
-            currentListItems = await getItemsFor(currentList.id).sorted { $0.date < $1.date }
+            currentListItems = await getItemsFor(currentList.id)
             fetchSuggestions()
         }
     }
@@ -143,6 +143,7 @@ final class SpendingVM: ObservableObject {
     
     func delete(item: Item) async throws {
         try await ItemService.delete(item: item)
+        fetchLists()
     }
     
     
@@ -150,7 +151,7 @@ final class SpendingVM: ObservableObject {
         guard let index = lists.firstIndex(of: list) else { return }
         try await ListService.delete(list: list)
         lists.remove(at: index)
-        currentListIndex = max(lists.count - 1, 0)
+        currentListIndex = max(index - 1, 0)
     }
     
     
