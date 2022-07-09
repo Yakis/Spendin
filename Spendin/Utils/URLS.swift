@@ -15,9 +15,9 @@ enum ServerEnv {
     var url: String {
         switch self {
         case .development:
-            return "https://a38e-82-37-115-33.eu.ngrok.io/"
+            return "https://6c3b-82-37-115-33.eu.ngrok.io/"
         case .production:
-            return "http://88.208.241.68/"
+            return "https://yakis.cloud/"
         }
     }
     
@@ -31,7 +31,7 @@ import Foundation
 
 fileprivate struct URLS {
 
-    static let env: ServerEnv = .development
+    static let env: ServerEnv = .production
     
 }
 
@@ -81,6 +81,11 @@ extension URL {
         return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
     }
     
+    static func update(listID: String) -> URL {
+        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
+    }
+    
     
     //MARK: Items
     static func items(for listID: String) -> URL {
@@ -101,6 +106,12 @@ extension URL {
     static func delete(itemID: String) -> URL {
         let percentEncodedID = itemID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? itemID
         return URL(string: "\(URLS.env.url)items/\(percentEncodedID)")!
+    }
+    
+    
+    //MARK: Users
+    static func createUser() -> URL {
+        return URL(string: "\(URLS.env.url)users")!
     }
     
 }

@@ -104,7 +104,12 @@ final class SpendingVM: ObservableObject {
     
     func getItemsFor(_ listID: String) async -> [Item] {
         currentListItems.removeAll()
-        return try! await ItemService.getItems(for: listID)
+        do {
+            return try await ItemService.getItems(for: listID)
+        } catch {
+            print("Error getting items: \(error)")
+        }
+        return []
     }
     
     
@@ -117,7 +122,16 @@ final class SpendingVM: ObservableObject {
     
     
     func update(list: ItemList) {
-        
+        Task {
+            let updatedList = try await ListService.update(list.name, for: list.id)
+        }
+    }
+    
+    
+    func invite(user userDetails: UserDetails, to list: ItemList) {
+        Task {
+            let updatedList = try await ListService.invite(user: userDetails, to: list.id)
+        }
     }
     
     

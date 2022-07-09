@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Combine
+import UIKit
+import CoreImage.CIFilterBuiltins
 
 struct SpendingsView: View {
     
@@ -24,7 +26,11 @@ struct PageView: View {
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
+    @State private var showQRCodeGenerator = false
     @State private var cancellables = Set<AnyCancellable>()
+    
+    let context = CIContext()
+    let filter = CIFilter.qrCodeGenerator()
     
     var body: some View {
         NavigationView {
@@ -73,19 +79,54 @@ struct PageView: View {
                     }
                 }
             }
+            .sheet(isPresented: $showQRCodeGenerator, content: {
+                let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: true, email: KeychainItem.currentUserEmail)
+                let image = generateQRCode(from: userDetails)
+                    VStack(alignment: .center) {
+                        HStack {
+                            Text("Ask the owner of the list to scan the code bellow.")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundColor(Color.gray)
+                                .multilineTextAlignment(.center)
+                        }.padding()
+                        Image(uiImage: image)
+                            .resizable()
+                            .interpolation(.none)
+                            .scaledToFit()
+                            .frame(width: 200, height: 200)
+                            .cornerRadius(16)
+                            .padding()
+                        Button {
+                            showQRCodeGenerator = false
+                            spendingVM.fetchLists()
+                        } label: {
+                            Text("Done")
+                                .padding(5)
+                        }
+                        .padding()
+                        .buttonStyle(.borderedProminent)
+
+                    }
+            })
             .toolbar {
-                //                ToolbarItem(placement: .navigationBarLeading, content: {
-                //                    Text("Lists")
-                //                        .font(.largeTitle)
-                //                        .fontWeight(.bold)
-                //                        .multilineTextAlignment(.leading)
-                //                        .frame(alignment: .leading)
-                //                        .padding(.top, 30)
-                //                })
-                
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        showCreateNewListView.toggle()
+                    Menu {
+                        Button {
+                            showCreateNewListView.toggle()
+                        } label: {
+                            Label("New list", systemImage: "plus.circle.fill")
+                        }
+                        Button {
+                            showQRCodeGenerator = true
+                        } label: {
+                            Label("Get an invitation", systemImage: "qrcode")
+                        }
+                        Button {
+                            
+                        } label: {
+                            Label("Import", systemImage: "square.and.arrow.down")
+                        }
                     } label: {
                         Image(systemName: "plus.circle.fill")
                     }
@@ -99,6 +140,17 @@ struct PageView: View {
         Task {
             try await spendingVM.delete(list: list)
         }
+    }
+    
+    
+    private func generateQRCode(from userDetails: UserDetails) -> UIImage {
+        filter.message = try! JSONEncoder().encode(userDetails)
+        if let outputImage = filter.outputImage {
+            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+                return UIImage(cgImage: cgimg)
+            }
+        }
+        return UIImage(systemName: "xmark.circle") ?? UIImage()
     }
     
     

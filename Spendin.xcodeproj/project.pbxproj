@@ -35,6 +35,8 @@
 		1555D8E225303CD40091D21C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E125303CD40091D21C /* Extensions.swift */; };
 		1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D8E625303CFD0091D21C /* ItemsView.swift */; };
 		1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1555D9032530426B0091D21C /* DetailedListItemCell.swift */; };
+		155963B62879C8AF00F5730B /* QRCodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155963B52879C8AF00F5730B /* QRCodeReader.swift */; };
+		155963B82879C8CE00F5730B /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155963B72879C8CE00F5730B /* ImagePickerView.swift */; };
 		155E65842530466600082584 /* TotalBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E65832530466600082584 /* TotalBottomView.swift */; };
 		155E658925304DBE00082584 /* SaveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E658825304DBE00082584 /* SaveButton.swift */; };
 		155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155E658D25304DDA00082584 /* ItemDatePicker.swift */; };
@@ -50,6 +52,7 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
+		157E1AD4287859D5007C049C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E1AD3287859D5007C049C /* User.swift */; };
 		157E7EC6287061300088282F /* SuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E7EC5287061300088282F /* SuggestionService.swift */; };
 		1595CDB027B0835D00C1C30A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDAF27B0835D00C1C30A /* CardView.swift */; };
 		1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */; };
@@ -102,6 +105,8 @@
 		1555D8E125303CD40091D21C /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1555D8E625303CFD0091D21C /* ItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsView.swift; sourceTree = "<group>"; };
 		1555D9032530426B0091D21C /* DetailedListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedListItemCell.swift; sourceTree = "<group>"; };
+		155963B52879C8AF00F5730B /* QRCodeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeReader.swift; sourceTree = "<group>"; };
+		155963B72879C8CE00F5730B /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		155E65832530466600082584 /* TotalBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalBottomView.swift; sourceTree = "<group>"; };
 		155E658825304DBE00082584 /* SaveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveButton.swift; sourceTree = "<group>"; };
 		155E658D25304DDA00082584 /* ItemDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDatePicker.swift; sourceTree = "<group>"; };
@@ -123,6 +128,7 @@
 		1569390724C49C4400521D57 /* SpendinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		157E1AD3287859D5007C049C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		157E7EC5287061300088282F /* SuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionService.swift; sourceTree = "<group>"; };
 		1595CDAF27B0835D00C1C30A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListPlaceholder.swift; sourceTree = "<group>"; };
@@ -163,6 +169,8 @@
 			children = (
 				1506CFD42871711D00FDE913 /* AuthenticationView.swift */,
 				1506CFD62871738F00FDE913 /* CloseableView.swift */,
+				155963B52879C8AF00F5730B /* QRCodeReader.swift */,
+				155963B72879C8CE00F5730B /* ImagePickerView.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -233,6 +241,7 @@
 				1553D6F72736E85300191DCC /* Suggestion.swift */,
 				154D4004273D82A200743B96 /* List.swift */,
 				1506CFCA28716E3E00FDE913 /* Keychain Item.swift */,
+				157E1AD3287859D5007C049C /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -520,6 +529,7 @@
 				1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */,
 				1553D6EF2736D60200191DCC /* CustomizedCalendarView.swift in Sources */,
 				151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */,
+				155963B82879C8CE00F5730B /* ImagePickerView.swift in Sources */,
 				155E65A725304E5500082584 /* XMarkView.swift in Sources */,
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				155E659D25304E2D00082584 /* ItemTypePicker.swift in Sources */,
@@ -532,6 +542,7 @@
 				1595CDB027B0835D00C1C30A /* CardView.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,
+				155963B62879C8AF00F5730B /* QRCodeReader.swift in Sources */,
 				155013D6273448A500FF14AD /* Item.swift in Sources */,
 				154DEA5D27417C5C00F7CF7E /* PageView.swift in Sources */,
 				151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */,
@@ -544,6 +555,7 @@
 				1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */,
 				155E65842530466600082584 /* TotalBottomView.swift in Sources */,
 				15341DF8286F3AB600C0F737 /* URLS.swift in Sources */,
+				157E1AD4287859D5007C049C /* User.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				155E659325304DF200082584 /* CategoryPicker.swift in Sources */,
 				15341DF6286F39FC00C0F737 /* ListService.swift in Sources */,
@@ -724,7 +736,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -748,7 +760,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 22;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;

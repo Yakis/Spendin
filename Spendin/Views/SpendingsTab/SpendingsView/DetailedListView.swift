@@ -9,20 +9,22 @@ import SwiftUI
 import Combine
 import CoreData
 import CloudKit
+import UIKit
+import CoreImage.CIFilterBuiltins
 
 enum ItemType: String, CaseIterable, Codable {
     case expense, income
     
     init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawString = try container.decode(String.self)
-            
-            if let type = ItemType(rawValue: rawString.lowercased()) {
-                self = type
-            } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
-            }
+        let container = try decoder.singleValueContainer()
+        let rawString = try container.decode(String.self)
+        
+        if let type = ItemType(rawValue: rawString.lowercased()) {
+            self = type
+        } else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
         }
+    }
     
 }
 
@@ -36,36 +38,32 @@ struct DetailedListView: View {
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
     @State private var showAlert = false
+    @State private var showQRCodeScanner = false
+    @State private var qrValue = ""
     var list: ItemList
     var deleteAction: () -> ()
     
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                HStack(alignment: .center) {
-                    Button {
-                        exportJson()
-                    } label: {
-                        Image(systemName: "arrow.down.doc.fill")
-                            .font(.title3)
-                            .foregroundColor(.red)
-                            .padding()
-                    }
-                    Button {
-                        showAlert = true
-                    } label: {
-                        Image(systemName: "trash.fill")
-                            .font(.title3)
-                            .foregroundColor(.red)
-                            .padding()
+                Text("Participants:")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.gray)
+                    .padding([.leading, .trailing], 16)
+                    .padding(.bottom, 2)
+                HStack {
+                    ForEach(list.users, id: \.id) { participant in
+                        Text("\(participant.email)")
+                            .font(.caption2)
+                            .fontWeight(.light)
+                            .foregroundColor(.gray)
+                            .padding([.leading, .trailing], 16)
                     }
                 }
-                .frame(maxHeight: 50)
-                .background(AdaptColors.container)
                 ItemsView(showModal: $showModal, isUpdate: $isUpdate)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
                     .environmentObject(spendingVM)
-                
             }
             .background(AdaptColors.container)
             .onAppear {
@@ -83,26 +81,48 @@ struct DetailedListView: View {
                 secondaryButton: .cancel()
             )
         }
+        .sheet(isPresented: $showQRCodeScanner, content: {
+            VStack {
+                Text(qrValue)
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .padding()
+                ScannerView(value: $qrValue)
+                    .onChange(of: qrValue) { newValue in
+                        if !newValue.isEmpty {
+                            print(newValue)
+                            showQRCodeScanner = false
+                            if let data = newValue.data(using: String.Encoding.utf8) {
+                                let decodedUser = try! JSONDecoder().decode(UserDetails.self, from: data)
+                                spendingVM.invite(user: decodedUser, to: spendingVM.lists[spendingVM.currentListIndex])
+                            }
+                        }
+                    }
+            }
+        })
         .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.large)
-    }
-    
-    
-    
-    private func exportJson() {
-        let encoder = JSONEncoder()
-        do {
-            let jsonObject = try encoder.encode(list)
-            guard let driveURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)?.appendingPathComponent("Documents") else { return }
-            let fileURL = driveURL.appendingPathComponent(list.name + "." + "json")
-            try jsonObject.write(to: fileURL)
-        } catch {
-            print("Error encoding json: \(error)")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showAlert = true
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .foregroundColor(AdaptColors.theOrange)
+                        .padding()
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showQRCodeScanner = true
+                } label: {
+                    Image(systemName: "qrcode.viewfinder")
+                        .foregroundColor(AdaptColors.theOrange)
+                        .padding()
+                }
+            }
         }
     }
     
     
-    
 }
-
-

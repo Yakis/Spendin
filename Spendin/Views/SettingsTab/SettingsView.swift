@@ -34,13 +34,13 @@ struct SettingsView: View {
                     .padding([.leading, .trailing], 16)
                     .padding([.top, .bottom], 8)
             }.buttonStyle(.bordered)
-            //            Text("Delete suggestions")
-            //                .padding()
-            //            Button {
-            //                spendingVM.deleteSuggestions()
-            //            } label: {
-            //                Text("Delete")
-            //            }.buttonStyle(.borderedProminent)
+                        Text("Delete suggestions")
+                            .padding()
+                        Button {
+                            spendingVM.deleteSuggestions()
+                        } label: {
+                            Text("Delete")
+                        }.buttonStyle(.borderedProminent)
         }
         .onAppear {
             message = authService.isAuthenticated ? "You're logged in: \(authService.userEmail)" : "Logged out, please log in."

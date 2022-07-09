@@ -10,8 +10,9 @@ import UIKit
 import Combine
 import CryptoKit
 import AuthenticationServices
+import Contacts
 
-
+@MainActor
 class AuthService: ObservableObject {
     
     
@@ -30,9 +31,6 @@ class AuthService: ObservableObject {
     
     
     init() {
-//        logout { message in
-//            print(message)
-//        }
         checkIfIsAuthenticated()
     }
     
@@ -45,17 +43,47 @@ class AuthService: ObservableObject {
     func login(authorization: ASAuthorization, completion: @escaping () -> ()) {
         isLoading = true
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            self.userEmail = appleIDCredential.email ?? "private email"
-            self.saveEmailInKeychain(userEmail)
-            self.saveUserInKeychain(userIdentifier)
-            self.saveProviderInKeychain("apple.com")
-            self.isLoading = false
-            self.checkIfIsAuthenticated()
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            Task {
+                let user = try await createUser(token: idTokenString, name: appleIDCredential.fullName?.formatted())
+                print("User successfully created: \(user.email)")
+                let userIdentifier = user.id
+                self.userEmail = user.email
+                self.saveEmailInKeychain(userEmail)
+                self.saveUserInKeychain(userIdentifier)
+                self.saveProviderInKeychain("apple.com")
+                self.isLoading = false
+                self.checkIfIsAuthenticated()
+            }
             NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
             completion()
         }
     }
+    
+    
+    func createUser(token: String, name: String?) async throws -> User {
+        var request = URLRequest(url: .createUser())
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        let encodedName = try JSONEncoder().encode(name)
+        let (data, response) = try await session().upload(for: request, from: encodedName)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while creating user: \((response as? HTTPURLResponse).debugDescription)")
+        }
+        let user = try JSONDecoder().decode(User.self, from: data)
+        print(user)
+        return user
+    }
+    
     
     
     func saveUserInKeychain(_ userIdentifier: String) {
@@ -108,4 +136,6 @@ class AuthService: ObservableObject {
         NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
         completion(NSLocalizedString("Logged out.", comment: ""))
     }
+    
+    
 }
