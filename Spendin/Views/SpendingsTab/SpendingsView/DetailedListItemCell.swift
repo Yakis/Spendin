@@ -17,6 +17,8 @@ struct DetailedListItemCell: View {
     var index: Int
     @Binding var isUpdate: Bool
     @Binding var showModal: Bool
+    var isReadOnly: Bool
+    @State private var showUpdateRestrictionAlert = false
     
     var body: some View {
         HStack {
@@ -57,9 +59,13 @@ struct DetailedListItemCell: View {
         .frame(height: 60, alignment: .leading)
         .cornerRadius(10)
         .onTapGesture {
-            isUpdate = true
-            showModal = true
-            spendingVM.itemToSave = item
+            if isReadOnly {
+                showUpdateRestrictionAlert = true
+            } else {
+                isUpdate = true
+                showModal = true
+                spendingVM.itemToSave = item
+            }
         }
         .overlay {
             HStack {
@@ -74,6 +80,7 @@ struct DetailedListItemCell: View {
                     .position(x: -9, y: 60 / 2)
             }
         }
+        .deleteDisabled(isReadOnly)
     }
     
     

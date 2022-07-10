@@ -37,32 +37,41 @@ struct DetailedListView: View {
     @State var isUpdate: Bool = false
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
-    @State private var showAlert = false
+    @State private var showDeleteListAlert = false
+    @State private var showInvalidQRAlert = false
     @State private var showQRCodeScanner = false
     @State private var qrValue = ""
     var list: ItemList
     var deleteAction: () -> ()
     
+    private var currentUser: UserDetails {
+        return list.users.filter { user in
+            user.email == KeychainItem.currentUserEmail
+        }.first!
+    }
+    
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text("Participants:")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.gray)
-                    .padding([.leading, .trailing], 16)
-                    .padding(.bottom, 2)
-                HStack {
-                    ForEach(list.users, id: \.id) { participant in
-                        Text("\(participant.email)")
-                            .font(.caption2)
-                            .fontWeight(.light)
-                            .foregroundColor(.gray)
-                            .padding([.leading, .trailing], 16)
-                    }
+                if list.users.count > 1 {
+                    Text("Participants:")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                        .padding([.leading, .trailing], 16)
+                        .padding(.bottom, 2)
+                        ForEach(list.users, id: \.id) { participant in
+                            let role = participant.isOwner ? " (Owner)" : " (Invitee)"
+                            let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
+                            Text(title + role)
+                                .font(.caption2)
+                                .fontWeight(participant.isOwner ? .semibold : .light)
+                                .foregroundColor(.gray)
+                                .padding([.leading, .trailing], 16)
+                        }
                 }
-                ItemsView(showModal: $showModal, isUpdate: $isUpdate)
-                TotalBottomView(showModal: $showModal, isUpdate: $isUpdate)
+                ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
+                TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
                     .environmentObject(spendingVM)
             }
             .background(AdaptColors.container)
@@ -71,7 +80,7 @@ struct DetailedListView: View {
             }
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
         }
-        .alert(isPresented: $showAlert) {
+        .alert(isPresented: $showDeleteListAlert) {
             Alert(
                 title: Text("Warning"),
                 message: Text("Are you sure you want to delete this list?"),
@@ -90,12 +99,16 @@ struct DetailedListView: View {
                 ScannerView(value: $qrValue)
                     .onChange(of: qrValue) { newValue in
                         if !newValue.isEmpty {
-                            print(newValue)
                             showQRCodeScanner = false
-                            if let data = newValue.data(using: String.Encoding.utf8) {
-                                let decodedUser = try! JSONDecoder().decode(UserDetails.self, from: data)
-                                spendingVM.invite(user: decodedUser, to: spendingVM.lists[spendingVM.currentListIndex])
+                            qrValue = ""
+                            guard let data = newValue.data(using: String.Encoding.utf8) else { return }
+                            guard let decodedUser = try? JSONDecoder().decode(UserDetails.self, from: data) else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                                    showInvalidQRAlert = true
+                                }
+                                return
                             }
+                            spendingVM.invite(user: decodedUser, to: spendingVM.lists[spendingVM.currentListIndex])
                         }
                     }
             }
@@ -105,12 +118,11 @@ struct DetailedListView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    showAlert = true
+                    showDeleteListAlert = true
                 } label: {
                     Image(systemName: "trash.fill")
-                        .foregroundColor(AdaptColors.theOrange)
-                        .padding()
-                }
+                        .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
+                }.disabled(currentUser.readOnly)
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
@@ -118,10 +130,24 @@ struct DetailedListView: View {
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
                         .foregroundColor(AdaptColors.theOrange)
-                        .padding()
                 }
             }
         }
+        .alert(Text("Error"), isPresented: $showInvalidQRAlert, actions: {
+            Button {
+                showInvalidQRAlert = false
+            } label: {
+                Text("Dismiss")
+            }
+            Button {
+                showInvalidQRAlert = false
+                showQRCodeScanner = true
+            } label: {
+                Text("Retry")
+            }
+        }, message: {
+            Text("The QR code is invalid.")
+        })
     }
     
     

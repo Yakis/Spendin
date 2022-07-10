@@ -13,15 +13,17 @@ struct ItemsView: View {
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
+    var isReadOnly: Bool
     @State private var yPos: CGFloat = 0
     @State private var height: CGFloat = 0
     @State private var size: CGSize = .zero
+    @State private var showDeleteRestrictionAlert = false
     
     var body: some View {
         List {
             ForEach(0..<spendingVM.currentListItems.count, id: \.self) { index in
                 if let item = spendingVM.currentListItems[index] {
-                    DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal)
+                    DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
                         .environmentObject(spendingVM)
                 }
             }
@@ -36,6 +38,10 @@ struct ItemsView: View {
     
     
     private func delete(at offsets: IndexSet) {
+        guard !isReadOnly else {
+            showDeleteRestrictionAlert = true
+            return
+        }
         let item = spendingVM.currentListItems[offsets.first!]
         Task {
             try await spendingVM.delete(item: item)
