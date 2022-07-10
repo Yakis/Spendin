@@ -40,7 +40,10 @@ struct DetailedListView: View {
     @State private var showDeleteListAlert = false
     @State private var showInvalidQRAlert = false
     @State private var showQRCodeScanner = false
+    @State private var showSharingList = false
     @State private var qrValue = ""
+    @State private var invitee: UserDetails? = nil
+    @State private var message: String = ""
     var list: ItemList
     var deleteAction: () -> ()
     
@@ -102,15 +105,32 @@ struct DetailedListView: View {
                             showQRCodeScanner = false
                             qrValue = ""
                             guard let data = newValue.data(using: String.Encoding.utf8) else { return }
+                            let existingUsers = list.users.map { $0.email }
                             guard let decodedUser = try? JSONDecoder().decode(UserDetails.self, from: data) else {
                                 DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                                    message = "The QR code is invalid."
                                     showInvalidQRAlert = true
                                 }
                                 return
                             }
-                            spendingVM.invite(user: decodedUser, to: spendingVM.lists[spendingVM.currentListIndex])
+                            guard !existingUsers.contains(decodedUser.email) else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
+                                    message = "User is the owner of the list, or is already invited."
+                                    showInvalidQRAlert = true
+                                }
+                                return
+                            }
+                            self.invitee = decodedUser
+                            showSharingList = true
                         }
                     }
+            }
+        })
+        .sheet(isPresented: $showSharingList, content: {
+            if let invitee = invitee {
+                CloseableView {
+                    ShareListView(list: list, invitee: invitee)
+                }
             }
         })
         .navigationTitle(list.name)
@@ -136,19 +156,67 @@ struct DetailedListView: View {
         .alert(Text("Error"), isPresented: $showInvalidQRAlert, actions: {
             Button {
                 showInvalidQRAlert = false
+                message = ""
             } label: {
                 Text("Dismiss")
             }
             Button {
                 showInvalidQRAlert = false
                 showQRCodeScanner = true
+                message = ""
             } label: {
                 Text("Retry")
             }
         }, message: {
-            Text("The QR code is invalid.")
+            Text(message)
         })
     }
     
+    
+}
+
+
+struct ShareListView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var spendingVM: SpendingVM
+    var list: ItemList
+    var invitee: UserDetails
+    @State private var readOnly = false
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            Image(systemName: "person.crop.circle.badge.plus")
+                .symbolRenderingMode(.hierarchical)
+                .font(.system(size: 60))
+                .foregroundColor(AdaptColors.theOrange)
+                .opacity(0.7)
+            Spacer()
+            Text("Sharing **\(list.name)** with **\(invitee.email)**")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.gray)
+                .padding([.leading, .trailing], 30)
+            Spacer()
+            Toggle("Read only", isOn: $readOnly)
+                .tint(AdaptColors.theOrange)
+                .padding([.leading, .trailing], 50)
+                Spacer()
+            Button {
+                let newInvitee = UserDetails(id: invitee.id, isOwner: false, readOnly: readOnly, email: invitee.email)
+                spendingVM.invite(user: newInvitee, to: list)
+                presentationMode.wrappedValue.dismiss()
+            } label: {
+                Text("Share")
+                    .padding(5)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(AdaptColors.theOrange)
+            .padding(8)
+            Spacer()
+        }
+        .frame(maxHeight: .infinity)
+    }
     
 }

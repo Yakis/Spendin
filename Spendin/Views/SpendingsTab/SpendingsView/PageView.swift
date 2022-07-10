@@ -82,32 +82,10 @@ struct PageView: View {
             .sheet(isPresented: $showQRCodeGenerator, content: {
                 let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: true, email: KeychainItem.currentUserEmail)
                 let image = generateQRCode(from: userDetails)
-                    VStack(alignment: .center) {
-                        HStack {
-                            Text("Ask the owner of the list to scan the code bellow.")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundColor(Color.gray)
-                                .multilineTextAlignment(.center)
-                        }.padding()
-                        Image(uiImage: image)
-                            .resizable()
-                            .interpolation(.none)
-                            .scaledToFit()
-                            .frame(width: 200, height: 200)
-                            .cornerRadius(16)
-                            .padding()
-                        Button {
-                            showQRCodeGenerator = false
-                            spendingVM.fetchLists()
-                        } label: {
-                            Text("Done")
-                                .padding(5)
-                        }
-                        .padding()
-                        .buttonStyle(.borderedProminent)
-
-                    }
+                CloseableView {
+                    QRGeneratorView(image: image)
+                        .frame(maxHeight: .infinity)
+                }
             })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -187,3 +165,39 @@ struct ListCell: View {
 }
 
 
+struct QRGeneratorView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var spendingVM: SpendingVM
+    var image: UIImage
+    
+    var body: some View {
+        VStack(alignment: .center) {
+            HStack {
+                Text("Ask the owner of the list to scan the code bellow.")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color.gray)
+                    .multilineTextAlignment(.center)
+            }.padding()
+            Image(uiImage: image)
+                .resizable()
+                .interpolation(.none)
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                .cornerRadius(16)
+                .padding()
+            Button {
+                presentationMode.wrappedValue.dismiss()
+                spendingVM.fetchLists()
+            } label: {
+                Text("Done")
+                    .padding(5)
+            }
+            .padding()
+            .buttonStyle(.borderedProminent)
+            .tint(AdaptColors.theOrange)
+        }
+    }
+    
+}
