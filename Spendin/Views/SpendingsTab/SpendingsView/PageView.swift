@@ -26,11 +26,23 @@ struct PageView: View {
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
+    @State private var showDeleteListAlert = false
+    @State private var showDeleteRestrictionAlert = false
     @State private var showQRCodeGenerator = false
     @State private var cancellables = Set<AnyCancellable>()
+    @State private var listToDelete: ItemList?
     
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
+    
+    private var currentUser: UserDetails? {
+        if let list = listToDelete {
+            return list.users.filter { user in
+                user.email == KeychainItem.currentUserEmail
+            }.first!
+        }
+        return nil
+    }
     
     var body: some View {
         NavigationView {
@@ -44,27 +56,47 @@ struct PageView: View {
                             .opacity(0.5)
                     }.frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
-                    ScrollView {
-                        LazyVGrid(
-                            columns: [GridItem.init(.fixed(60), spacing: 5)],
-                            spacing: 12
-                        ) {
-                            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
-                                if let list = spendingVM.lists[index] {
-                                    NavigationLink {
-                                        DetailedListView(list: list) {
-                                            delete(list: list)
-                                        }
-                                    } label: {
-                                        ListCell(list: list, geometry: geometry)
+                    List {
+                        ForEach(0..<spendingVM.lists.count, id: \.self) { index in
+                            if let list = spendingVM.lists[index] {
+                                NavigationLink {
+                                    DetailedListView(list: list)
+                                } label: {
+                                    HStack {
+                                        Text(list.name)
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .padding(10)
+                                        Spacer()
+                                        Text("\(list.itemsCount) items")
+                                            .font(.caption)
+                                            .fontWeight(.light)
+                                            .padding(10)
                                     }
                                 }
                             }
                         }
-                        .onChange(of: spendingVM.currentListItems) { newValue in
-                            spendingVM.calculateSpendings()
+                        .onDelete { index in
+                            listToDelete = spendingVM.lists[index.first!]
+                            if let user = currentUser, !user.readOnly {
+                                showDeleteListAlert = true
+                            } else {
+                                showDeleteRestrictionAlert = true
+                            }
                         }
-                    }.padding(.top, 10)
+                    }
+                    .onChange(of: spendingVM.currentListItems) { newValue in
+                        spendingVM.calculateSpendings()
+                    }
+                    .alert("Warning", isPresented: $showDeleteListAlert) {
+                        Button("Cancel", role: .cancel, action: {
+                            showDeleteListAlert = false
+                            listToDelete = nil
+                        })
+                        Button("Delete", role: .destructive, action: { delete(list: listToDelete) })
+                    } message: {
+                        Text("Are you sure you want to delete this list?")
+                    }
                 }
             }
             .navigationTitle("Lists")
@@ -72,7 +104,9 @@ struct PageView: View {
                 
             } content: {
                 if authService.isAuthenticated {
-                    CreateNewListView()
+                    CloseableView {
+                        CreateNewListView()
+                    }
                 } else {
                     CloseableView {
                         AuthenticationView()
@@ -87,36 +121,27 @@ struct PageView: View {
                         .frame(maxHeight: .infinity)
                 }
             })
+            .alert("Warning", isPresented: $showDeleteRestrictionAlert) {
+                Button("Dismiss", role: .cancel, action: {
+                    showDeleteRestrictionAlert = false
+                    listToDelete = nil
+                })
+            } message: {
+                Text("You don't have the permission to delete this list.")
+            }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button {
-                            showCreateNewListView.toggle()
-                        } label: {
-                            Label("New list", systemImage: "plus.circle.fill")
-                        }
-                        Button {
-                            showQRCodeGenerator = true
-                        } label: {
-                            Label("Get an invitation", systemImage: "qrcode")
-                        }
-                        Button {
-                            
-                        } label: {
-                            Label("Import", systemImage: "square.and.arrow.down")
-                        }
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                    }
-                }
+                MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
             }
         }
     }
     
     
-    private func delete(list: ItemList) {
-        Task {
-            try await spendingVM.delete(list: list)
+    private func delete(list: ItemList?) {
+        if let list = list {
+            Task {
+                try await spendingVM.delete(list: list)
+                listToDelete = nil
+            }
         }
     }
     
@@ -136,31 +161,32 @@ struct PageView: View {
 
 
 
-
-struct ListCell: View {
+struct MainViewToolbar: ToolbarContent {
     
-    var list: ItemList
-    var geometry: GeometryProxy
+    @Binding var showCreateNewListView: Bool
+    @Binding var showQRCodeGenerator: Bool
     
-    var body: some View {
-        HStack {
-            Text(list.name)
-                .font(.title3)
-                .fontWeight(.bold)
-                .padding(10)
-            Spacer()
-            Text("\(list.itemsCount) items")
-                .font(.caption)
-                .fontWeight(.light)
-                .padding(10)
+    var body: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                Button {
+                    showCreateNewListView.toggle()
+                } label: {
+                    Label("New list", systemImage: "plus.circle.fill")
+                }
+                Button {
+                    showQRCodeGenerator = true
+                } label: {
+                    Label("Get an invitation", systemImage: "qrcode")
+                }
+                Button {
+                    
+                } label: {
+                    Label("Import", systemImage: "square.and.arrow.down")
+                }
+            } label: {
+                Image(systemName: "plus.circle.fill")
+            }
         }
-        .frame(height: 60)
-        .frame(minWidth: geometry.size.width - 32)
-        .background(AdaptColors.container)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding([.leading, .trailing], 16)
     }
-    
-    
 }
-

@@ -55,7 +55,9 @@ struct CreateNewListView: View {
             }
             .disabled(listName.isEmpty)
             .opacity(listName.isEmpty ? 0.5 : 1)
-        }.padding()
+        }
+        .frame(maxHeight: .infinity)
+        .padding()
     }
     
     

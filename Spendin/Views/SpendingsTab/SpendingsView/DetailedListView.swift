@@ -37,7 +37,6 @@ struct DetailedListView: View {
     @State var isUpdate: Bool = false
     @State private var isLoading: Bool = true
     @State private var cancellable: AnyCancellable?
-    @State private var showDeleteListAlert = false
     @State private var showInvalidQRAlert = false
     @State private var showQRCodeScanner = false
     @State private var showSharingList = false
@@ -45,7 +44,6 @@ struct DetailedListView: View {
     @State private var invitee: UserDetails? = nil
     @State private var message: String = ""
     var list: ItemList
-    var deleteAction: () -> ()
     
     private var currentUser: UserDetails {
         return list.users.filter { user in
@@ -83,22 +81,8 @@ struct DetailedListView: View {
             }
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
         }
-        .alert(isPresented: $showDeleteListAlert) {
-            Alert(
-                title: Text("Warning"),
-                message: Text("Are you sure you want to delete this list?"),
-                primaryButton: .destructive(Text("Delete")) {
-                    deleteAction()
-                },
-                secondaryButton: .cancel()
-            )
-        }
         .sheet(isPresented: $showQRCodeScanner, content: {
-            VStack {
-                Text(qrValue)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .padding()
+            CloseableView {
                 ScannerView(value: $qrValue)
                     .onChange(of: qrValue) { newValue in
                         if !newValue.isEmpty {
@@ -138,14 +122,6 @@ struct DetailedListView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    showDeleteListAlert = true
-                } label: {
-                    Image(systemName: "trash.fill")
-                        .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
-                }.disabled(currentUser.readOnly)
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
                     showQRCodeScanner = true
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
@@ -175,48 +151,3 @@ struct DetailedListView: View {
     
 }
 
-
-struct ShareListView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var spendingVM: SpendingVM
-    var list: ItemList
-    var invitee: UserDetails
-    @State private var readOnly = false
-    
-    var body: some View {
-        VStack(alignment: .center) {
-            Image(systemName: "person.crop.circle.badge.plus")
-                .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 60))
-                .foregroundColor(AdaptColors.theOrange)
-                .opacity(0.7)
-            Spacer()
-            Text("Sharing **\(list.name)** with **\(invitee.email)**")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-                .padding([.leading, .trailing], 30)
-            Spacer()
-            Toggle("Read only", isOn: $readOnly)
-                .tint(AdaptColors.theOrange)
-                .padding([.leading, .trailing], 50)
-                Spacer()
-            Button {
-                let newInvitee = UserDetails(id: invitee.id, isOwner: false, readOnly: readOnly, email: invitee.email)
-                spendingVM.invite(user: newInvitee, to: list)
-                presentationMode.wrappedValue.dismiss()
-            } label: {
-                Text("Share")
-                    .padding(5)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(AdaptColors.theOrange)
-            .padding(8)
-            Spacer()
-        }
-        .frame(maxHeight: .infinity)
-    }
-    
-}
