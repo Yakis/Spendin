@@ -56,7 +56,7 @@ struct AddSpenderView: View {
             .onAppear(perform: {
                 setupFields()
             })
-            .navigationTitle("Add item")
+            .navigationTitle(isUpdate ? "Update item" : "Add item")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

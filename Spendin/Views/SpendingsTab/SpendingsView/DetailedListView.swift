@@ -149,8 +149,8 @@ struct DetailedListView: View {
                     showQRCodeScanner = true
                 } label: {
                     Image(systemName: "qrcode.viewfinder")
-                        .foregroundColor(AdaptColors.theOrange)
-                }
+                        .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
+                }.disabled(currentUser.readOnly)
             }
         }
         .alert(Text("Error"), isPresented: $showInvalidQRAlert, actions: {

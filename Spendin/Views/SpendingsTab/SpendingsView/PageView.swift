@@ -46,8 +46,8 @@ struct PageView: View {
                 } else {
                     ScrollView {
                         LazyVGrid(
-                            columns: [GridItem.init(.fixed(100), spacing: 10)],
-                            spacing: 16
+                            columns: [GridItem.init(.fixed(60), spacing: 5)],
+                            spacing: 12
                         ) {
                             ForEach(0..<spendingVM.lists.count, id: \.self) { index in
                                 if let list = spendingVM.lists[index] {
@@ -154,7 +154,7 @@ struct ListCell: View {
                 .fontWeight(.light)
                 .padding(10)
         }
-        .frame(height: 100)
+        .frame(height: 60)
         .frame(minWidth: geometry.size.width - 32)
         .background(AdaptColors.container)
         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -164,40 +164,3 @@ struct ListCell: View {
     
 }
 
-
-struct QRGeneratorView: View {
-    
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var spendingVM: SpendingVM
-    var image: UIImage
-    
-    var body: some View {
-        VStack(alignment: .center) {
-            HStack {
-                Text("Ask the owner of the list to scan the code bellow.")
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color.gray)
-                    .multilineTextAlignment(.center)
-            }.padding()
-            Image(uiImage: image)
-                .resizable()
-                .interpolation(.none)
-                .scaledToFit()
-                .frame(width: 200, height: 200)
-                .cornerRadius(16)
-                .padding()
-            Button {
-                presentationMode.wrappedValue.dismiss()
-                spendingVM.fetchLists()
-            } label: {
-                Text("Done")
-                    .padding(5)
-            }
-            .padding()
-            .buttonStyle(.borderedProminent)
-            .tint(AdaptColors.theOrange)
-        }
-    }
-    
-}
