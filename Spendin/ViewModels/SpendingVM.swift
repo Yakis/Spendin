@@ -123,14 +123,26 @@ final class SpendingVM: ObservableObject {
     
     func update(list: ItemList) {
         Task {
-            let updatedList = try await ListService.update(list.name, for: list.id)
+            let _ = try await ListService.update(list.name, for: list.id)
         }
     }
     
     
     func invite(user userDetails: UserDetails, to list: ItemList) {
         Task {
-            let updatedList = try await ListService.invite(user: userDetails, to: list.id)
+            let _ = try await ListService.invite(user: userDetails, to: list.id)
+        }
+    }
+    
+    func stopSharing(user userID: String, from listID: String) {
+        Task {
+            let _ = try await ListService.uninvite(user: userID, from: listID)
+        }
+    }
+    
+    func update(user privileges: UserPrivileges, for listID: String) {
+        Task {
+            let _ = try await ListService.update(user: privileges, for: listID)
         }
     }
     

@@ -25,6 +25,7 @@ enum ListService {
     
     static func getAllLists() async throws -> [ItemList] {
         let jwt = JWTService.getJWTFromUID()
+        guard !jwt.isEmpty else { return [] }
         print("======================================")
         print(jwt)
         print("======================================")
@@ -89,6 +90,38 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(userDetails)
+        let (data, response) = try await session().data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while inviting user to list <\(listID)>")
+        }
+        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
+        return updatedList
+    }
+    
+    
+    static func uninvite(user userID: String, from listID: String) async throws -> ItemList {
+        let jwt = JWTService.getJWTFromUID()
+        var request = URLRequest(url: .update(listID: listID))
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(jwt, forHTTPHeaderField: "User-Id")
+        request.httpBody = try JSONEncoder().encode(["id": userID])
+        let (data, response) = try await session().data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            fatalError("Error while inviting user to list <\(listID)>")
+        }
+        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
+        return updatedList
+    }
+    
+    
+    static func update(user privileges: UserPrivileges, for listID: String) async throws -> ItemList {
+        let jwt = JWTService.getJWTFromUID()
+        var request = URLRequest(url: .update(listID: listID))
+        request.httpMethod = "PATCH"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(jwt, forHTTPHeaderField: "User-Id")
+        request.httpBody = try JSONEncoder().encode(privileges)
         let (data, response) = try await session().data(for: request)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while inviting user to list <\(listID)>")

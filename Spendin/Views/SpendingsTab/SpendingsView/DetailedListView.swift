@@ -40,6 +40,7 @@ struct DetailedListView: View {
     @State private var showInvalidQRAlert = false
     @State private var showQRCodeScanner = false
     @State private var showSharingList = false
+    @State private var showEditSharingView = false
     @State private var qrValue = ""
     @State private var invitee: UserDetails? = nil
     @State private var message: String = ""
@@ -117,16 +118,34 @@ struct DetailedListView: View {
                 }
             }
         })
+        .sheet(isPresented: $showEditSharingView, content: {
+                CloseableView {
+                    EditSharingView(list: list)
+                }
+        })
         .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showQRCodeScanner = true
+                Menu {
+                    Button {
+                        showQRCodeScanner = true
+                    } label: {
+                        Label("Scan invitee's QR code", systemImage: "qrcode.viewfinder")
+                            .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
+                    }.disabled(currentUser.readOnly)
+                    Button {
+                        showEditSharingView = true
+                    } label: {
+                        Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
+                            .foregroundColor((!currentUser.isOwner || list.users.count == 1) ? Color.gray : AdaptColors.theOrange)
+                    }.disabled(!currentUser.isOwner || list.users.count == 1)
                 } label: {
-                    Image(systemName: "qrcode.viewfinder")
-                        .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
-                }.disabled(currentUser.readOnly)
+                    Image(systemName: "person.crop.circle.fill")
+                        .foregroundColor((!currentUser.isOwner) ? Color.gray : AdaptColors.theOrange)
+                }
+
+                
             }
         }
         .alert(Text("Error"), isPresented: $showInvalidQRAlert, actions: {
