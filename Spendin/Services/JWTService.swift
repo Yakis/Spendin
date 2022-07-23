@@ -12,9 +12,9 @@ enum JWTService {
     
     static func getJWTFromUID() -> String {
         if !KeychainItem.currentUserIdentifier.isEmpty {
-//            let userIdentifier = "007777.a774cf1d6clls8dhsjkd2dddd29b166.3333"
+//            let userIdentifier = "003326.a114cf1d6c92461892b112dddd29b166.0000"
             let userIdentifier = KeychainItem.currentUserIdentifier
-//            let userEmail = "madalina@icloud.com"
+//            let userEmail = "yakis.monk@icloud.com"
             let userEmail = KeychainItem.currentUserEmail
             let authProvider = KeychainItem.currentAuthProvider
             do {

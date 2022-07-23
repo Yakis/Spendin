@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150439A128892EDF000B5C35 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150439A028892EDF000B5C35 /* ShareSheet.swift */; };
 		1506CFC928716DE500FDE913 /* JWTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFC828716DE500FDE913 /* JWTService.swift */; };
 		1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFCA28716E3E00FDE913 /* Keychain Item.swift */; };
 		1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 1506CFD028716FD900FDE913 /* SwiftJWT */; };
@@ -63,6 +64,7 @@
 		15D66BC5287DA785008FEBC6 /* QRGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D66BC4287DA785008FEBC6 /* QRGeneratorView.swift */; };
 		15D66BC7287DACBC008FEBC6 /* ShareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D66BC6287DACBC008FEBC6 /* ShareListView.swift */; };
 		15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15F8760424D1BA3B00CDF163 /* CloudKit.framework */; };
+		15FE8B7F288BCAE5006FF2D9 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		150439A028892EDF000B5C35 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		1506CFC828716DE500FDE913 /* JWTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTService.swift; sourceTree = "<group>"; };
 		1506CFCA28716E3E00FDE913 /* Keychain Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain Item.swift"; sourceTree = "<group>"; };
 		1506CFD22871709F00FDE913 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 			files = (
 				1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */,
 				15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */,
+				15FE8B7F288BCAE5006FF2D9 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +187,7 @@
 				155963B72879C8CE00F5730B /* ImagePickerView.swift */,
 				15273BD0287B2F1800E7186E /* AdaptiveSheet.swift */,
 				15D66BC4287DA785008FEBC6 /* QRGeneratorView.swift */,
+				150439A028892EDF000B5C35 /* ShareSheet.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -420,6 +425,7 @@
 			name = Spendin;
 			packageProductDependencies = (
 				1506CFD028716FD900FDE913 /* SwiftJWT */,
+				15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */,
 			);
 			productName = Spendy;
 			productReference = 156938E324C49C4300521D57 /* Spendin.app */;
@@ -494,6 +500,7 @@
 			mainGroup = 156938DA24C49C4300521D57;
 			packageReferences = (
 				1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
+				15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 156938E424C49C4300521D57 /* Products */;
 			projectDirPath = "";
@@ -547,6 +554,7 @@
 				155963B82879C8CE00F5730B /* ImagePickerView.swift in Sources */,
 				155E65A725304E5500082584 /* XMarkView.swift in Sources */,
 				15273BD1287B2F1800E7186E /* AdaptiveSheet.swift in Sources */,
+				150439A128892EDF000B5C35 /* ShareSheet.swift in Sources */,
 				15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */,
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				155E659D25304E2D00082584 /* ItemTypePicker.swift in Sources */,
@@ -756,7 +764,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -780,7 +788,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Spendin/Spendin.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 29;
 				DEVELOPMENT_ASSET_PATHS = "\"Spendin/Preview Content\"";
 				DEVELOPMENT_TEAM = 4WPNK427TB;
 				ENABLE_PREVIEWS = YES;
@@ -931,6 +939,14 @@
 				minimumVersion = 3.6.0;
 			};
 		};
+		15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -938,6 +954,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
 			productName = SwiftJWT;
+		};
+		15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

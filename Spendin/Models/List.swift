@@ -41,7 +41,6 @@ struct ItemList: Codable {
     var name: String
     var created: String
     var users: [UserDetails]
-    var uids: [String]
     var itemsCount: Int = 0
     
     init() {
@@ -49,7 +48,6 @@ struct ItemList: Codable {
         self.name = ""
         self.created = ""
         self.users = []
-        self.uids = []
     }
     
     init(name: String) {
@@ -57,7 +55,6 @@ struct ItemList: Codable {
         self.name = name
         self.created = ""
         self.users = []
-        self.uids = []
     }
     
     

@@ -36,8 +36,8 @@ struct SpendinApp: App {
     @StateObject var spendingVM: SpendingVM
     @StateObject var authService = AuthService()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    let sceneDelegate = MySceneDelegate()
-    
+    @State private var showListInviteConfirmation = false
+    @State private var readOnly: Bool = true
     
     init() {
         _spendingVM = StateObject(wrappedValue: SpendingVM())
@@ -49,9 +49,30 @@ struct SpendinApp: App {
             ContentView()
                 .environmentObject(spendingVM)
                 .environmentObject(authService)
-                .withHostingWindow { window in
-                    sceneDelegate.originalDelegate = window?.windowScene!.delegate
-                    window?.windowScene!.delegate = sceneDelegate
+                .sheet(isPresented: $showListInviteConfirmation, content: {
+                    AcceptSharingView(readOnly: readOnly).environmentObject(spendingVM)
+                })
+                .onOpenURL { url in
+                    print("URL: \(url.absoluteString)")
+                    Task {
+                        let longURLString = try await spendingVM.fetchShortened(id: url.lastPathComponent)
+                        let longURL = URL(string: longURLString)!
+                        if let scheme = longURL.scheme, scheme.localizedCaseInsensitiveCompare("com.spendin") == .orderedSame {
+                            print("Scheme: \(scheme)")
+                            var parameters: [String: String] = [:]
+                            URLComponents(url: longURL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                                parameters[$0.name] = $0.value
+                            }
+                            print("PARAMS============== \(parameters)")
+                            guard let id = parameters["list"], !id.isEmpty else {return}
+                            print("ID============== \(id)")
+                            guard let readOnly = parameters["readonly"]?.boolean else {return}
+                            print("READ ONLY============== \(readOnly)")
+                            self.readOnly = readOnly
+                            spendingVM.getListFor(id: id)
+                            showListInviteConfirmation = true
+                        }
+                    }
                 }
         }
     }
@@ -60,34 +81,44 @@ struct SpendinApp: App {
 }
 
 
-class MySceneDelegate : NSObject, UIWindowSceneDelegate {
-    var originalDelegate: UISceneDelegate?
+struct AcceptSharingView: View {
     
+    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.presentationMode) var presentationMode
+    var readOnly: Bool
     
-    // forward all other UIWindowSceneDelegate/UISceneDelegate callbacks to original, like
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        originalDelegate?.scene!(scene, willConnectTo: session, options: connectionOptions)
-    }
-}
-
-
-extension View {
-    func withHostingWindow(_ callback: @escaping (UIWindow?) -> Void) -> some View {
-        self.background(HostingWindowFinder(callback: callback))
-    }
-}
-
-struct HostingWindowFinder: UIViewRepresentable {
-    var callback: (UIWindow?) -> ()
-    
-    func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        DispatchQueue.main.async { [weak view] in
-            self.callback(view?.window)
-        }
-        return view
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {
+    var body: some View {
+        VStack {
+            if let list = spendingVM.sharedList, let owner = list.users.first(where: { $0.isOwner == true }) {
+                Text("**\(owner.email)** \nwants to share \n**\(list.name)** \nwith you.")
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                HStack {
+                    Button {
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Cancel")
+                            .padding(5)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AdaptColors.theOrange)
+                    .opacity(0.7)
+                    .padding(.trailing, 50)
+                    Button {
+                        let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail)
+                        spendingVM.acceptInvitation(for: userDetails, to: list)
+                        presentationMode.wrappedValue.dismiss()
+                    } label: {
+                        Text("Accept")
+                            .padding(5)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AdaptColors.theOrange)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, 50)
+            }
+        }.frame(maxHeight: .infinity)
     }
 }

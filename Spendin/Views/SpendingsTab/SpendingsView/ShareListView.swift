@@ -9,11 +9,10 @@ import SwiftUI
 
 struct ShareListView: View {
     
-    @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var spendingVM: SpendingVM
     var list: ItemList
-    var invitee: UserDetails
-    @State private var readOnly = false
+    @Binding var showSharingList: Bool
+    @Binding var showShareSheet: Bool
     
     var body: some View {
         VStack(alignment: .center) {
@@ -23,21 +22,26 @@ struct ShareListView: View {
                 .foregroundColor(AdaptColors.theOrange)
                 .opacity(0.7)
             Spacer()
-            Text("Sharing **\(list.name)** with **\(invitee.email)**")
+            Text("Sharing **\(list.name)**")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .multilineTextAlignment(.center)
                 .foregroundColor(.gray)
                 .padding([.leading, .trailing], 30)
             Spacer()
-            Toggle("Read only", isOn: $readOnly)
+            Toggle("Read only", isOn: $spendingVM.readOnly)
                 .tint(AdaptColors.theOrange)
                 .padding([.leading, .trailing], 50)
-                Spacer()
+            Spacer()
             Button {
-                let newInvitee = UserDetails(id: invitee.id, isOwner: false, readOnly: readOnly, email: invitee.email)
-                spendingVM.invite(user: newInvitee, to: list)
-                presentationMode.wrappedValue.dismiss()
+                Task {
+                    try! await spendingVM.shorten()
+                    showShareSheet = true
+                    showSharingList = false
+//                    print("====================================")
+//                    print(spendingVM.shortenedURL)
+//                    print("====================================")
+                }
             } label: {
                 Text("Share")
                     .padding(5)
@@ -49,5 +53,7 @@ struct ShareListView: View {
         }
         .frame(maxHeight: .infinity)
     }
+    
+    
     
 }

@@ -41,9 +41,8 @@ struct DetailedListView: View {
     @State private var showQRCodeScanner = false
     @State private var showSharingList = false
     @State private var showEditSharingView = false
-    @State private var qrValue = ""
-    @State private var invitee: UserDetails? = nil
-    @State private var message: String = ""
+    @State private var showShareSheet = false
+    
     var list: ItemList
     
     private var currentUser: UserDetails {
@@ -62,15 +61,15 @@ struct DetailedListView: View {
                         .foregroundColor(.gray)
                         .padding([.leading, .trailing], 16)
                         .padding(.bottom, 2)
-                        ForEach(list.users, id: \.id) { participant in
-                            let role = participant.isOwner ? " (Owner)" : " (Invitee)"
-                            let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
-                            Text(title + role)
-                                .font(.caption2)
-                                .fontWeight(participant.isOwner ? .semibold : .light)
-                                .foregroundColor(.gray)
-                                .padding([.leading, .trailing], 16)
-                        }
+                    ForEach(list.users, id: \.id) { participant in
+                        let role = participant.isOwner ? " (Owner)" : " (Invitee)"
+                        let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
+                        Text(title + role)
+                            .font(.caption2)
+                            .fontWeight(participant.isOwner ? .semibold : .light)
+                            .foregroundColor(.gray)
+                            .padding([.leading, .trailing], 16)
+                    }
                 }
                 ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
@@ -82,46 +81,29 @@ struct DetailedListView: View {
             }
             ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
         }
-        .sheet(isPresented: $showQRCodeScanner, content: {
-            CloseableView {
-                ScannerView(value: $qrValue)
-                    .onChange(of: qrValue) { newValue in
-                        if !newValue.isEmpty {
-                            showQRCodeScanner = false
-                            qrValue = ""
-                            guard let data = newValue.data(using: String.Encoding.utf8) else { return }
-                            let existingUsers = list.users.map { $0.email }
-                            guard let decodedUser = try? JSONDecoder().decode(UserDetails.self, from: data) else {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                                    message = "The QR code is invalid."
-                                    showInvalidQRAlert = true
-                                }
-                                return
-                            }
-                            guard !existingUsers.contains(decodedUser.email) else {
-                                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) {
-                                    message = "User is the owner of the list, or is already invited."
-                                    showInvalidQRAlert = true
-                                }
-                                return
-                            }
-                            self.invitee = decodedUser
-                            showSharingList = true
-                        }
-                    }
+        .sheet(isPresented: $showShareSheet, onDismiss: {
+            spendingVM.readOnly = true
+        }, content: {
+            ShareSheet(activityItems: ["Sharing <\(list.name)> list.", spendingVM.shortenedURL], applicationActivities: nil, callback: { activityType, completed, returnedItems, error in
+                if completed && error == nil {
+                    showShareSheet = false
+                }
+            })
+            .onAppear {
+                print("====================================")
+                print(spendingVM.shortenedURL)
+                print("====================================")
             }
         })
         .sheet(isPresented: $showSharingList, content: {
-            if let invitee = invitee {
-                CloseableView {
-                    ShareListView(list: list, invitee: invitee)
-                }
+            CloseableView {
+                ShareListView(list: list, showSharingList: $showSharingList, showShareSheet: $showShareSheet)
             }
         })
         .sheet(isPresented: $showEditSharingView, content: {
-                CloseableView {
-                    EditSharingView(list: list)
-                }
+            CloseableView {
+                EditSharingView(list: list)
+            }
         })
         .navigationTitle(list.name)
         .navigationBarTitleDisplayMode(.large)
@@ -129,11 +111,11 @@ struct DetailedListView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
-                        showQRCodeScanner = true
+                        showSharingList = true
                     } label: {
-                        Label("Scan invitee's QR code", systemImage: "qrcode.viewfinder")
-                            .foregroundColor(currentUser.readOnly ? Color.gray : AdaptColors.theOrange)
-                    }.disabled(currentUser.readOnly)
+                        Label("Share list", systemImage: "square.and.arrow.up")
+                            .foregroundColor(currentUser.isOwner ? AdaptColors.theOrange : Color.gray)
+                    }.disabled(!currentUser.isOwner)
                     Button {
                         showEditSharingView = true
                     } label: {
@@ -144,27 +126,8 @@ struct DetailedListView: View {
                     Image(systemName: "person.crop.circle.fill")
                         .foregroundColor((!currentUser.isOwner) ? Color.gray : AdaptColors.theOrange)
                 }
-
-                
             }
         }
-        .alert(Text("Error"), isPresented: $showInvalidQRAlert, actions: {
-            Button {
-                showInvalidQRAlert = false
-                message = ""
-            } label: {
-                Text("Dismiss")
-            }
-            Button {
-                showInvalidQRAlert = false
-                showQRCodeScanner = true
-                message = ""
-            } label: {
-                Text("Retry")
-            }
-        }, message: {
-            Text(message)
-        })
     }
     
     

@@ -14,6 +14,7 @@ struct UserPrivilegesEditorView: View {
     var list: ItemList
     @Binding var invitee: UserDetails?
     @State private var readOnly = false
+    @State private var showStopSharingConfirmation = false
     
     var body: some View {
         if let user = invitee {
@@ -37,8 +38,7 @@ struct UserPrivilegesEditorView: View {
                 Spacer()
                 HStack {
                     Button(role: .destructive) {
-                        spendingVM.stopSharing(user: user.id, from: list.id)
-                        presentationMode.wrappedValue.dismiss()
+                        showStopSharingConfirmation = true
                     } label: {
                         Text("Stop sharing")
                             .padding(5)
@@ -63,6 +63,18 @@ struct UserPrivilegesEditorView: View {
             .frame(maxHeight: .infinity)
             .onAppear {
                 readOnly = user.readOnly
+            }
+            .alert("Warning", isPresented: $showStopSharingConfirmation) {
+                Button("Dismiss", role: .cancel, action: {
+                    invitee = nil
+                })
+                Button("Confirm", role: .cancel, action: {
+                    spendingVM.stopSharing(user: user.id, from: list.id)
+                    invitee = nil
+                    presentationMode.wrappedValue.dismiss()
+                })
+            } message: {
+                Text("Are you sure you want to stop sharing \(list.name) with \(invitee!.email)?")
             }
         } else {
             Text("NO USER!!!!!!!")

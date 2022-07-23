@@ -21,13 +21,22 @@ final class SpendingVM: ObservableObject {
     @Published var suggestions = [Suggestion]()
     @Published var amountList: Dictionary<Int, String> = [:]
     @Published var itemToSave: Item = Item()
+    @Published var currentUser: User? = nil
+    @Published var sharedList: ItemList?
     private var cancellables = Set<AnyCancellable>()
     
+    
+    // MARK: Sharing
+    @Published var readOnly = true
+    @Published var shortenedURL: URL = URL(string: "https://yakis.cloud")!
+    
+    
     init() {
-        fetchSuggestions()
-        fetchLists()
-        registerForListIndexChange()
-        registerForAuthStatus()
+        getCurrentUser()
+        //        fetchSuggestions()
+        //        fetchLists()
+        //        registerForListIndexChange()
+        //        registerForAuthStatus()
     }
     
     
@@ -60,7 +69,7 @@ final class SpendingVM: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-            
+        
     }
     
     
@@ -83,22 +92,42 @@ final class SpendingVM: ObservableObject {
     }
     
     
+    
+    func getCurrentUser() {
+        isLoading = true
+        Task {
+            guard !KeychainItem.currentUserIdentifier.isEmpty else { return }
+            self.currentUser = try await ListService.getCurrentUser()
+            self.fetchLists()
+            self.isLoading = false
+            self.registerForListIndexChange()
+            self.registerForAuthStatus()
+        }
+    }
+    
+    
+    
     func fetchLists() {
         Task {
-            lists = try await ListService.getAllLists()
-            currentListItems.removeAll()
-            guard !lists.isEmpty else { return }
-            let currentList = lists[currentListIndex]
-            currentListItems = await getItemsFor(currentList.id)
-            fetchSuggestions()
+            if let ids = currentUser?.lists, !ids.isEmpty {
+                let uuids = ids.map { UUID(uuidString: $0)! }
+                lists = try await ListService.getUserLists(ids: uuids)
+                currentListItems.removeAll()
+                guard !lists.isEmpty else { return }
+                let currentList = lists[currentListIndex]
+                currentListItems = await getItemsFor(currentList.id)
+                fetchSuggestions()
+            }
         }
     }
     
     
     
     
-    func getListFor(id: String) async {
-        let _ = try? await ListService.getList(for: id)
+    func getListFor(id: String) {
+        Task {
+            sharedList = try? await ListService.getList(for: id)
+        }
     }
     
     
@@ -116,7 +145,7 @@ final class SpendingVM: ObservableObject {
     func save(list: ItemList) {
         Task {
             try await ListService.save(list: list)
-            fetchLists()
+            getCurrentUser()
         }
     }
     
@@ -128,15 +157,18 @@ final class SpendingVM: ObservableObject {
     }
     
     
-    func invite(user userDetails: UserDetails, to list: ItemList) {
+    func acceptInvitation(for userDetails: UserDetails, to list: ItemList) {
         Task {
-            let _ = try await ListService.invite(user: userDetails, to: list.id)
+            let _ = try await ListService.acceptInvitation(for: userDetails, to: list.id)
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                self.getCurrentUser()
+            }
         }
     }
     
     func stopSharing(user userID: String, from listID: String) {
         Task {
-            let _ = try await ListService.uninvite(user: userID, from: listID)
+            let _ = try await ListService.stopSharing(for: userID, from: listID)
         }
     }
     
@@ -174,10 +206,12 @@ final class SpendingVM: ObservableObject {
     
     
     func delete(list: ItemList) async throws {
+        isLoading = true
         guard let index = lists.firstIndex(of: list) else { return }
         try await ListService.delete(list: list)
         lists.remove(at: index)
         currentListIndex = max(index - 1, 0)
+        isLoading = false
     }
     
     
@@ -215,5 +249,19 @@ final class SpendingVM: ObservableObject {
             suggestions.removeAll()
         }
     }
+    
+    
+    
+    func shorten() async throws {
+        let longURL = "com.spendin://lists?list=\(lists[currentListIndex].id)&readonly=\(readOnly)"
+        let shortened = try await ListService.shorten(url: longURL)
+        self.shortenedURL = URL(string: shortened.short)!
+    }
+    
+    
+    func fetchShortened(id: String) async throws -> String {
+        return try await ListService.fetchShortened(id: id)
+    }
+    
     
 }

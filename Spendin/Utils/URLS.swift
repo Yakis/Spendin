@@ -15,7 +15,7 @@ enum ServerEnv {
     var url: String {
         switch self {
         case .development:
-            return "https://c56c-82-37-115-33.eu.ngrok.io/"
+            return "https://a0dc-82-37-115-33.eu.ngrok.io/"
         case .production:
             return "https://yakis.cloud/"
         }
@@ -68,8 +68,8 @@ extension URL {
         return URL(string: "\(URLS.env.url)lists/\(id)")!
     }
     
-    static func allLists() -> URL {
-        return URL(string: "\(URLS.env.url)lists")!
+    static func userLists() -> URL {
+        return URL(string: "\(URLS.env.url)lists/user")!
     }
     
     static func saveList() -> URL {
@@ -84,6 +84,17 @@ extension URL {
     static func update(listID: String) -> URL {
         let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
         return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
+    }
+    
+    
+    // MARK: Shorten url
+    static func shorten() -> URL {
+        return URL(string: "\(URLS.env.url)urls")!
+    }
+    
+    static func fetchShorten(id: String) -> URL {
+        let percentEncodedID = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
+        return URL(string: "\(URLS.env.url)urls/\(percentEncodedID)")!
     }
     
     
@@ -111,6 +122,10 @@ extension URL {
     
     //MARK: Users
     static func createUser() -> URL {
+        return URL(string: "\(URLS.env.url)users")!
+    }
+    
+    static func getCurrentUser() -> URL {
         return URL(string: "\(URLS.env.url)users")!
     }
     

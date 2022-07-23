@@ -64,7 +64,8 @@ struct CustomizedCalendarView: View {
                     }
                 label: {
                     Image(systemName: "list.bullet.circle.fill")
-                }
+                        .foregroundColor(spendingVM.lists.isEmpty ? .gray : AdaptColors.theOrange)
+                }.disabled(spendingVM.lists.isEmpty)
                 }
             }
             .onChange(of: selectedIndex) { newValue in

@@ -46,8 +46,9 @@ struct PageView: View {
     
     var body: some View {
         NavigationView {
+            ZStack {
             GeometryReader { geometry in
-                if spendingVM.lists.isEmpty {
+                if spendingVM.lists.isEmpty && !spendingVM.isLoading {
                     VStack {
                         let image = Image(systemName: "plus.circle.fill")
                         Text("Nothing here, you can add a list from the \(image) button")
@@ -132,6 +133,11 @@ struct PageView: View {
             .toolbar {
                 MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
             }
+                ProgressView("Loading...").opacity(spendingVM.isLoading ? 1 : 0)
+            }
+            .refreshable(action: {
+                spendingVM.getCurrentUser()
+            })
         }
     }
     
