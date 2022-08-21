@@ -56,7 +56,10 @@ struct SpendinApp: App {
                     print("URL: \(url.absoluteString)")
                     Task {
                         let longURLString = try await spendingVM.fetchShortened(id: url.lastPathComponent)
-                        let longURL = URL(string: longURLString)!
+                        guard let longURL = URL(string: longURLString) else {
+                            print("Url expired!")
+                            return
+                        }
                         if let scheme = longURL.scheme, scheme.localizedCaseInsensitiveCompare("com.spendin") == .orderedSame {
                             print("Scheme: \(scheme)")
                             var parameters: [String: String] = [:]

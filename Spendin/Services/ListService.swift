@@ -196,16 +196,13 @@ enum ListService {
         do {
             let html: String = String(data: data, encoding: String.Encoding.utf8)!
             let doc: Document = try SwiftSoup.parse(html)
-            let link: Element = try doc.select("a").first()!
+            guard let link: Element = try doc.select("a").first() else { return "Invalid url" }
             let linkHref: String = try link.attr("href")
             return linkHref
         } catch Exception.Error(let type, let message) {
             print(message)
         } catch {
             print("error")
-        }
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while trying to fetch shorten url: <\(id)>")
         }
         return ""
     }
