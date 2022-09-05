@@ -360,10 +360,10 @@
 		156938E524C49C4300521D57 /* Spendin */ = {
 			isa = PBXGroup;
 			children = (
+				15F8760224D1BA1B00CDF163 /* Spendin.entitlements */,
 				1506CFDD28717F9D00FDE913 /* Keys */,
 				155013D227343AD800FF14AD /* Services */,
 				1555D8F7253041270091D21C /* ViewModels */,
-				15F8760224D1BA1B00CDF163 /* Spendin.entitlements */,
 				153682E124C628C700772897 /* Models */,
 				153682D724C6278800772897 /* Utils */,
 				153682D824C627A200772897 /* Views */,

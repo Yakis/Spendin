@@ -44,7 +44,7 @@ struct ScannerView: UIViewRepresentable {
             captureSession.addOutput(metadataOutput)
             
             metadataOutput.setMetadataObjectsDelegate(context.coordinator, queue: DispatchQueue.main)
-            metadataOutput.metadataObjectTypes = [.qr, .ean13]
+            metadataOutput.metadataObjectTypes = [.qr]
         } else {
             failed()
             return view
