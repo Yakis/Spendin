@@ -24,51 +24,48 @@ struct UserPrivilegesEditorView: View {
                     .font(.system(size: 60))
                     .foregroundColor(AdaptColors.theOrange)
                     .opacity(0.7)
-                Spacer()
-                Text("Edit **\(user.email)**'s privileges for **\(list.name)**")
-                    .font(.title2)
-                    .fontWeight(.semibold)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.gray)
-                    .padding([.leading, .trailing], 30)
-                Spacer()
-                Toggle("Read only", isOn: $readOnly)
-                    .tint(AdaptColors.theOrange)
-                    .padding([.leading, .trailing], 50)
-                Spacer()
-                HStack {
-                    Button(role: .destructive) {
-                        showStopSharingConfirmation = true
-                    } label: {
-                        Text("Stop sharing")
-                            .padding(5)
+                List {
+                    Section {
+                        Toggle("Read only", isOn: $readOnly)
+                            .tint(AdaptColors.theOrange)
+                        if user.readOnly != readOnly {
+                            Button {
+                                let newPrivileges = UserPrivileges(id: user.id, readOnly: readOnly)
+                                spendingVM.update(user: newPrivileges, for: list.id)
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Text("Update privileges")
+                            }
+                            .buttonStyle(.borderless)
+                            .tint(AdaptColors.theOrange)
+                        }
+                    } header: {
+                        let username = user.email.split(separator: "@")
+                        Text("Edit <\(String(username.first!))@> privileges for \(list.name)")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.gray)
                     }
-                    .buttonStyle(.bordered)
-                    .tint(AdaptColors.theOrange)
-                    .padding(8)
-                    Button {
-                        let newPrivileges = UserPrivileges(id: user.id, readOnly: readOnly)
-                        spendingVM.update(user: newPrivileges, for: list.id)
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("Update")
-                            .padding(5)
+                    Section {
+                        Button(role: .destructive) {
+                            showStopSharingConfirmation = true
+                        } label: {
+                            Text("Stop sharing")
+                        }
+                        .buttonStyle(.bordered)
+                        .tint(AdaptColors.theOrange)
+                    } header: {
+                        Text("Stop sharing the list")
                     }
-                    .buttonStyle(.bordered)
-                    .tint(AdaptColors.theOrange)
-                    .padding(8)
                 }
-                Spacer()
             }
             .frame(maxHeight: .infinity)
             .onAppear {
                 readOnly = user.readOnly
             }
             .alert("Warning", isPresented: $showStopSharingConfirmation) {
-                Button("Dismiss", role: .cancel, action: {
-                    invitee = nil
-                })
-                Button("Confirm", role: .cancel, action: {
+                Button("Cancel", role: .cancel, action: {})
+                Button("Confirm", role: .destructive, action: {
                     spendingVM.stopSharing(user: user.id, from: list.id)
                     invitee = nil
                     presentationMode.wrappedValue.dismiss()

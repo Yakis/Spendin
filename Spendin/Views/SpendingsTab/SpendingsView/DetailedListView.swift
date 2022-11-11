@@ -54,23 +54,6 @@ struct DetailedListView: View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                if list.users.count > 1 {
-                    Text("Participants:")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.gray)
-                        .padding([.leading, .trailing], 16)
-                        .padding(.bottom, 2)
-                    ForEach(list.users, id: \.id) { participant in
-                        let role = participant.isOwner ? " (Owner)" : " (Invitee)"
-                        let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
-                        Text(title + role)
-                            .font(.caption2)
-                            .fontWeight(participant.isOwner ? .semibold : .light)
-                            .foregroundColor(.gray)
-                            .padding([.leading, .trailing], 16)
-                    }
-                }
                 ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
                 TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
                     .environmentObject(spendingVM)
@@ -89,11 +72,6 @@ struct DetailedListView: View {
                     showShareSheet = false
                 }
             })
-            .onAppear {
-                print("====================================")
-                print(spendingVM.shortenedURL)
-                print("====================================")
-            }
         })
         .sheet(isPresented: $showSharingList, content: {
             CloseableView {
@@ -132,4 +110,3 @@ struct DetailedListView: View {
     
     
 }
-

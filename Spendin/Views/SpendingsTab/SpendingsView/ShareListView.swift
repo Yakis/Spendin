@@ -15,41 +15,52 @@ struct ShareListView: View {
     @Binding var showShareSheet: Bool
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack {
             Image(systemName: "person.crop.circle.badge.plus")
                 .symbolRenderingMode(.hierarchical)
                 .font(.system(size: 60))
                 .foregroundColor(AdaptColors.theOrange)
                 .opacity(0.7)
-            Spacer()
-            Text("Sharing **\(list.name)**")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.gray)
-                .padding([.leading, .trailing], 30)
-            Spacer()
-            Toggle("Read only", isOn: $spendingVM.readOnly)
-                .tint(AdaptColors.theOrange)
-                .padding([.leading, .trailing], 50)
-            Spacer()
-            Button {
-                Task {
-                    try! await spendingVM.shorten()
-                    showShareSheet = true
-                    showSharingList = false
-//                    print("====================================")
-//                    print(spendingVM.shortenedURL)
-//                    print("====================================")
+            List {
+                Section {
+                    if list.users.count > 1 {
+                        ForEach(list.users, id: \.id) { participant in
+                            let role = participant.isOwner ? " (Owner)" : " (Invitee)"
+                            let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
+                            Text(title + role)
+                                .font(.caption2)
+                                .fontWeight(participant.isOwner ? .semibold : .light)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                } header: {
+                    Text("Already shared with:")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
                 }
-            } label: {
-                Text("Share")
-                    .padding(5)
+                Section {
+                    Toggle("Read only", isOn: $spendingVM.readOnly)
+                        .tint(AdaptColors.theOrange)
+                    Button {
+                        Task {
+                            try! await spendingVM.shorten()
+                            showShareSheet = true
+                            showSharingList = false
+                        }
+                    } label: {
+                        Text("Share url")
+                            .fontWeight(.bold)
+                    }
+                    .buttonStyle(.borderless)
+                    .tint(AdaptColors.theOrange)
+                } header: {
+                    Text("Sharing \(list.name) \(list.users.count > 1 ? "again" : "")")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .multilineTextAlignment(.center)
+                }
             }
-            .buttonStyle(.borderedProminent)
-            .tint(AdaptColors.theOrange)
-            .padding(8)
-            Spacer()
         }
         .frame(maxHeight: .infinity)
     }
