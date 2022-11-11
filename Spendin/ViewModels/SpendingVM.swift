@@ -94,12 +94,12 @@ final class SpendingVM: ObservableObject {
     
     
     func getCurrentUser() {
+        print("Getting current user")
         isLoading = true
         Task {
             guard !KeychainItem.currentUserIdentifier.isEmpty else { return }
             self.currentUser = try await ListService.getCurrentUser()
             self.fetchLists()
-            self.isLoading = false
             self.registerForListIndexChange()
             self.registerForAuthStatus()
         }
@@ -108,6 +108,8 @@ final class SpendingVM: ObservableObject {
     
     
     func fetchLists() {
+        print("Fetching lists")
+//        isLoading = true
         Task {
             if let ids = currentUser?.lists, !ids.isEmpty {
                 let uuids = ids.map { UUID(uuidString: $0)! }
@@ -118,6 +120,7 @@ final class SpendingVM: ObservableObject {
                 currentListItems = await getItemsFor(currentList.id)
                 fetchSuggestions()
             }
+            isLoading = false
         }
     }
     
@@ -133,8 +136,11 @@ final class SpendingVM: ObservableObject {
     
     func getItemsFor(_ listID: String) async -> [Item] {
         currentListItems.removeAll()
+        isLoading = true
         do {
-            return try await ItemService.getItems(for: listID)
+            let items = try await ItemService.getItems(for: listID)
+            isLoading = false
+            return items
         } catch {
             print("Error getting items: \(error)")
         }

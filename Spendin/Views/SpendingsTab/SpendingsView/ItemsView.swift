@@ -21,16 +21,19 @@ struct ItemsView: View {
     
     var body: some View {
         List {
-            ForEach(0..<spendingVM.currentListItems.count, id: \.self) { index in
-                if let item = spendingVM.currentListItems[index] {
-                    DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
-                        .environmentObject(spendingVM)
+            Section {
+                ForEach(0..<spendingVM.currentListItems.count, id: \.self) { index in
+                    if let item = spendingVM.currentListItems[index] {
+                        DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
+                            .environmentObject(spendingVM)
+                    }
                 }
+                .onDelete(perform: delete)
+                .listRowBackground(AdaptColors.container)
             }
-            .onDelete(perform: delete)
-            .listRowBackground(AdaptColors.cellBackground)
-        }
-        .listStyle(InsetGroupedListStyle())
+            
+        }.padding([.leading, .trailing], 16)
+        .listStyle(.plain)
         .onChange(of: spendingVM.currentListItems) { newValue in
             spendingVM.calculateSpendings()
         }
@@ -49,7 +52,7 @@ struct ItemsView: View {
         }
     }
     
-
+    
     
 }
 

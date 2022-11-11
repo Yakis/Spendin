@@ -40,6 +40,7 @@ enum ItemService {
     
     
     static func update(item: Item) async throws {
+        print("Begin updating item")
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .update(itemID: item.id))
         request.httpMethod = "PATCH"
@@ -50,6 +51,7 @@ enum ItemService {
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
         }
+        print("Item updated on server")
     }
     
     

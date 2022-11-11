@@ -47,92 +47,64 @@ struct PageView: View {
     var body: some View {
         NavigationView {
             ZStack {
-            GeometryReader { geometry in
-                if spendingVM.lists.isEmpty && !spendingVM.isLoading {
-                    VStack {
-                        let image = Image(systemName: "plus.circle.fill")
-                        Text("Nothing here, you can add a list from the \(image) button")
-                            .font(.title)
-                            .multilineTextAlignment(.center)
-                            .opacity(0.5)
-                    }.frame(maxWidth: .infinity, maxHeight: .infinity)
-                } else {
-                    List {
-                        ForEach(0..<spendingVM.lists.count, id: \.self) { index in
-                            if let list = spendingVM.lists[index] {
-                                NavigationLink {
-                                    DetailedListView(list: list)
-                                } label: {
-                                    HStack {
-                                        Text(list.name)
-                                            .font(.title3)
-                                            .fontWeight(.bold)
-                                            .padding(10)
-                                        Spacer()
-                                        Text("\(list.itemsCount) items")
-                                            .font(.caption)
-                                            .fontWeight(.light)
-                                            .padding(10)
-                                    }
-                                }
+                GeometryReader { geometry in
+                    if spendingVM.lists.isEmpty && !spendingVM.isLoading {
+                        VStack {
+                            let image = Image(systemName: "plus.circle.fill")
+                            Text("Nothing here, you can add a list from the \(image) button")
+                                .font(.title)
+                                .multilineTextAlignment(.center)
+                                .opacity(0.5)
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    } else {
+                        SummaryListView(listToDelete: $listToDelete, currentUser: currentUser, showDeleteListAlert: $showDeleteListAlert, showDeleteRestrictionAlert: $showDeleteRestrictionAlert)
+                            .onChange(of: spendingVM.currentListItems) { newValue in
+                                spendingVM.calculateSpendings()
                             }
-                        }
-                        .onDelete { index in
-                            listToDelete = spendingVM.lists[index.first!]
-                            if let user = currentUser, !user.readOnly {
-                                showDeleteListAlert = true
-                            } else {
-                                showDeleteRestrictionAlert = true
+                            .alert("Warning", isPresented: $showDeleteListAlert) {
+                                Button("Cancel", role: .cancel, action: {
+                                    showDeleteListAlert = false
+                                    listToDelete = nil
+                                })
+                                Button("Delete", role: .destructive, action: { delete(list: listToDelete) })
+                            } message: {
+                                Text("Are you sure you want to delete this list?")
                             }
+                    }
+                }
+                .navigationTitle("Lists")
+                .sheet(isPresented: $showCreateNewListView) {
+                    
+                } content: {
+                    if authService.isAuthenticated {
+                        CloseableView {
+                            CreateNewListView()
+                        }
+                    } else {
+                        CloseableView {
+                            AuthenticationView()
                         }
                     }
-                    .onChange(of: spendingVM.currentListItems) { newValue in
-                        spendingVM.calculateSpendings()
-                    }
-                    .alert("Warning", isPresented: $showDeleteListAlert) {
-                        Button("Cancel", role: .cancel, action: {
-                            showDeleteListAlert = false
-                            listToDelete = nil
-                        })
-                        Button("Delete", role: .destructive, action: { delete(list: listToDelete) })
-                    } message: {
-                        Text("Are you sure you want to delete this list?")
-                    }
                 }
-            }
-            .navigationTitle("Lists")
-            .sheet(isPresented: $showCreateNewListView) {
-                
-            } content: {
-                if authService.isAuthenticated {
+                .sheet(isPresented: $showQRCodeGenerator, content: {
+                    let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: true, email: KeychainItem.currentUserEmail)
+                    let image = generateQRCode(from: userDetails)
                     CloseableView {
-                        CreateNewListView()
+                        QRGeneratorView(image: image)
+                            .frame(maxHeight: .infinity)
                     }
-                } else {
-                    CloseableView {
-                        AuthenticationView()
-                    }
-                }
-            }
-            .sheet(isPresented: $showQRCodeGenerator, content: {
-                let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: true, email: KeychainItem.currentUserEmail)
-                let image = generateQRCode(from: userDetails)
-                CloseableView {
-                    QRGeneratorView(image: image)
-                        .frame(maxHeight: .infinity)
-                }
-            })
-            .alert("Warning", isPresented: $showDeleteRestrictionAlert) {
-                Button("Dismiss", role: .cancel, action: {
-                    showDeleteRestrictionAlert = false
-                    listToDelete = nil
                 })
-            } message: {
-                Text("You don't have the permission to delete this list.")
-            }
-            .toolbar {
-                MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
-            }
+                .alert("Warning", isPresented: $showDeleteRestrictionAlert) {
+                    Button("Dismiss", role: .cancel, action: {
+                        showDeleteRestrictionAlert = false
+                        listToDelete = nil
+                    })
+                } message: {
+                    Text("You don't have the permission to delete this list.")
+                }
+                .toolbar {
+                    MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
+                }
                 ProgressView("Loading...").opacity(spendingVM.isLoading ? 1 : 0)
             }
             .refreshable(action: {
@@ -195,4 +167,48 @@ struct MainViewToolbar: ToolbarContent {
             }
         }
     }
+}
+
+
+
+struct SummaryListView: View {
+    
+    @EnvironmentObject var spendingVM: SpendingVM
+    @Binding var listToDelete: ItemList?
+    var currentUser: UserDetails?
+    @Binding var showDeleteListAlert: Bool
+    @Binding var showDeleteRestrictionAlert: Bool
+    
+    var body: some View {
+        List {
+            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
+                if let list = spendingVM.lists[index] {
+                    NavigationLink {
+                        DetailedListView(list: list)
+                    } label: {
+                        HStack {
+                            Text(list.name)
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .padding(10)
+                            Spacer()
+                            Text("\(list.itemsCount) items")
+                                .font(.caption)
+                                .fontWeight(.light)
+                                .padding(10)
+                        }
+                    }
+                }
+            }
+            .onDelete { index in
+                listToDelete = spendingVM.lists[index.first!]
+                if let user = currentUser, !user.readOnly {
+                    showDeleteListAlert = true
+                } else {
+                    showDeleteRestrictionAlert = true
+                }
+            }
+        }
+    }
+    
 }
