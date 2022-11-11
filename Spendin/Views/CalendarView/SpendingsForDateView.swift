@@ -29,7 +29,7 @@ struct SpendingsForDateView: View {
                 .padding()
             List {
                 ForEach(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame} , id: \.id) { item in
-                    DetailedListItemCell(item: item, index: 0, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: currentUser.readOnly)
+                    DetailedListItemCell(index: 0, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: currentUser.readOnly)
                         .environmentObject(spendingVM)
                 }
                 .listRowBackground(AdaptColors.cellBackground)

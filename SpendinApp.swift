@@ -61,16 +61,12 @@ struct SpendinApp: App {
                             return
                         }
                         if let scheme = longURL.scheme, scheme.localizedCaseInsensitiveCompare("com.spendin") == .orderedSame {
-                            print("Scheme: \(scheme)")
                             var parameters: [String: String] = [:]
                             URLComponents(url: longURL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
                                 parameters[$0.name] = $0.value
                             }
-                            print("PARAMS============== \(parameters)")
                             guard let id = parameters["list"], !id.isEmpty else {return}
-                            print("ID============== \(id)")
                             guard let readOnly = parameters["readonly"]?.boolean else {return}
-                            print("READ ONLY============== \(readOnly)")
                             self.readOnly = readOnly
                             spendingVM.getListFor(id: id)
                             showListInviteConfirmation = true

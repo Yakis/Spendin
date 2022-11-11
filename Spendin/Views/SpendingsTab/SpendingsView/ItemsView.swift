@@ -23,10 +23,8 @@ struct ItemsView: View {
         List {
             Section {
                 ForEach(0..<spendingVM.currentListItems.count, id: \.self) { index in
-                    if let item = spendingVM.currentListItems[index] {
-                        DetailedListItemCell(item: item, index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
+                        DetailedListItemCell(index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
                             .environmentObject(spendingVM)
-                    }
                 }
                 .onDelete(perform: delete)
                 .listRowBackground(AdaptColors.container)

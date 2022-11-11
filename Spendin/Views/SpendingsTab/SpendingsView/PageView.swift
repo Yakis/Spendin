@@ -105,7 +105,7 @@ struct PageView: View {
                 .toolbar {
                     MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
                 }
-                ProgressView("Loading...").opacity(spendingVM.isLoading ? 1 : 0)
+                ProgressView("Loading...").opacity((spendingVM.isLoading) ? 1 : 0)
             }
             .refreshable(action: {
                 spendingVM.getCurrentUser()

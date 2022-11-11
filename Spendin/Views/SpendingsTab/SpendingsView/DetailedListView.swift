@@ -45,64 +45,62 @@ struct DetailedListView: View {
     
     var list: ItemList
     
-    private var currentUser: UserDetails {
-        return list.users.filter { user in
-            user.email == KeychainItem.currentUserEmail
-        }.first!
-    }
-    
     var body: some View {
-        ZStack {
-            VStack(alignment: .leading) {
-                ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
-                TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
-                    .environmentObject(spendingVM)
+        if let currentUser = list.users.filter { user in
+            user.email == KeychainItem.currentUserEmail
+        }.first {
+            ZStack {
+                VStack(alignment: .leading) {
+                    ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
+                    TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
+                        .environmentObject(spendingVM)
+                }
+                .background(AdaptColors.container)
+                .onAppear {
+                    spendingVM.currentListIndex = spendingVM.lists.firstIndex(of: list)!
+                }
+                ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
             }
-            .background(AdaptColors.container)
-            .onAppear {
-                spendingVM.currentListIndex = spendingVM.lists.firstIndex(of: list)!
-            }
-            ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
-        }
-        .sheet(isPresented: $showShareSheet, onDismiss: {
-            spendingVM.readOnly = true
-        }, content: {
-            ShareSheet(activityItems: ["Sharing <\(list.name)> list.", spendingVM.shortenedURL], applicationActivities: nil, callback: { activityType, completed, returnedItems, error in
-                if completed && error == nil {
-                    showShareSheet = false
+            .sheet(isPresented: $showShareSheet, onDismiss: {
+                spendingVM.readOnly = true
+            }, content: {
+                ShareSheet(activityItems: ["Sharing <\(list.name)> list.", spendingVM.shortenedURL], applicationActivities: nil, callback: { activityType, completed, returnedItems, error in
+                    if completed && error == nil {
+                        showShareSheet = false
+                    }
+                })
+            })
+            .sheet(isPresented: $showSharingList, content: {
+                CloseableView {
+                    ShareListView(list: list, showSharingList: $showSharingList, showShareSheet: $showShareSheet)
                 }
             })
-        })
-        .sheet(isPresented: $showSharingList, content: {
-            CloseableView {
-                ShareListView(list: list, showSharingList: $showSharingList, showShareSheet: $showShareSheet)
-            }
-        })
-        .sheet(isPresented: $showEditSharingView, content: {
-            CloseableView {
-                EditSharingView(list: list)
-            }
-        })
-        .navigationTitle(list.name)
-        .navigationBarTitleDisplayMode(.large)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Menu {
-                    Button {
-                        showSharingList = true
+            .sheet(isPresented: $showEditSharingView, content: {
+                CloseableView {
+                    EditSharingView(list: list)
+                }
+            })
+            .navigationTitle(list.name)
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button {
+                            showSharingList = true
+                        } label: {
+                            Label("Share list", systemImage: "square.and.arrow.up")
+                                .foregroundColor(currentUser.isOwner ? AdaptColors.theOrange : Color.gray)
+                        }.disabled(!currentUser.isOwner)
+                        Button {
+                            showEditSharingView = true
+                        } label: {
+                            Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
+                                .foregroundColor((!currentUser.isOwner || list.users.count == 1) ? Color.gray : AdaptColors.theOrange)
+                        }.disabled(!currentUser.isOwner || list.users.count == 1)
                     } label: {
-                        Label("Share list", systemImage: "square.and.arrow.up")
-                            .foregroundColor(currentUser.isOwner ? AdaptColors.theOrange : Color.gray)
-                    }.disabled(!currentUser.isOwner)
-                    Button {
-                        showEditSharingView = true
-                    } label: {
-                        Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
-                            .foregroundColor((!currentUser.isOwner || list.users.count == 1) ? Color.gray : AdaptColors.theOrange)
-                    }.disabled(!currentUser.isOwner || list.users.count == 1)
-                } label: {
-                    Image(systemName: "person.crop.circle.fill")
-                        .foregroundColor((!currentUser.isOwner) ? Color.gray : AdaptColors.theOrange)
+                        Image(systemName: "person.crop.circle.fill")
+                            .foregroundColor((!currentUser.isOwner) ? Color.gray : AdaptColors.theOrange)
+                    }
                 }
             }
         }

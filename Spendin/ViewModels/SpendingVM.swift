@@ -97,7 +97,10 @@ final class SpendingVM: ObservableObject {
         print("Getting current user")
         isLoading = true
         Task {
-            guard !KeychainItem.currentUserIdentifier.isEmpty else { return }
+            guard !KeychainItem.currentUserIdentifier.isEmpty else {
+                isLoading = false
+                return
+            }
             self.currentUser = try await ListService.getCurrentUser()
             self.fetchLists()
             self.registerForListIndexChange()
@@ -109,7 +112,6 @@ final class SpendingVM: ObservableObject {
     
     func fetchLists() {
         print("Fetching lists")
-//        isLoading = true
         Task {
             if let ids = currentUser?.lists, !ids.isEmpty {
                 let uuids = ids.map { UUID(uuidString: $0)! }
