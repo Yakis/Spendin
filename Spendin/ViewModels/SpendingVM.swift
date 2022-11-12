@@ -57,7 +57,7 @@ final class SpendingVM: ObservableObject {
         NotificationCenter.default.publisher(for: .authDidChange)
             .sink { [weak self] notification in
                 guard let self = self else { return }
-                guard let isAuthenticated = notification.userInfo?["isAuthenticated"] as?Bool else { return }
+                guard let isAuthenticated = notification.userInfo?["isAuthenticated"] as? Bool else { return }
                 print("Is authenticated: \(isAuthenticated)")
                 if isAuthenticated {
                     self.fetchLists()

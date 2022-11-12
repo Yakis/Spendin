@@ -62,9 +62,10 @@ class AuthService: ObservableObject {
                 self.saveProviderInKeychain("apple.com")
                 self.isLoading = false
                 self.checkIfIsAuthenticated()
+                print("NAME: \(user.name)")
+                NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
+                completion()
             }
-            NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
-            completion()
         }
     }
     
