@@ -31,7 +31,7 @@ import Foundation
 
 fileprivate struct URLS {
 
-    static let env: ServerEnv = .development
+    static let env: ServerEnv = .production
     
 }
 
