@@ -33,10 +33,6 @@ final class SpendingVM: ObservableObject {
     
     init() {
         getCurrentUser()
-        //        fetchSuggestions()
-        //        fetchLists()
-        //        registerForListIndexChange()
-        //        registerForAuthStatus()
     }
     
     

@@ -54,7 +54,6 @@ class AuthService: ObservableObject {
             }
             Task {
                 let user = try await createUser(token: idTokenString, name: appleIDCredential.fullName?.formatted())
-                print("User successfully created: \(user.email)")
                 let userIdentifier = user.id
                 self.userEmail = user.email
                 self.saveEmailInKeychain(userEmail)
@@ -62,7 +61,6 @@ class AuthService: ObservableObject {
                 self.saveProviderInKeychain("apple.com")
                 self.isLoading = false
                 self.checkIfIsAuthenticated()
-                print("NAME: \(user.name)")
                 NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
                 completion()
             }
@@ -75,7 +73,7 @@ class AuthService: ObservableObject {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        let encodedName = try JSONEncoder().encode(name)
+        let encodedName = try JSONEncoder().encode(["name": name])
         let (data, response) = try await session().upload(for: request, from: encodedName)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while creating user: \((response as? HTTPURLResponse).debugDescription)")
