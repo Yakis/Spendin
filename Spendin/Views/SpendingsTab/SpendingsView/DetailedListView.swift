@@ -46,9 +46,11 @@ struct DetailedListView: View {
     var list: ItemList
     
     var body: some View {
-        if let currentUser = list.users.filter { user in
-            user.email == KeychainItem.currentUserEmail
-        }.first {
+        if let currentUser = list.users.filter({ user in
+            print("USER===\(user)")
+            print(KeychainItem.currentUserEmail)
+            return user.email == KeychainItem.currentUserEmail
+        }).first {
             ZStack {
                 VStack(alignment: .leading) {
                     ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
@@ -103,6 +105,8 @@ struct DetailedListView: View {
                     }
                 }
             }
+        } else {
+            Text("Shit happened")
         }
     }
     

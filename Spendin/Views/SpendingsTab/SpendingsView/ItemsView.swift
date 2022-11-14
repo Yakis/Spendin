@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct ItemsView: View {
     
@@ -28,12 +27,20 @@ struct ItemsView: View {
                 }
                 .onDelete(perform: delete)
                 .listRowBackground(AdaptColors.container)
+            }.onAppear {
+                print("<=================ITEMS=================>")
+                print(spendingVM.currentListItems)
+                print("<=======================================>")
             }
             
-        }.padding([.leading, .trailing], 16)
+        }
+        .padding([.leading, .trailing], 16)
         .listStyle(.plain)
         .onChange(of: spendingVM.currentListItems) { newValue in
             spendingVM.calculateSpendings()
+        }
+        .refreshable {
+            spendingVM.getCurrentUser()
         }
     }
     

@@ -68,6 +68,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encodedData = try JSONEncoder().encode(["listIDS": ids])
         let (data, response) = try await session().upload(for: request, from: encodedData)
+        print(data.prettyPrintedJSONString)
         let lists = try JSONDecoder().decode([ItemList].self, from: data)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")

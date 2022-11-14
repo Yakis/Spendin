@@ -26,7 +26,7 @@ struct ShareListView: View {
                     if list.users.count > 1 {
                         ForEach(list.users, id: \.id) { participant in
                             let role = participant.isOwner ? " (Owner)" : " (Invitee)"
-                            let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.email
+                            let title = participant.email == KeychainItem.currentUserEmail ? "You" : participant.name ?? participant.email
                             Text(title + role)
                                 .font(.caption2)
                                 .fontWeight(participant.isOwner ? .semibold : .light)

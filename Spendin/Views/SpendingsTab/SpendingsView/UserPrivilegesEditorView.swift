@@ -41,7 +41,7 @@ struct UserPrivilegesEditorView: View {
                         }
                     } header: {
                         let username = user.email.split(separator: "@")
-                        Text("Edit <\(String(username.first!))@> privileges for \(list.name)")
+                        Text("Edit <\(user.name ?? String(username.first! + "@"))> privileges for \(list.name)")
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .foregroundColor(.gray)

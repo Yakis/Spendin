@@ -15,7 +15,7 @@ enum ServerEnv {
     var url: String {
         switch self {
         case .development:
-            return "https://3de9-2a00-23c7-602f-e101-ac13-1fb1-8a3e-a53d.eu.ngrok.io/"
+            return "https://f5c9-2a00-23c7-602f-e101-8ca0-2bae-3464-ff5e.eu.ngrok.io/"
         case .production:
             return "https://yakis.cloud/"
         }
@@ -31,7 +31,7 @@ import Foundation
 
 fileprivate struct URLS {
 
-    static let env: ServerEnv = .production
+    static let env: ServerEnv = .development
     
 }
 

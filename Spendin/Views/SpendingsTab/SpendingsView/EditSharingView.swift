@@ -22,7 +22,7 @@ struct EditSharingView: View {
                 ForEach(list.users, id: \.id) { user in
                     if !user.isOwner {
                         HStack {
-                            Text(user.email)
+                            Text(user.name ?? user.email)
                                 .fontWeight(.semibold)
                                 .padding()
                             Spacer()

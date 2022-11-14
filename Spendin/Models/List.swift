@@ -10,6 +10,7 @@ struct UserDetails: Codable {
     var isOwner: Bool = false
     var readOnly: Bool = true
     var email: String = ""
+    var name: String?
     
     init(id: String, isOwner: Bool, readOnly: Bool, email: String) {
         self.id = id

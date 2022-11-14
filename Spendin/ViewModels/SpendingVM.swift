@@ -98,6 +98,7 @@ final class SpendingVM: ObservableObject {
                 return
             }
             self.currentUser = try await ListService.getCurrentUser()
+            print("CURRENT USER ===> \(self.currentUser)")
             self.fetchLists()
             self.registerForListIndexChange()
             self.registerForAuthStatus()
@@ -141,8 +142,8 @@ final class SpendingVM: ObservableObject {
             return items
         } catch {
             print("Error getting items: \(error)")
+            return []
         }
-        return []
     }
     
     
