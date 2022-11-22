@@ -61,6 +61,8 @@
 		159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB409274434EF004921AD /* CreateNewListView.swift */; };
 		15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9CFA428805D7300B62210 /* EditSharingView.swift */; };
 		15A9CFA728805FF100B62210 /* UserPrivilegesEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9CFA628805FF100B62210 /* UserPrivilegesEditorView.swift */; };
+		15BFA510292CC31800D67E02 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BFA50F292CC31700D67E02 /* AccountView.swift */; };
+		15BFA512292CC33600D67E02 /* SuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BFA511292CC33600D67E02 /* SuggestionsView.swift */; };
 		15C64D2128D1B2750085B79C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64D2028D1B2750085B79C /* WidgetKit.framework */; };
 		15C64D2328D1B2750085B79C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64D2228D1B2750085B79C /* SwiftUI.framework */; };
 		15C64D2628D1B2750085B79C /* Spendin_Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C64D2528D1B2750085B79C /* Spendin_Widget.swift */; };
@@ -174,6 +176,8 @@
 		159DB409274434EF004921AD /* CreateNewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListView.swift; sourceTree = "<group>"; };
 		15A9CFA428805D7300B62210 /* EditSharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSharingView.swift; sourceTree = "<group>"; };
 		15A9CFA628805FF100B62210 /* UserPrivilegesEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrivilegesEditorView.swift; sourceTree = "<group>"; };
+		15BFA50F292CC31700D67E02 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		15BFA511292CC33600D67E02 /* SuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsView.swift; sourceTree = "<group>"; };
 		15C64D1F28D1B2750085B79C /* Spendin WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Spendin WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15C64D2028D1B2750085B79C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		15C64D2228D1B2750085B79C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -286,6 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				151F965D24C49D92002C27F4 /* SettingsView.swift */,
+				15BFA50F292CC31700D67E02 /* AccountView.swift */,
+				15BFA511292CC33600D67E02 /* SuggestionsView.swift */,
 			);
 			path = SettingsTab;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
 				1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */,
 				1553D6EF2736D60200191DCC /* CustomizedCalendarView.swift in Sources */,
+				15BFA512292CC33600D67E02 /* SuggestionsView.swift in Sources */,
 				151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */,
 				155963B82879C8CE00F5730B /* ImagePickerView.swift in Sources */,
 				155E65A725304E5500082584 /* XMarkView.swift in Sources */,
@@ -687,6 +694,7 @@
 				1506CFD32871709F00FDE913 /* AuthService.swift in Sources */,
 				1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */,
 				1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */,
+				15BFA510292CC31800D67E02 /* AccountView.swift in Sources */,
 				1553D6F82736E85300191DCC /* Suggestion.swift in Sources */,
 				1553D6EB2736D54800191DCC /* Sidebar.swift in Sources */,
 				157E7EC6287061300088282F /* SuggestionService.swift in Sources */,

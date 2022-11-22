@@ -22,6 +22,7 @@ final class SpendingVM: ObservableObject {
     @Published var amountList: Dictionary<Int, String> = [:]
     @Published var itemToSave: Item = Item()
     @Published var currentUser: User? = nil
+    @Published var selectedSuggestion: Suggestion? = nil
     @Published var sharedList: ItemList?
     private var cancellables = Set<AnyCancellable>()
     

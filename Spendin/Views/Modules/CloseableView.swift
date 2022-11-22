@@ -37,7 +37,9 @@ struct CloseableView<Content>: View where Content: View {
             }
             .frame(height: 50)
             .frame(maxWidth: .infinity)
+            Spacer()
             content()
+            Spacer()
         }.background(Color.clear)
     }
 }

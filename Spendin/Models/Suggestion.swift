@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Suggestion: Codable {
+struct Suggestion: Codable, Hashable {
     
     var id: String = ""
     var name: String = ""

@@ -40,18 +40,17 @@ struct NameTextField: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
                             ForEach(suggestions.sorted(by: { $0.count > $1.count }), id: \.id) { suggestion in
-                                Button {
-                                    onSuggestionTap(suggestion)
-                                    isInputActive = false
-                                } label: {
-                                    Text(suggestion.name)
-                                        .font(.caption)
-                                        .foregroundColor(AdaptColors.container)
-                                        .padding(5)
-                                        .background(AdaptColors.theOrange)
-                                        .clipShape(Capsule())
-                                        .padding(5)
-                                }
+                                Text(suggestion.name)
+                                    .font(.caption)
+                                    .foregroundColor(AdaptColors.container)
+                                    .padding(5)
+                                    .background(suggestion.type == .expense ? AdaptColors.theOrange : Color.green)
+                                    .clipShape(Capsule())
+                                    .padding(5)
+                                    .onTapGesture(perform: {
+                                        onSuggestionTap(suggestion)
+                                        isInputActive = false
+                                    })
                             }
                         }
                     }.frame(maxHeight: 40)

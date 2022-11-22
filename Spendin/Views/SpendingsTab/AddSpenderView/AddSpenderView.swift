@@ -24,17 +24,23 @@ struct AddSpenderView: View {
     @State private var name: String = ""
     @State private var selectedCategory: String = "cart.fill"
     
+    @State private var showSuggestionEditor = false
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 20) {
                 ScrollView {
                     ItemTypePicker(itemTypes: itemTypes, selectedType: $selectedType)
                         .padding([.top, .bottom], 5)
-                    NameTextField(itemName: $name, suggestions: $suggestions, onNameChange: {
-                        onNameChange()
-                    }, onSuggestionTap: { suggestion in
-                        onSuggestionTap(suggestion)
-                    })
+                    NameTextField(
+                        itemName: $name,
+                        suggestions: $suggestions,
+                        onNameChange: { onNameChange() },
+                        onSuggestionTap:
+                            { suggestion in
+                                onSuggestionTap(suggestion)
+                            }
+                    )
                     AmountTextField(amount: $amount)
                     CategoryPicker(category: $selectedCategory)
                     ItemDatePicker(date: $date)

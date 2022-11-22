@@ -14,48 +14,61 @@ struct SettingsView: View {
     @State private var message = ""
     @State private var showAuthentication = false
     
+    @State private var menus = ["Suggestions"]
+    @State private var path: [String] = []
+    
     var body: some View {
-        VStack {
-            Text(message)
-                .padding()
-            Button {
-                if authService.isAuthenticated {
-                    authService.logout { message in
-                        self.message = message
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-                            self.message = authService.isAuthenticated ? "You're logged in: \(authService.userEmail)" : "Logged out, please log in."
+        NavigationStack(path: $path) {
+            List {
+                Section(header: Text("Account settings")) {
+                    NavigationLink(value: "Account") {
+                        Label("Account", systemImage: "person")
+                    }
+                }
+                Section(header: Text("Content settings")) {
+                    ForEach(menus, id: \.self) { menu in
+                        NavigationLink(value: menu) {
+                            labelFor(menu: menu)
                         }
                     }
-                } else {
-                    showAuthentication = true
                 }
-            } label: {
-                Text(authService.isAuthenticated ? "LogOut" : "LogIn")
-                    .padding([.leading, .trailing], 16)
-                    .padding([.top, .bottom], 8)
-            }.buttonStyle(.bordered)
-                        Text("Delete suggestions")
-                            .padding()
-                        Button {
-                            spendingVM.deleteSuggestions()
-                        } label: {
-                            Text("Delete")
-                        }.buttonStyle(.borderedProminent)
-        }
-        .onAppear {
-            message = authService.isAuthenticated ? "You're logged in: \(authService.userEmail)" : "Logged out, please log in."
-        }
-        .onChange(of: authService.isAuthenticated, perform: { isAuthenticated in
-            if isAuthenticated {
-                showAuthentication = false
-                message = "You're logged in: \(authService.userEmail)"
             }
-        })
-        .sheet(isPresented: $showAuthentication) {
-            CloseableView {
-                AuthenticationView()
+            .listStyle(.insetGrouped)
+            .navigationDestination(for: String.self) { menu in
+                switch menu {
+                case "Account": AccountView(message: $message, showAuthentication: $showAuthentication)
+                case "Suggestions": SuggestionsView().environmentObject(spendingVM)
+                default:
+                    Text("Error")
+                }
             }
+            .onAppear {
+                message = authService.isAuthenticated ? "You're logged in: \(authService.userEmail)" : "Logged out, please log in."
+            }
+            .onChange(of: authService.isAuthenticated, perform: { isAuthenticated in
+                if isAuthenticated {
+                    showAuthentication = false
+                    message = "You're logged in: \(authService.userEmail)"
+                }
+            })
+            .sheet(isPresented: $showAuthentication) {
+                CloseableView {
+                    AuthenticationView()
+                }
+            }
+            .navigationTitle(Text("Settings"))
+            .navigationBarTitleDisplayMode(.large)
         }
     }
+    
+    @ViewBuilder
+    private func labelFor(menu: String) -> some View {
+        switch menu {
+        case "Suggestions": Label("Suggestions", systemImage: "rectangle.and.pencil.and.ellipsis")
+        default: Label("", systemImage: "")
+        }
+    }
+    
+    
 }
 
