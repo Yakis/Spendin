@@ -14,7 +14,7 @@ struct SettingsView: View {
     @State private var message = ""
     @State private var showAuthentication = false
     
-    @State private var menus = ["Suggestions"]
+    @State private var menus = ["Suggestions", "Currencies"]
     @State private var path: [String] = []
     
     var body: some View {
@@ -38,6 +38,7 @@ struct SettingsView: View {
                 switch menu {
                 case "Account": AccountView(message: $message, showAuthentication: $showAuthentication)
                 case "Suggestions": SuggestionsView().environmentObject(spendingVM)
+                case "Currencies": CurrenciesView().environmentObject(spendingVM)
                 default:
                     Text("Error")
                 }
@@ -65,6 +66,7 @@ struct SettingsView: View {
     private func labelFor(menu: String) -> some View {
         switch menu {
         case "Suggestions": Label("Suggestions", systemImage: "rectangle.and.pencil.and.ellipsis")
+        case "Currencies": Label("Currencies", systemImage: "dollarsign.circle")
         default: Label("", systemImage: "")
         }
     }

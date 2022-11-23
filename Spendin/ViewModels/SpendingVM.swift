@@ -24,6 +24,9 @@ final class SpendingVM: ObservableObject {
     @Published var currentUser: User? = nil
     @Published var selectedSuggestion: Suggestion? = nil
     @Published var sharedList: ItemList?
+    
+    @AppStorage("currency") var currency = "$"
+    
     private var cancellables = Set<AnyCancellable>()
     
     
@@ -268,6 +271,77 @@ final class SpendingVM: ObservableObject {
     func fetchShortened(id: String) async throws -> String {
         return try await ListService.fetchShortened(id: id)
     }
+    
+    
+    func loadCurrencies() -> [Currency]? {
+        let decoder = JSONDecoder()
+        do {
+            guard
+                let url = Bundle.main.url(forResource: "currencies", withExtension: "json")
+            else {
+                return nil
+            }
+            let data = try Data(contentsOf: url)
+            let currencies = try decoder.decode([Currency].self, from: data)
+            return currencies
+        } catch {
+            print("Error reading json file: \(error)")
+        }
+        return nil
+    }
+    
+    
+    
+    // MARK: JSON backup ---------------------------------------
+//    func saveJSONToDocumentsDirectory(list: ItemList) {
+//        let encoded = try! JSONEncoder().encode(list)
+//        guard let jsonString = String(data: encoded, encoding: String.Encoding.utf8) else { return }
+//        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+//            let pathWithFilename = documentDirectory.appendingPathComponent("spendin_\(list.name).json")
+//            do {
+//                try jsonString.write(to: pathWithFilename, atomically: true, encoding: .utf8)
+//                let input = try String(contentsOf: pathWithFilename)
+//                let items = try FileManager.default.contentsOfDirectory(atPath: pathWithFilename.absoluteString)
+//                print("===============================")
+//                print(items)
+//                print("===============================")
+//            } catch {
+//                print("Error saving json to documents: \(error)")
+//            }
+//        }
+//    }
+//
+//
+//    @discardableResult func printTimeElapsedWhenRunningCode<T>(title: String, operation: () -> T) -> T {
+//        let startTime = CFAbsoluteTimeGetCurrent()
+//        let result = operation()
+//        let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+//        print("Time elapsed for \(title): \(timeElapsed) ms.")
+//        return result
+//    }
+//
+//
+//    func getDocumentsDirectoryUrl() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        let documentsDirectory = paths[0]
+//        return documentsDirectory
+//    }
+//
+//
+//    func readFromDocumentsDirectory() {
+//        let fm = FileManager.default
+//        guard let path = fm.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+//
+//        do {
+//            let items = try fm.contentsOfDirectory(atPath: path.absoluteString)
+//
+//            for item in items {
+//                print("Found \(item)")
+//            }
+//        } catch {
+//            print("failed to read directory – bad permissions, perhaps? -> \(error)")
+//        }
+//    }
     
     
 }

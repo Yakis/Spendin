@@ -20,7 +20,7 @@ struct TotalBottomView: View {
             if isReadOnly {
                 Spacer()
             }
-            Text("£ \(String(format: "%.2f", spendingVM.total)) left")
+            Text("\(spendingVM.currency) \(String(format: "%.2f", spendingVM.total)) left")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(isReadOnly ? [.trailing, .bottom] : [.leading, .bottom], 20)

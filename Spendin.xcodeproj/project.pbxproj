@@ -16,6 +16,9 @@
 		1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD62871738F00FDE913 /* CloseableView.swift */; };
 		1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */; };
 		1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */; };
+		150867F1292E94E300C1B3C7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150867F0292E94E300C1B3C7 /* Currency.swift */; };
+		150867F3292E959B00C1B3C7 /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 150867F2292E959B00C1B3C7 /* currencies.json */; };
+		150867F5292E967600C1B3C7 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150867F4292E967600C1B3C7 /* Currencies.swift */; };
 		151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* DetailedListView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
@@ -56,7 +59,6 @@
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
 		157E1AD4287859D5007C049C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E1AD3287859D5007C049C /* User.swift */; };
 		157E7EC6287061300088282F /* SuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E7EC5287061300088282F /* SuggestionService.swift */; };
-		1595CDB027B0835D00C1C30A /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDAF27B0835D00C1C30A /* CardView.swift */; };
 		1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */; };
 		159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB409274434EF004921AD /* CreateNewListView.swift */; };
 		15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9CFA428805D7300B62210 /* EditSharingView.swift */; };
@@ -125,6 +127,9 @@
 		1506CFD62871738F00FDE913 /* CloseableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseableView.swift; sourceTree = "<group>"; };
 		1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-public.pem"; sourceTree = "<group>"; };
 		1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-private.pem"; sourceTree = "<group>"; };
+		150867F0292E94E300C1B3C7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		150867F2292E959B00C1B3C7 /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currencies.json; sourceTree = SOURCE_ROOT; };
+		150867F4292E967600C1B3C7 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
 		151F965C24C49D92002C27F4 /* DetailedListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedListView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
@@ -171,7 +176,6 @@
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		157E1AD3287859D5007C049C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		157E7EC5287061300088282F /* SuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionService.swift; sourceTree = "<group>"; };
-		1595CDAF27B0835D00C1C30A /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListPlaceholder.swift; sourceTree = "<group>"; };
 		159DB409274434EF004921AD /* CreateNewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListView.swift; sourceTree = "<group>"; };
 		15A9CFA428805D7300B62210 /* EditSharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSharingView.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 		153682D724C6278800772897 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				150867F2292E959B00C1B3C7 /* currencies.json */,
 				151F966824C49DA8002C27F4 /* Constants.swift */,
 				1555D8E125303CD40091D21C /* Extensions.swift */,
 				15341DF7286F3AB600C0F737 /* URLS.swift */,
@@ -292,6 +297,7 @@
 				151F965D24C49D92002C27F4 /* SettingsView.swift */,
 				15BFA50F292CC31700D67E02 /* AccountView.swift */,
 				15BFA511292CC33600D67E02 /* SuggestionsView.swift */,
+				150867F4292E967600C1B3C7 /* Currencies.swift */,
 			);
 			path = SettingsTab;
 			sourceTree = "<group>";
@@ -313,6 +319,7 @@
 				154D4004273D82A200743B96 /* List.swift */,
 				1506CFCA28716E3E00FDE913 /* Keychain Item.swift */,
 				157E1AD3287859D5007C049C /* User.swift */,
+				150867F0292E94E300C1B3C7 /* Currency.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -361,7 +368,6 @@
 			children = (
 				154DEA5C27417C5B00F7CF7E /* PageView.swift */,
 				151F965C24C49D92002C27F4 /* DetailedListView.swift */,
-				1595CDAF27B0835D00C1C30A /* CardView.swift */,
 				1555D8E625303CFD0091D21C /* ItemsView.swift */,
 				1555D9032530426B0091D21C /* DetailedListItemCell.swift */,
 				155E65832530466600082584 /* TotalBottomView.swift */,
@@ -614,6 +620,7 @@
 			files = (
 				1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */,
 				156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */,
+				150867F3292E959B00C1B3C7 /* currencies.json in Resources */,
 				156938F324C49C4300521D57 /* Preview Assets.xcassets in Resources */,
 				156938F024C49C4300521D57 /* Assets.xcassets in Resources */,
 				1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */,
@@ -657,6 +664,7 @@
 				155963B82879C8CE00F5730B /* ImagePickerView.swift in Sources */,
 				155E65A725304E5500082584 /* XMarkView.swift in Sources */,
 				15C64D2C28D1B2760085B79C /* Spendin_Widget.intentdefinition in Sources */,
+				150867F1292E94E300C1B3C7 /* Currency.swift in Sources */,
 				15273BD1287B2F1800E7186E /* AdaptiveSheet.swift in Sources */,
 				150439A128892EDF000B5C35 /* ShareSheet.swift in Sources */,
 				15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */,
@@ -667,8 +675,8 @@
 				1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
 				159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */,
+				150867F5292E967600C1B3C7 /* Currencies.swift in Sources */,
 				1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */,
-				1595CDB027B0835D00C1C30A /* CardView.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				15D66BC5287DA785008FEBC6 /* QRGeneratorView.swift in Sources */,
 				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,

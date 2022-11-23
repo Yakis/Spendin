@@ -88,8 +88,8 @@ struct DetailedListItemCell: View {
     
     private func amountString(item: Item) -> String {
         switch item.itemType {
-        case .expense: return "£ \(item.amount)"
-        default: return "£ \(item.amount)"
+        case .expense: return "\(spendingVM.currency) \(item.amount)"
+        default: return "\(spendingVM.currency) \(item.amount)"
         }
     }
     

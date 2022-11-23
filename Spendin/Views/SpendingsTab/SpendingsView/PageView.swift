@@ -28,7 +28,6 @@ struct PageView: View {
     @State private var showCreateNewListView = false
     @State private var showDeleteListAlert = false
     @State private var showDeleteRestrictionAlert = false
-    @State private var showQRCodeGenerator = false
     @State private var cancellables = Set<AnyCancellable>()
     @State private var listToDelete: ItemList?
     
@@ -77,14 +76,6 @@ struct PageView: View {
                             }
                         }
                     }
-                    .sheet(isPresented: $showQRCodeGenerator, content: {
-                        let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: true, email: KeychainItem.currentUserEmail)
-                        let image = generateQRCode(from: userDetails)
-                        CloseableView {
-                            QRGeneratorView(image: image)
-                                .frame(maxHeight: .infinity)
-                        }
-                    })
                     .alert("Warning", isPresented: $showDeleteRestrictionAlert) {
                         Button("Dismiss", role: .cancel, action: {
                             showDeleteRestrictionAlert = false
@@ -94,7 +85,7 @@ struct PageView: View {
                         Text("You don't have the permission to delete this list.")
                     }
                     .toolbar {
-                        MainViewToolbar(showCreateNewListView: $showCreateNewListView, showQRCodeGenerator: $showQRCodeGenerator)
+                        MainViewToolbar(showCreateNewListView: $showCreateNewListView)
                     }
                     ProgressView("Loading...").opacity((spendingVM.isLoading) ? 1 : 0)
                 }
@@ -115,15 +106,15 @@ struct PageView: View {
     }
     
     
-    private func generateQRCode(from userDetails: UserDetails) -> UIImage {
-        filter.message = try! JSONEncoder().encode(userDetails)
-        if let outputImage = filter.outputImage {
-            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-                return UIImage(cgImage: cgimg)
-            }
-        }
-        return UIImage(systemName: "xmark.circle") ?? UIImage()
-    }
+//    private func generateQRCode(from userDetails: UserDetails) -> UIImage {
+//        filter.message = try! JSONEncoder().encode(userDetails)
+//        if let outputImage = filter.outputImage {
+//            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
+//                return UIImage(cgImage: cgimg)
+//            }
+//        }
+//        return UIImage(systemName: "xmark.circle") ?? UIImage()
+//    }
     
     
 }
@@ -133,7 +124,6 @@ struct PageView: View {
 struct MainViewToolbar: ToolbarContent {
     
     @Binding var showCreateNewListView: Bool
-    @Binding var showQRCodeGenerator: Bool
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -142,11 +132,6 @@ struct MainViewToolbar: ToolbarContent {
                     showCreateNewListView.toggle()
                 } label: {
                     Label("New list", systemImage: "plus.circle.fill")
-                }
-                Button {
-                    showQRCodeGenerator = true
-                } label: {
-                    Label("Get an invitation", systemImage: "qrcode")
                 }
                 Button {
                     
