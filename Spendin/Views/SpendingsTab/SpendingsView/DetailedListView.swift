@@ -47,7 +47,6 @@ struct DetailedListView: View {
     
     var body: some View {
         if let currentUser = list.users.filter({ user in
-            print("USER===\(user)")
             print(KeychainItem.currentUserEmail)
             return user.email == KeychainItem.currentUserEmail
         }).first {

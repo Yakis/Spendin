@@ -90,7 +90,9 @@ struct PageView: View {
                     ProgressView("Loading...").opacity((spendingVM.isLoading) ? 1 : 0)
                 }
                 .refreshable(action: {
-                    spendingVM.getCurrentUser()
+                    Task {
+                        try await spendingVM.getCurrentUser()
+                    }
                 })
             }
     }

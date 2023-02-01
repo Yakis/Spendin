@@ -16,9 +16,9 @@ struct SpendingsForDateView: View {
     @State private var showModal: Bool = false
     
     var body: some View {
-        if let currentUser = spendingVM.lists[spendingVM.currentListIndex].users.filter { user in
+        if let currentUser = spendingVM.lists[spendingVM.currentListIndex].users.filter({ user in
             user.email == KeychainItem.currentUserEmail
-        }.first {
+        }).first {
             VStack(alignment: .center) {
                 Text(selectedDate.shortString())
                     .font(.title2)

@@ -36,7 +36,9 @@ final class SpendingVM: ObservableObject {
     
     
     init() {
-        getCurrentUser()
+        Task {
+            try await getCurrentUser()
+        }
     }
     
     
@@ -58,7 +60,6 @@ final class SpendingVM: ObservableObject {
             .sink { [weak self] notification in
                 guard let self = self else { return }
                 guard let isAuthenticated = notification.userInfo?["isAuthenticated"] as? Bool else { return }
-                print("Is authenticated: \(isAuthenticated)")
                 if isAuthenticated {
                     self.fetchLists()
                 } else {
@@ -93,26 +94,22 @@ final class SpendingVM: ObservableObject {
     
     
     
-    func getCurrentUser() {
+    func getCurrentUser() async throws {
         print("Getting current user")
         isLoading = true
-        Task {
-            guard !KeychainItem.currentUserIdentifier.isEmpty else {
-                isLoading = false
-                return
-            }
-            self.currentUser = try await ListService.getCurrentUser()
-            print("CURRENT USER ===> \(self.currentUser)")
-            self.fetchLists()
-            self.registerForListIndexChange()
-            self.registerForAuthStatus()
+        guard !KeychainItem.currentUserIdentifier.isEmpty else {
+            isLoading = false
+            return
         }
+        self.currentUser = try await ListService.getCurrentUser()
+        self.fetchLists()
+        self.registerForListIndexChange()
+        self.registerForAuthStatus()
     }
     
     
     
     func fetchLists() {
-        print("Fetching lists")
         Task {
             if let ids = currentUser?.lists, !ids.isEmpty {
                 let uuids = ids.map { UUID(uuidString: $0)! }
@@ -121,7 +118,7 @@ final class SpendingVM: ObservableObject {
                 guard !lists.isEmpty else { return }
                 let currentList = lists[currentListIndex]
                 currentListItems = await getItemsFor(currentList.id)
-                fetchSuggestions()
+                try await fetchSuggestions()
             }
             isLoading = false
         }
@@ -154,7 +151,7 @@ final class SpendingVM: ObservableObject {
     func save(list: ItemList) {
         Task {
             try await ListService.save(list: list)
-            getCurrentUser()
+            try await getCurrentUser()
         }
     }
     
@@ -169,9 +166,7 @@ final class SpendingVM: ObservableObject {
     func acceptInvitation(for userDetails: UserDetails, to list: ItemList) {
         Task {
             let _ = try await ListService.acceptInvitation(for: userDetails, to: list.id)
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.getCurrentUser()
-            }
+            try await self.getCurrentUser()
         }
     }
     
@@ -228,37 +223,39 @@ final class SpendingVM: ObservableObject {
         Task {
             let suggestion = Suggestion(name: item.name, type: item.itemType, category: item.category, amount: item.amount, count: 0)
             if suggestions.contains(where: { $0.name == suggestion.name }) {
+                // Just update the counter
                 try await SuggestionService.update(suggestion: suggestions.filter({ $0.name == suggestion.name }).first!)
+                try await fetchSuggestions()
             } else {
                 try await SuggestionService.save(suggestion: suggestion)
+                try await fetchSuggestions()
             }
         }
-        fetchSuggestions()
     }
     
     
-    func fetchSuggestions() {
+    func updateSuggestion() {
         Task {
-            suggestions = try await SuggestionService.getSuggestions()
+            try await SuggestionService.update(suggestion: selectedSuggestion!)
+            try await fetchSuggestions()
+            selectedSuggestion = nil
         }
     }
     
     
-    func deleteSuggestions() {
-        Task {
-            try await SuggestionService.deleteAllSuggestions()
-            suggestions.removeAll()
-        }
+    func fetchSuggestions() async throws {
+        suggestions = try await SuggestionService.getSuggestions()
     }
     
     
-    func delete(suggestion: Suggestion) {
+    func deleteSuggestion() {
         Task {
-            try await SuggestionService.delete(suggestion: suggestion)
-            suggestions.removeAll()
+            try await SuggestionService.delete(suggestion: selectedSuggestion!)
+            if let index = suggestions.firstIndex(of: selectedSuggestion!) {
+                suggestions.remove(at: index)
+            }
         }
     }
-    
     
     
     func shorten() async throws {
@@ -293,55 +290,55 @@ final class SpendingVM: ObservableObject {
     
     
     // MARK: JSON backup ---------------------------------------
-//    func saveJSONToDocumentsDirectory(list: ItemList) {
-//        let encoded = try! JSONEncoder().encode(list)
-//        guard let jsonString = String(data: encoded, encoding: String.Encoding.utf8) else { return }
-//        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-//            let pathWithFilename = documentDirectory.appendingPathComponent("spendin_\(list.name).json")
-//            do {
-//                try jsonString.write(to: pathWithFilename, atomically: true, encoding: .utf8)
-//                let input = try String(contentsOf: pathWithFilename)
-//                let items = try FileManager.default.contentsOfDirectory(atPath: pathWithFilename.absoluteString)
-//                print("===============================")
-//                print(items)
-//                print("===============================")
-//            } catch {
-//                print("Error saving json to documents: \(error)")
-//            }
-//        }
-//    }
-//
-//
-//    @discardableResult func printTimeElapsedWhenRunningCode<T>(title: String, operation: () -> T) -> T {
-//        let startTime = CFAbsoluteTimeGetCurrent()
-//        let result = operation()
-//        let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
-//        print("Time elapsed for \(title): \(timeElapsed) ms.")
-//        return result
-//    }
-//
-//
-//    func getDocumentsDirectoryUrl() -> URL {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        let documentsDirectory = paths[0]
-//        return documentsDirectory
-//    }
-//
-//
-//    func readFromDocumentsDirectory() {
-//        let fm = FileManager.default
-//        guard let path = fm.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-//
-//        do {
-//            let items = try fm.contentsOfDirectory(atPath: path.absoluteString)
-//
-//            for item in items {
-//                print("Found \(item)")
-//            }
-//        } catch {
-//            print("failed to read directory – bad permissions, perhaps? -> \(error)")
-//        }
-//    }
+    //    func saveJSONToDocumentsDirectory(list: ItemList) {
+    //        let encoded = try! JSONEncoder().encode(list)
+    //        guard let jsonString = String(data: encoded, encoding: String.Encoding.utf8) else { return }
+    //        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+    //            let pathWithFilename = documentDirectory.appendingPathComponent("spendin_\(list.name).json")
+    //            do {
+    //                try jsonString.write(to: pathWithFilename, atomically: true, encoding: .utf8)
+    //                let input = try String(contentsOf: pathWithFilename)
+    //                let items = try FileManager.default.contentsOfDirectory(atPath: pathWithFilename.absoluteString)
+    //                print("===============================")
+    //                print(items)
+    //                print("===============================")
+    //            } catch {
+    //                print("Error saving json to documents: \(error)")
+    //            }
+    //        }
+    //    }
+    //
+    //
+    //    @discardableResult func printTimeElapsedWhenRunningCode<T>(title: String, operation: () -> T) -> T {
+    //        let startTime = CFAbsoluteTimeGetCurrent()
+    //        let result = operation()
+    //        let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+    //        print("Time elapsed for \(title): \(timeElapsed) ms.")
+    //        return result
+    //    }
+    //
+    //
+    //    func getDocumentsDirectoryUrl() -> URL {
+    //        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    //        let documentsDirectory = paths[0]
+    //        return documentsDirectory
+    //    }
+    //
+    //
+    //    func readFromDocumentsDirectory() {
+    //        let fm = FileManager.default
+    //        guard let path = fm.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+    //
+    //        do {
+    //            let items = try fm.contentsOfDirectory(atPath: path.absoluteString)
+    //
+    //            for item in items {
+    //                print("Found \(item)")
+    //            }
+    //        } catch {
+    //            print("failed to read directory – bad permissions, perhaps? -> \(error)")
+    //        }
+    //    }
     
     
 }

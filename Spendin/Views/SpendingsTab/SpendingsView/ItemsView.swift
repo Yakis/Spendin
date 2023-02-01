@@ -40,7 +40,9 @@ struct ItemsView: View {
             spendingVM.calculateSpendings()
         }
         .refreshable {
-            spendingVM.getCurrentUser()
+            Task {
+                try await spendingVM.getCurrentUser()                
+            }
         }
     }
     

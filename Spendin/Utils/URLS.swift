@@ -15,7 +15,7 @@ enum ServerEnv {
     var url: String {
         switch self {
         case .development:
-            return "https://f5c9-2a00-23c7-602f-e101-8ca0-2bae-3464-ff5e.eu.ngrok.io/"
+            return "https://c834-2a00-23c7-602f-e101-54d5-a4f0-4067-c8eb.eu.ngrok.io/"
         case .production:
             return "https://yakis.cloud/"
         }

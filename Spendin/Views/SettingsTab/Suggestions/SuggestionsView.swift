@@ -19,7 +19,7 @@ struct SuggestionsView: View {
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
-            Text("With suggestions you can add items with just a tap. \nA suggestion is automatically created when you first add an item, and you can edit them here afterwards.")
+            Text("Suggestions can automatically fill your fields when adding an item. A suggestion is automatically created when you first add an item, and you can edit them here afterwards.")
                 .font(.footnote)
                 .foregroundColor(.gray)
                 .padding(8)
@@ -61,7 +61,12 @@ struct SuggestionsView: View {
         .navigationBarTitleDisplayMode(.large)
         .popover(isPresented: $showSuggestionEditor, content: {
             CloseableView {
-                Text("Here you can edit suggestion <\(spendingVM.selectedSuggestion?.name ?? "error")>. \nWork in progress... 🙃")
+                SuggestionEditor(suggestion: $spendingVM.selectedSuggestion,
+                                 updateAction: {
+                    spendingVM.updateSuggestion()
+                }, deleteAction: {
+                    spendingVM.deleteSuggestion()
+                })
             }
         })
     }
