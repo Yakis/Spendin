@@ -95,7 +95,6 @@ final class SpendingVM: ObservableObject {
     
     
     func getCurrentUser() async throws {
-        print("Getting current user")
         isLoading = true
         guard !KeychainItem.currentUserIdentifier.isEmpty else {
             isLoading = false
@@ -163,10 +162,13 @@ final class SpendingVM: ObservableObject {
     }
     
     
-    func acceptInvitation(for userDetails: UserDetails, to list: ItemList) {
-        Task {
-            let _ = try await ListService.acceptInvitation(for: userDetails, to: list.id)
-            try await self.getCurrentUser()
+    func acceptInvitation(for userDetails: UserDetails, to list: ItemList) async {
+        do {
+            let acceptedList = try await ListService.acceptInvitation(for: userDetails, to: list.id)
+            lists.append(acceptedList)
+            print("LIST APPENDED: \(Thread.current)")
+        } catch {
+            print("Error accepting list: \(error)")
         }
     }
     

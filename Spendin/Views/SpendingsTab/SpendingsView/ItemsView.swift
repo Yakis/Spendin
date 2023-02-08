@@ -27,10 +27,6 @@ struct ItemsView: View {
                 }
                 .onDelete(perform: delete)
                 .listRowBackground(AdaptColors.container)
-            }.onAppear {
-                print("<=================ITEMS=================>")
-                print(spendingVM.currentListItems)
-                print("<=======================================>")
             }
             
         }

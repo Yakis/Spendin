@@ -53,7 +53,6 @@ struct SpendinApp: App {
                     AcceptSharingView(readOnly: readOnly).environmentObject(spendingVM)
                 })
                 .onOpenURL { url in
-                    print("URL: \(url.absoluteString)")
                     Task {
                         let longURLString = try await spendingVM.fetchShortened(id: url.lastPathComponent)
                         guard let longURL = URL(string: longURLString) else {
@@ -105,9 +104,11 @@ struct AcceptSharingView: View {
                     .opacity(0.7)
                     .padding(.trailing, 50)
                     Button {
-                        let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail)
-                        spendingVM.acceptInvitation(for: userDetails, to: list)
-                        presentationMode.wrappedValue.dismiss()
+                        Task {
+                            let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail)
+                            await spendingVM.acceptInvitation(for: userDetails, to: list)
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     } label: {
                         Text("Accept")
                             .padding(5)

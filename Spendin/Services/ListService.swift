@@ -24,7 +24,7 @@ enum ListService {
         return URLSession(configuration: config)
     }
     
-    static func getList(for id: String) async throws -> ItemList {
+    static func getList(for id: String) async throws -> ItemList? {
         var request = URLRequest(url: .list(id: id))
         let jwt = JWTService.getJWTFromUID()
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -35,10 +35,8 @@ enum ListService {
             return lists.first!
         } catch {
             print("Error fetching list: \(error)")
-            fatalError()
+            return nil
         }
-            
-        
     }
     
     
@@ -67,12 +65,10 @@ enum ListService {
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let encodedData = try JSONEncoder().encode(["listIDS": ids])
-        let (data, response) = try await session().upload(for: request, from: encodedData)
-        print(data.prettyPrintedJSONString)
-        let lists = try JSONDecoder().decode([ItemList].self, from: data)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while fetching data")
-        }
+        let (data, _) = try await session().upload(for: request, from: encodedData)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let lists = try decoder.decode([ItemList].self, from: data)
         return lists
     }
     
@@ -84,10 +80,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let encodedList = try JSONEncoder().encode(list)
-        let (_, response) = try await session().upload(for: request, from: encodedList)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while fetching data")
-        }
+        let (_, _) = try await session().upload(for: request, from: encodedList)
     }
     
     
@@ -97,10 +90,7 @@ enum ListService {
         request.httpMethod = "DELETE"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let (_, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while deleting list <\(list.id)>")
-        }
+        let (_, _) = try await session().data(for: request)
     }
     
     
@@ -111,10 +101,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(["name": listName])
-        let (data, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while updating list <\(listName)>")
-        }
+        let (data, _) = try await session().data(for: request)
         let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
         return updatedList
     }
@@ -127,12 +114,10 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(userDetails)
-        let (data, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while inviting user to list <\(listID)>")
-        }
-        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
-        return updatedList
+        let (data, _) = try await session().data(for: request)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(ItemList.self, from: data)
     }
     
     
@@ -143,10 +128,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(["id": userID])
-        let (data, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while inviting user to list <\(listID)>")
-        }
+        let (data, _) = try await session().data(for: request)
         let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
         return updatedList
     }
@@ -159,10 +141,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(privileges)
-        let (data, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while inviting user to list <\(listID)>")
-        }
+        let (data, _) = try await session().data(for: request)
         let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
         return updatedList
     }
@@ -176,10 +155,7 @@ enum ListService {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.httpBody = try JSONEncoder().encode(["url": url])
-        let (data, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while trying to shorten url: <\(url)>")
-        }
+        let (data, _) = try await session().data(for: request)
         let shortened = try JSONDecoder().decode(FullURL.self, from: data)
         return shortened
     }
@@ -190,17 +166,15 @@ enum ListService {
         var request = URLRequest(url: .fetchShorten(id: id))
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let (data, response) = try await session().data(for: request)
+        let (data, _) = try await session().data(for: request)
         do {
             let html: String = String(data: data, encoding: String.Encoding.utf8)!
             let doc: Document = try SwiftSoup.parse(html)
             guard let link: Element = try doc.select("a").first() else { return "Invalid url" }
             let linkHref: String = try link.attr("href")
             return linkHref
-        } catch Exception.Error(let type, let message) {
-            print(message)
         } catch {
-            print("error")
+            print(error)
         }
         return ""
     }

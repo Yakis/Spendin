@@ -79,7 +79,6 @@ class AuthService: ObservableObject {
             fatalError("Error while creating user: \((response as? HTTPURLResponse).debugDescription)")
         }
         let user = try JSONDecoder().decode(User.self, from: data)
-        print(user)
         return user
     }
     
