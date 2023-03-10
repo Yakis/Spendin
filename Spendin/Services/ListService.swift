@@ -70,7 +70,7 @@ enum ListService {
     
     
     
-    static func getUserLists(ids: [UUID]) async throws -> [ItemList] {
+    static func getUserLists() async throws -> [ItemList] {
         let jwt = JWTService.getJWTFromUID()
         guard !jwt.isEmpty else { return [] }
         var request = URLRequest(url: .userLists())
@@ -98,7 +98,7 @@ enum ListService {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let encodedList = try encoder.encode(list)
+        let encodedList = try encoder.encode(["name": list.name])
         let (_, _) = try await session().upload(for: request, from: encodedList)
     }
     

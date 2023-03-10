@@ -111,10 +111,12 @@ final class SpendingVM: ObservableObject {
     func fetchLists() {
         Task {
             if let ids = currentUser?.lists {
-                let uuids = ids.map { UUID(uuidString: $0)! }
-                lists = try await ListService.getUserLists(ids: uuids)
+                lists = try await ListService.getUserLists()
                 currentListItems.removeAll()
-                guard !lists.isEmpty else { return }
+                guard !lists.isEmpty else {
+                    isLoading = false
+                    return
+                }
                 let currentList = lists[currentListIndex]
                 currentListItems = await getItemsFor(currentList.id)
                 try await fetchSuggestions()
