@@ -12,4 +12,10 @@ struct User: Codable {
     var name: String?
     var email: String
     var lists: [String]?
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name, email, lists
+    }
+    
 }

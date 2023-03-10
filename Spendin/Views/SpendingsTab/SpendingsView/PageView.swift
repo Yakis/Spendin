@@ -159,17 +159,17 @@ struct SummaryListView: View {
     var body: some View {
         List {
             ForEach(0..<spendingVM.lists.count, id: \.self) { index in
-                if let list = spendingVM.lists[index] {
+                if spendingVM.lists[index] != nil {
                     NavigationLink {
-                        DetailedListView(list: list)
+                        DetailedListView(list: spendingVM.lists[index])
                     } label: {
                         HStack {
-                            Text(list.name)
+                            Text(spendingVM.lists[index].name)
                                 .font(.title3)
                                 .fontWeight(.bold)
                                 .padding(10)
                             Spacer()
-                            Text("\(list.itemsCount) items")
+                            Text("\(spendingVM.lists[index].itemsCount) items")
                                 .font(.caption)
                                 .fontWeight(.light)
                                 .padding(10)

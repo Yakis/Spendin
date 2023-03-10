@@ -110,7 +110,7 @@ final class SpendingVM: ObservableObject {
     
     func fetchLists() {
         Task {
-            if let ids = currentUser?.lists, !ids.isEmpty {
+            if let ids = currentUser?.lists {
                 let uuids = ids.map { UUID(uuidString: $0)! }
                 lists = try await ListService.getUserLists(ids: uuids)
                 currentListItems.removeAll()
@@ -166,7 +166,6 @@ final class SpendingVM: ObservableObject {
         do {
             let acceptedList = try await ListService.acceptInvitation(for: userDetails, to: list.id)
             lists.append(acceptedList)
-            print("LIST APPENDED: \(Thread.current)")
         } catch {
             print("Error accepting list: \(error)")
         }
@@ -180,15 +179,14 @@ final class SpendingVM: ObservableObject {
     
     func update(user privileges: UserPrivileges, for listID: String) {
         Task {
-            let _ = try await ListService.update(user: privileges, for: listID)
+            let _ = try await ListService.update(privileges: privileges, listID: listID)
         }
     }
     
     
     func saveItem() {
         Task {
-            let currentList = lists[currentListIndex]
-            try await ItemService.save(item: itemToSave, listID: currentList.id)
+            try await ItemService.save(item: itemToSave)
             saveSuggestion(item: itemToSave)
             fetchLists()
             itemToSave = Item()
@@ -223,7 +221,7 @@ final class SpendingVM: ObservableObject {
     
     func saveSuggestion(item: Item) {
         Task {
-            let suggestion = Suggestion(name: item.name, type: item.itemType, category: item.category, amount: item.amount, count: 0)
+            let suggestion = Suggestion(name: item.name, itemType: item.itemType, category: item.category, amount: item.amount, count: 0)
             if suggestions.contains(where: { $0.name == suggestion.name }) {
                 // Just update the counter
                 try await SuggestionService.update(suggestion: suggestions.filter({ $0.name == suggestion.name }).first!)

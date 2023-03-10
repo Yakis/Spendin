@@ -15,13 +15,27 @@ enum SuggestionService {
         return URLSession(configuration: config)
     }
     
+    
+    private static var encoder: JSONEncoder {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        return jsonEncoder
+    }
+    
+    private static var decoder: JSONDecoder {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return jsonDecoder
+    }
+    
+    
     static func getSuggestions() async throws -> [Suggestion] {
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .allSuggestions())
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let (data, _) = try await session().data(for: request)
-        let suggestions = try JSONDecoder().decode([Suggestion].self, from: data)
+        let suggestions = try decoder.decode([Suggestion].self, from: data)
         return suggestions
     }
     
@@ -32,7 +46,7 @@ enum SuggestionService {
         request.httpMethod = "POST"
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let encodedSuggestion = try JSONEncoder().encode(suggestion)
+        let encodedSuggestion = try encoder.encode(suggestion)
         let (_, response) = try await session().upload(for: request, from: encodedSuggestion)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
@@ -43,10 +57,10 @@ enum SuggestionService {
     static func update(suggestion: Suggestion) async throws {
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .update(suggestionID: suggestion.id))
-        request.httpMethod = "PATCH"
+        request.httpMethod = "PUT"
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let encodedSuggestion = try JSONEncoder().encode(suggestion)
+        let encodedSuggestion = try encoder.encode(suggestion)
         let (_, response) = try await session().upload(for: request, from: encodedSuggestion)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
@@ -68,15 +82,15 @@ enum SuggestionService {
     
     
     static func deleteAllSuggestions() async throws {
-        let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .deleteSuggestions())
-        request.httpMethod = "DELETE"
-        request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let (_, response) = try await session().data(for: request)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while deleting suggestions.")
-        }
+//        let jwt = JWTService.getJWTFromUID()
+//        var request = URLRequest(url: .deleteSuggestions())
+//        request.httpMethod = "DELETE"
+//        request.addValue(jwt, forHTTPHeaderField: "User-Id")
+//        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        let (_, response) = try await session().data(for: request)
+//        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+//            fatalError("Error while deleting suggestions.")
+//        }
     }
     
 }

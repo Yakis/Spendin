@@ -41,11 +41,11 @@ extension URL {
     
     //MARK: Suggestions
     static func allSuggestions() -> URL {
-        return URL(string: "\(URLS.env.url)suggestions")!
+        return URL(string: "\(URLS.env.url)suggestions/")!
     }
     
     static func saveSuggestion() -> URL {
-        return URL(string: "\(URLS.env.url)suggestions")!
+        return URL(string: "\(URLS.env.url)suggestions/")!
     }
     
     static func update(suggestionID: String) -> URL {
@@ -58,9 +58,9 @@ extension URL {
         return URL(string: "\(URLS.env.url)suggestions/\(percentEncodedID)")!
     }
     
-    static func deleteSuggestions() -> URL {
-        return URL(string: "\(URLS.env.url)suggestions")!
-    }
+//    static func deleteSuggestions() -> URL {
+//        return URL(string: "\(URLS.env.url)suggestions")!
+//    }
     
     
     //MARK: Lists
@@ -69,11 +69,11 @@ extension URL {
     }
     
     static func userLists() -> URL {
-        return URL(string: "\(URLS.env.url)lists/user")!
+        return URL(string: "\(URLS.env.url)lists/")!
     }
     
     static func saveList() -> URL {
-        return URL(string: "\(URLS.env.url)lists")!
+        return URL(string: "\(URLS.env.url)lists/")!
     }
     
     static func delete(listID: String) -> URL {
@@ -81,20 +81,36 @@ extension URL {
         return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
     }
     
-    static func update(listID: String) -> URL {
+    static func update(name: String, listID: String) -> URL {
         let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
-        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)")!
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/\(name)")!
     }
+    
+    static func invite(listID: String) -> URL {
+        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/invite/")!
+    }
+    
+    static func stop(listID: String) -> URL {
+        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/stop/")!
+    }
+    
+    static func privileges(listID: String) -> URL {
+        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/privileges/")!
+    }
+    
     
     
     // MARK: Shorten url
     static func shorten() -> URL {
-        return URL(string: "\(URLS.env.url)urls")!
+        return URL(string: "\(URLS.env.url)urls/")!
     }
     
     static func fetchShorten(id: String) -> URL {
         let percentEncodedID = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-        return URL(string: "\(URLS.env.url)urls/\(percentEncodedID)")!
+        return URL(string: "\(URLS.env.url)urls/\(percentEncodedID)/")!
     }
     
     
@@ -104,9 +120,8 @@ extension URL {
         return URL(string: "\(URLS.env.url)items/\(percentEncodedID)")!
     }
     
-    static func saveItem(for listID: String) -> URL {
-        let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
-        return URL(string: "\(URLS.env.url)items/\(percentEncodedID)")!
+    static func saveItem() -> URL {
+        return URL(string: "\(URLS.env.url)items/")!
     }
     
     static func update(itemID: String) -> URL {
@@ -122,11 +137,11 @@ extension URL {
     
     //MARK: Users
     static func createUser() -> URL {
-        return URL(string: "\(URLS.env.url)users")!
+        return URL(string: "\(URLS.env.url)users/")!
     }
     
     static func getCurrentUser() -> URL {
-        return URL(string: "\(URLS.env.url)users")!
+        return URL(string: "\(URLS.env.url)users/")!
     }
     
 }

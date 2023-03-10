@@ -30,6 +30,19 @@ class AuthService: ObservableObject {
     }
     
     
+    static var encoder: JSONEncoder {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        return jsonEncoder
+    }
+    
+    static var decoder: JSONDecoder {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return jsonDecoder
+    }
+    
+    
     init() {
         checkIfIsAuthenticated()
     }
@@ -47,18 +60,27 @@ class AuthService: ObservableObject {
                 print("Unable to fetch identity token")
                 return
             }
-            
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
+            // Create an account in your system.
+            let userIdentifier = appleIDCredential.user
+            guard let email = appleIDCredential.email else { return }
+            self.saveEmailInKeychain(email)
+            self.saveUserInKeychain(userIdentifier)
+            self.saveProviderInKeychain("apple.com")
+            print("=========================================")
+            print(userIdentifier)
+            print(email)
+            print("=========================================")
+//            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+//                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+//                return
+//            }
             Task {
-                let user = try await createUser(token: idTokenString, name: appleIDCredential.fullName?.formatted())
-                let userIdentifier = user.id
-                self.userEmail = user.email
-                self.saveEmailInKeychain(userEmail)
-                self.saveUserInKeychain(userIdentifier)
-                self.saveProviderInKeychain("apple.com")
+                let user = try await createUser(name: appleIDCredential.fullName?.formatted())
+//                let userIdentifier = user.id
+//                self.userEmail = user.email
+//                self.saveEmailInKeychain(userEmail)
+//                self.saveUserInKeychain(userIdentifier)
+//                self.saveProviderInKeychain("apple.com")
                 self.isLoading = false
                 self.checkIfIsAuthenticated()
                 NotificationCenter.default.post(name: .authDidChange, object: nil, userInfo: ["isAuthenticated": isAuthenticated])
@@ -68,17 +90,22 @@ class AuthService: ObservableObject {
     }
     
     
-    func createUser(token: String, name: String?) async throws -> User {
+    func createUser(name: String?) async throws -> User {
         var request = URLRequest(url: .createUser())
+        let jwt = JWTService.getJWTFromUID()
+        guard !jwt.isEmpty else { fatalError("JWT is empty!") }
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        let encodedName = try JSONEncoder().encode(["name": name])
+        request.addValue(jwt, forHTTPHeaderField: "User-Id")
+        print("==================create user===================")
+        print(jwt)
+        print("================================================")
+        let encodedName = try AuthService.encoder.encode(["name": name])
         let (data, response) = try await session().upload(for: request, from: encodedName)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+        guard (response as? HTTPURLResponse)?.statusCode == 201 else {
             fatalError("Error while creating user: \((response as? HTTPURLResponse).debugDescription)")
         }
-        let user = try JSONDecoder().decode(User.self, from: data)
+        let user = try AuthService.decoder.decode(User.self, from: data)
         return user
     }
     

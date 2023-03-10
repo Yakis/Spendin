@@ -20,6 +20,12 @@ struct UserDetails: Codable {
         self.email = email
     }
     
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case isOwner, readOnly, email, name
+    }
+    
 }
 
 
@@ -32,6 +38,13 @@ struct UserPrivileges: Codable {
         self.readOnly = readOnly
     }
     
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case readOnly
+    }
+    
+    
 }
 
 
@@ -39,22 +52,28 @@ struct ItemList: Codable {
     
     var id: String
     var name: String
-    var created: Date
+    var createdAt: String
     var users: [UserDetails]
     var itemsCount: Int = 0
     
     init() {
         self.id = UUID().uuidString
         self.name = ""
-        self.created = Date()
+        self.createdAt = ""
         self.users = []
     }
     
     init(name: String) {
         self.id = UUID().uuidString
         self.name = name
-        self.created = Date()
+        self.createdAt = ""
         self.users = []
+    }
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name, createdAt, users, itemsCount
     }
     
     

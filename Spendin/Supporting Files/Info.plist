@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<!--	<key>NSAppTransportSecurity</key>-->
+<!--	<dict>-->
+<!--		<key>NSAllowsArbitraryLoads</key>-->
+<!--		<true/>-->
+<!--		<key>NSExceptionDomains</key>-->
+<!--		<dict>-->
+<!--			<key>yakis.cloud</key>-->
+<!--			<string></string>-->
+<!--		</dict>-->
+<!--	</dict>-->
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -43,8 +55,6 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>The app will scan a qr code in order to invite users to a list.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ConfigurationIntent</string>

@@ -15,27 +15,43 @@ enum ItemService {
         return URLSession(configuration: config)
     }
     
+    private static var encoder: JSONEncoder {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        return jsonEncoder
+    }
+    
+    private static var decoder: JSONDecoder {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        return jsonDecoder
+    }
+    
+    
     static func getItems(for listID: String) async throws -> [Item] {
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .items(for: listID))
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let (data, _) = try await session().data(for: request)
-        let items = try JSONDecoder().decode([Item].self, from: data)
+        let items = try decoder.decode([Item].self, from: data)
         return items
     }
     
     
-    static func save(item: Item, listID: String) async throws {
+    static func save(item: Item) async throws {
         let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .saveItem(for: listID))
+        var request = URLRequest(url: .saveItem())
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let encodedItem = try JSONEncoder().encode(item)
+        let itemToUpload = UploadedItem(item: item)
+        let encodedItem = try encoder.encode(itemToUpload)
+        print(encodedItem.prettyPrintedJSONString)
         let (_, response) = try await session().upload(for: request, from: encodedItem)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            fatalError("Error while fetching data")
-        }
+//        print(response)
+//        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+//            fatalError("Error while fetching data")
+//        }
     }
     
     
@@ -45,7 +61,7 @@ enum ItemService {
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let encodedItem = try JSONEncoder().encode(item)
+        let encodedItem = try encoder.encode(item)
         let (_, response) = try await session().upload(for: request, from: encodedItem)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")

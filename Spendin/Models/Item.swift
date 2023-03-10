@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct ListID: Codable {
-    var id: String = ""
-}
+//struct ListID: Codable {
+//    var id: String = ""
+//}
 
 
 struct Item: Codable {
@@ -20,7 +20,7 @@ struct Item: Codable {
     var amountLeft: Double = 0
     var category: String = "cart.fill"
     var itemType: ItemType = .expense
-    var list: ListID = ListID()
+    var listId: String = ""
     var due: String = ""
     
     var date: Date {
@@ -34,20 +34,26 @@ struct Item: Codable {
         self.amountLeft = 0
         self.category = "cart.fill"
         self.itemType = .expense
-        self.list = ListID()
+        self.listId = ""
         self.due = ""
     }
     
     
-    init(id: String, name: String, amount: Double, category: String, due: String, type: ItemType) {
+    init(id: String, name: String, amount: Double, category: String, due: String, itemType: ItemType, listId: String) {
         self.id = id
         self.name = name
         self.amount = amount
         self.amountLeft = 0
         self.category = category
         self.due = due
-        self.itemType = type
-        self.list = ListID()
+        self.itemType = itemType
+        self.listId = listId
+    }
+    
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name, amount, amountLeft, category, due, itemType, listId
     }
     
     
@@ -62,4 +68,28 @@ extension Item: Hashable, Equatable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
+}
+
+struct UploadedItem: Encodable {
+
+
+    var name: String = ""
+    var amount: Double = 0
+    var amountLeft: Double = 0
+    var category: String = "cart.fill"
+    var itemType: ItemType = .expense
+    var listId: String = ""
+    var due: String = ""
+
+
+    init(item: Item) {
+        self.name = item.name
+        self.amount = item.amount
+        self.amountLeft = 0
+        self.category = item.category
+        self.due = item.due
+        self.itemType = item.itemType
+        self.listId = item.listId
+    }
+
 }

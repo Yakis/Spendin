@@ -14,11 +14,10 @@
 		1506CFD32871709F00FDE913 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD22871709F00FDE913 /* AuthService.swift */; };
 		1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD42871711D00FDE913 /* AuthenticationView.swift */; };
 		1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD62871738F00FDE913 /* CloseableView.swift */; };
-		1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */; };
-		1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */; };
 		150867F1292E94E300C1B3C7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150867F0292E94E300C1B3C7 /* Currency.swift */; };
 		150867F3292E959B00C1B3C7 /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 150867F2292E959B00C1B3C7 /* currencies.json */; };
 		150867F5292E967600C1B3C7 /* Currencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150867F4292E967600C1B3C7 /* Currencies.swift */; };
+		151A2F9F29BA41B9001EC93B /* private_key.txt in Resources */ = {isa = PBXBuildFile; fileRef = 151A2F9E29BA41B9001EC93B /* private_key.txt */; };
 		151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965C24C49D92002C27F4 /* DetailedListView.swift */; };
 		151F966324C49D93002C27F4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965D24C49D92002C27F4 /* SettingsView.swift */; };
 		151F966424C49D93002C27F4 /* SpendingVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F965E24C49D92002C27F4 /* SpendingVM.swift */; };
@@ -126,11 +125,10 @@
 		1506CFD22871709F00FDE913 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		1506CFD42871711D00FDE913 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		1506CFD62871738F00FDE913 /* CloseableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseableView.swift; sourceTree = "<group>"; };
-		1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-public.pem"; sourceTree = "<group>"; };
-		1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "spendin-ecdsa-p521-private.pem"; sourceTree = "<group>"; };
 		150867F0292E94E300C1B3C7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		150867F2292E959B00C1B3C7 /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currencies.json; sourceTree = SOURCE_ROOT; };
 		150867F4292E967600C1B3C7 /* Currencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currencies.swift; sourceTree = "<group>"; };
+		151A2F9E29BA41B9001EC93B /* private_key.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = private_key.txt; sourceTree = "<group>"; };
 		151F965C24C49D92002C27F4 /* DetailedListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedListView.swift; sourceTree = "<group>"; };
 		151F965D24C49D92002C27F4 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		151F965E24C49D92002C27F4 /* SpendingVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpendingVM.swift; sourceTree = "<group>"; };
@@ -253,8 +251,7 @@
 		1506CFDD28717F9D00FDE913 /* Keys */ = {
 			isa = PBXGroup;
 			children = (
-				1506CFDA28717F8900FDE913 /* spendin-ecdsa-p521-private.pem */,
-				1506CFD928717F8900FDE913 /* spendin-ecdsa-p521-public.pem */,
+				151A2F9E29BA41B9001EC93B /* private_key.txt */,
 			);
 			path = Keys;
 			sourceTree = "<group>";
@@ -629,12 +626,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1506CFDB28717F8900FDE913 /* spendin-ecdsa-p521-public.pem in Resources */,
 				156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */,
 				150867F3292E959B00C1B3C7 /* currencies.json in Resources */,
 				156938F324C49C4300521D57 /* Preview Assets.xcassets in Resources */,
 				156938F024C49C4300521D57 /* Assets.xcassets in Resources */,
-				1506CFDC28717F8900FDE913 /* spendin-ecdsa-p521-private.pem in Resources */,
+				151A2F9F29BA41B9001EC93B /* private_key.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1152,7 +1148,7 @@
 			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.6.0;
+				minimumVersion = 4.0.0;
 			};
 		};
 		15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {

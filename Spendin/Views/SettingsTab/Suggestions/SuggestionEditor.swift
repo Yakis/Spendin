@@ -71,7 +71,7 @@ struct SuggestionEditor: View {
                         self.suggestion!.name = name.isEmpty ? suggestion.name : name
                         self.suggestion!.amount = amount.isEmpty ? suggestion.amount : try! Double(value: amount)
                         self.suggestion!.category = category.isEmpty ? suggestion.category : category
-                        self.suggestion!.type = suggestion.type == type ? suggestion.type : type
+                        self.suggestion!.itemType = suggestion.itemType == type ? suggestion.itemType : type
                         updateAction()
                         presentationMode.wrappedValue.dismiss()
                     } label: {
@@ -98,7 +98,7 @@ struct SuggestionEditor: View {
         .onAppear {
             name = suggestion!.name
             amount = String(suggestion!.amount)
-            type = suggestion!.type
+            type = suggestion!.itemType
             category = suggestion!.category
         }
         .alert(isPresented: $showDeleteConfirmation) {

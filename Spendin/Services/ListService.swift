@@ -24,6 +24,19 @@ enum ListService {
         return URLSession(configuration: config)
     }
     
+    private static var encoder: JSONEncoder {
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+        return jsonEncoder
+    }
+    
+    private static var decoder: JSONDecoder {
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        jsonDecoder.dateDecodingStrategy = .iso8601
+        return jsonDecoder
+    }
+    
     static func getList(for id: String) async throws -> ItemList? {
         var request = URLRequest(url: .list(id: id))
         let jwt = JWTService.getJWTFromUID()
@@ -31,7 +44,7 @@ enum ListService {
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let (data, _) = try await session().data(for: request)
         do {
-            let lists = try JSONDecoder().decode([ItemList].self, from: data)
+            let lists = try decoder.decode([ItemList].self, from: data)
             return lists.first!
         } catch {
             print("Error fetching list: \(error)")
@@ -51,7 +64,7 @@ enum ListService {
             print("Error while fetching user: \((response as? HTTPURLResponse).debugDescription)")
             return User(id: "", email: "")
         }
-        let user = try JSONDecoder().decode(User.self, from: data)
+        let user = try decoder.decode(User.self, from: data)
         return user
     }
     
@@ -61,15 +74,21 @@ enum ListService {
         let jwt = JWTService.getJWTFromUID()
         guard !jwt.isEmpty else { return [] }
         var request = URLRequest(url: .userLists())
-        request.httpMethod = "POST"
+        request.httpMethod = "GET"
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let encodedData = try JSONEncoder().encode(["listIDS": ids])
-        let (data, _) = try await session().upload(for: request, from: encodedData)
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        let lists = try decoder.decode([ItemList].self, from: data)
-        return lists
+        let (data, response) = try await session().data(for: request)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            print("Error while fetching lists: \((response as? HTTPURLResponse).debugDescription)")
+            return []
+        }
+        do {
+            let lists = try decoder.decode([ItemList].self, from: data)
+            return lists
+        } catch {
+            print("Error decoding lists: \(error)")
+        }
+        return []
     }
     
     
@@ -79,7 +98,7 @@ enum ListService {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        let encodedList = try JSONEncoder().encode(list)
+        let encodedList = try encoder.encode(list)
         let (_, _) = try await session().upload(for: request, from: encodedList)
     }
     
@@ -96,56 +115,53 @@ enum ListService {
     
     static func update(_ listName: String, for listID: String) async throws -> ItemList {
         let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .update(listID: listID))
+        var request = URLRequest(url: .update(name: listName, listID: listID))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try JSONEncoder().encode(["name": listName])
+        request.httpBody = try encoder.encode(["name": listName])
         let (data, _) = try await session().data(for: request)
-        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
+        let updatedList = try decoder.decode(ItemList.self, from: data)
         return updatedList
     }
     
     
     static func acceptInvitation(for userDetails: UserDetails, to listID: String) async throws -> ItemList {
         let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .update(listID: listID))
+        var request = URLRequest(url: .invite(listID: listID))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try JSONEncoder().encode(userDetails)
+        request.httpBody = try encoder.encode(userDetails)
         let (data, _) = try await session().data(for: request)
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
         return try decoder.decode(ItemList.self, from: data)
     }
     
     
     static func stopSharing(for userID: String, from listID: String) async throws -> ItemList {
         let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .update(listID: listID))
+        var request = URLRequest(url: .stop(listID: listID))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try JSONEncoder().encode(["id": userID])
+        request.httpBody = try encoder.encode(["id": userID])
         let (data, _) = try await session().data(for: request)
-        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
+        let updatedList = try decoder.decode(ItemList.self, from: data)
         return updatedList
     }
     
     
-    static func update(user privileges: UserPrivileges, for listID: String) async throws -> ItemList {
+    static func update(privileges: UserPrivileges, listID: String) async throws -> ItemList {
         let jwt = JWTService.getJWTFromUID()
-        var request = URLRequest(url: .update(listID: listID))
+        var request = URLRequest(url: .privileges(listID: listID))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try JSONEncoder().encode(privileges)
+        request.httpBody = try encoder.encode(privileges)
         let (data, _) = try await session().data(for: request)
-        let updatedList = try JSONDecoder().decode(ItemList.self, from: data)
+        let updatedList = try decoder.decode(ItemList.self, from: data)
         return updatedList
     }
-    
     
     
     static func shorten(url: String) async throws -> FullURL {
@@ -154,9 +170,9 @@ enum ListService {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try JSONEncoder().encode(["url": url])
+        request.httpBody = try encoder.encode(["url": url])
         let (data, _) = try await session().data(for: request)
-        let shortened = try JSONDecoder().decode(FullURL.self, from: data)
+        let shortened = try decoder.decode(FullURL.self, from: data)
         return shortened
     }
     

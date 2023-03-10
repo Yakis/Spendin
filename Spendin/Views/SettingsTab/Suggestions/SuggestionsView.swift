@@ -31,7 +31,7 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(spendingVM.suggestions.filter({ $0.type == .income }), id: \.self) { suggestion in
+                    ForEach(spendingVM.suggestions.filter({ $0.itemType == .income }), id: \.self) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
                             spendingVM.selectedSuggestion = selected
                             self.showSuggestionEditor = true
@@ -47,7 +47,7 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(spendingVM.suggestions.filter({ $0.type == .expense }), id: \.self) { suggestion in
+                    ForEach(spendingVM.suggestions.filter({ $0.itemType == .expense }), id: \.self) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
                             spendingVM.selectedSuggestion = selected
                             self.showSuggestionEditor = true
@@ -86,7 +86,7 @@ struct SuggestionSettingsCell: View {
             Label(suggestion.name, systemImage: suggestion.category)
                 .lineLimit(1)
                 .padding(8)
-                .background(suggestion.type == .expense ? AdaptColors.theOrange : Color.green)
+                .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
                 .clipShape(Capsule())
         }
         .onTapGesture {

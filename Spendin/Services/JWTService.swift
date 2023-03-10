@@ -12,25 +12,23 @@ enum JWTService {
     
     static func getJWTFromUID() -> String {
         if !KeychainItem.currentUserIdentifier.isEmpty {
-//            let userIdentifier = "003326.a114cf1d6c92461892b112dddd29b166.0000"
             let userIdentifier = KeychainItem.currentUserIdentifier
-//            let userEmail = "yakis.monk@icloud.com"
             let userEmail = KeychainItem.currentUserEmail
             let authProvider = KeychainItem.currentAuthProvider
             do {
                 let header = Header(kid: "spdn2022")
-                let claims = SiwaClaims(sub: userIdentifier, iss: authProvider, iat: Date(), exp: Date(timeIntervalSinceNow: 3600), email: userEmail)
+                let claims = SiwaClaims(sub: userIdentifier, iss: authProvider, aud: "com.yakis.Spendin", iat: Date(timeIntervalSinceNow: -10), exp: Date(timeIntervalSinceNow: 3600), email: userEmail)
                 let myJWT = JWT(header: header, claims: claims)
-                if let path = Bundle.main.url(forResource: "spendin-ecdsa-p521-private", withExtension: "pem") {
+                if let path = Bundle.main.url(forResource: "private_key", withExtension: "txt") {
                     let stringu = try? String(contentsOf: path)
                     let privateKey = stringu!.data(using: String.Encoding.utf8)
-                    let jwtSigner = JWTSigner.es512(privateKey: privateKey!)
+                    let jwtSigner = JWTSigner.es256(privateKey: privateKey!)
                     let jwtEncoder = JWTEncoder(jwtSigner: jwtSigner)
                     let jwtString = try jwtEncoder.encodeToString(myJWT)
                     return jwtString
                 }
             } catch {
-                print(error)
+                print("Error creating jwt: \(error)")
             }
         }
         return ""
@@ -44,6 +42,7 @@ enum JWTService {
 struct SiwaClaims: Claims {
     let sub: String
     let iss: String
+    let aud: String
     let iat: Date
     let exp: Date
     let email: String

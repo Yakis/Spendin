@@ -45,7 +45,7 @@ struct AddSpenderView: View {
                     CategoryPicker(category: $selectedCategory)
                     ItemDatePicker(date: $date)
                     SaveButton(disabled: (name.isEmpty || amount.isEmpty), saveAction: {
-                        spendingVM.itemToSave = Item(id: spendingVM.itemToSave.id, name: name.trimmingCharacters(in: .whitespacesAndNewlines), amount: Double(amount)!, category: selectedCategory, due: date.ISO8601Format(), type: selectedType)
+                        spendingVM.itemToSave = Item(id: spendingVM.itemToSave.id, name: name.trimmingCharacters(in: .whitespacesAndNewlines), amount: Double(amount)!, category: selectedCategory, due: date.ISO8601Format(), itemType: selectedType, listId: spendingVM.lists[spendingVM.currentListIndex].id)
                         if isUpdate {
                             spendingVM.updateItem()
                         } else {
@@ -96,7 +96,7 @@ struct AddSpenderView: View {
     func onSuggestionTap(_ suggestion: Suggestion) {
         name = suggestion.name
         amount = String(suggestion.amount)
-        selectedType = suggestion.type
+        selectedType = suggestion.itemType
         selectedCategory = suggestion.category
     }
     

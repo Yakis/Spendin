@@ -44,7 +44,7 @@ struct NameTextField: View {
                                     .font(.caption)
                                     .foregroundColor(AdaptColors.container)
                                     .padding(5)
-                                    .background(suggestion.type == .expense ? AdaptColors.theOrange : Color.green)
+                                    .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
                                     .clipShape(Capsule())
                                     .padding(5)
                                     .onTapGesture(perform: {
