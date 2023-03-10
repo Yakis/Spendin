@@ -48,21 +48,18 @@ enum ItemService {
         let encodedItem = try encoder.encode(itemToUpload)
         print(encodedItem.prettyPrintedJSONString)
         let (_, response) = try await session().upload(for: request, from: encodedItem)
-//        print(response)
-//        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-//            fatalError("Error while fetching data")
-//        }
     }
     
     
     static func update(item: Item) async throws {
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .update(itemID: item.id))
-        request.httpMethod = "PATCH"
+        request.httpMethod = "PUT"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let encodedItem = try encoder.encode(item)
         let (_, response) = try await session().upload(for: request, from: encodedItem)
+        print(response)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
         }
