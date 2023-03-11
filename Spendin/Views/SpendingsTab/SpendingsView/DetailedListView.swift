@@ -68,9 +68,9 @@ struct DetailedListView: View {
                     if completed && error == nil {
                         showShareSheet = false
                     }
-                })
+                }).presentationDetents([.medium, .large])
             })
-            .sheet(isPresented: $showSharingList, content: {
+            .popover(isPresented: $showSharingList, content: {
                 CloseableView {
                     ShareListView(list: list, showSharingList: $showSharingList, showShareSheet: $showShareSheet)
                 }

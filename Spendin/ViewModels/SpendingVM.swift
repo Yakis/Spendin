@@ -263,7 +263,7 @@ final class SpendingVM: ObservableObject {
     func shorten() async throws {
         let longURL = "com.spendin://lists?list=\(lists[currentListIndex].id)&readonly=\(readOnly)"
         let shortened = try await ListService.shorten(url: longURL)
-        self.shortenedURL = URL(string: shortened.short)!
+        self.shortenedURL = URL(string: shortened.shortUrl)!
     }
     
     

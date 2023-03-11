@@ -35,7 +35,7 @@ struct ShareSheet: UIViewControllerRepresentable {
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         guard let title = activityItems.first as? String else { return "" }
         guard let url = activityItems.last as? URL else { return "" }
-        return title + url.absoluteString
+        return title + "\n" + url.absoluteString
     }
     
     

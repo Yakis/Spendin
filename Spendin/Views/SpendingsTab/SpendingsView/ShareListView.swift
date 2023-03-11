@@ -45,8 +45,8 @@ struct ShareListView: View {
                     Button {
                         Task {
                             try! await spendingVM.shorten()
-                            showShareSheet = true
                             showSharingList = false
+                            showShareSheet = true
                         }
                     } label: {
                         Text("Share url")

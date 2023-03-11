@@ -46,8 +46,7 @@ enum ItemService {
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let itemToUpload = UploadedItem(item: item)
         let encodedItem = try encoder.encode(itemToUpload)
-        print(encodedItem.prettyPrintedJSONString)
-        let (_, response) = try await session().upload(for: request, from: encodedItem)
+        let (_, _) = try await session().upload(for: request, from: encodedItem)
     }
     
     
@@ -59,7 +58,6 @@ enum ItemService {
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
         let encodedItem = try encoder.encode(item)
         let (_, response) = try await session().upload(for: request, from: encodedItem)
-        print(response)
         guard (response as? HTTPURLResponse)?.statusCode == 200 else {
             fatalError("Error while fetching data")
         }

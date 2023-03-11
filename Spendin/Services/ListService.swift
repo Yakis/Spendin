@@ -11,8 +11,8 @@ import SwiftSoup
 
 struct FullURL: Codable {
     
-    let short: String
-    let long: String
+    let shortUrl: String
+    let longUrl: String
 }
 
 
