@@ -55,21 +55,21 @@ struct SpendinApp: App {
                 .onOpenURL { url in
                     Task {
                         let longURLString = try await spendingVM.fetchShortened(id: url.lastPathComponent)
-                        guard let longURL = URL(string: longURLString) else {
+                        guard longURLString.contains("com.spendin") else { return }
+                        let replaced = longURLString.replacingOccurrences(of: "\\", with: "").replacingOccurrences(of: "\"", with: "")
+                        guard let longURL = URL(string: replaced) else {
                             print("Url expired!")
                             return
                         }
-                        if let scheme = longURL.scheme, scheme.localizedCaseInsensitiveCompare("com.spendin") == .orderedSame {
-                            var parameters: [String: String] = [:]
-                            URLComponents(url: longURL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                                parameters[$0.name] = $0.value
-                            }
-                            guard let id = parameters["list"], !id.isEmpty else {return}
-                            guard let readOnly = parameters["readonly"]?.boolean else {return}
-                            self.readOnly = readOnly
-                            spendingVM.getListFor(id: id)
-                            showListInviteConfirmation = true
+                        var parameters: [String: String] = [:]
+                        URLComponents(url: longURL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+                            parameters[$0.name] = $0.value
                         }
+                        guard let id = parameters["list"], !id.isEmpty else {return}
+                        guard let readOnly = parameters["readonly"]?.boolean else {return}
+                        self.readOnly = readOnly
+                        spendingVM.getListFor(id: id)
+                        showListInviteConfirmation = true
                     }
                 }
         }
@@ -87,8 +87,8 @@ struct AcceptSharingView: View {
     
     var body: some View {
         VStack {
-            if let list = spendingVM.sharedList, let owner = list.users.first(where: { $0.isOwner == true }) {
-                Text("**\(owner.email)** \nwants to share \n**\(list.name)** \nwith you.")
+            if let list = spendingVM.sharedList {
+                Text("I want to to share \n**\(list.name)** \nwith you.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .padding()

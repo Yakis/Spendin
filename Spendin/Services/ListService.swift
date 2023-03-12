@@ -166,6 +166,7 @@ enum ListService {
     
     static func shorten(url: String) async throws -> FullURL {
         let jwt = JWTService.getJWTFromUID()
+        print(jwt)
         var request = URLRequest(url: .shorten())
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

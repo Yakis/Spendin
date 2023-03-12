@@ -17,7 +17,7 @@ enum JWTService {
             let authProvider = KeychainItem.currentAuthProvider
             do {
                 let header = Header(kid: "spdn2022")
-                let claims = SiwaClaims(sub: userIdentifier, iss: authProvider, aud: "com.yakis.Spendin", iat: Date(timeIntervalSinceNow: -10), exp: Date(timeIntervalSinceNow: 3600), email: userEmail)
+                let claims = SiwaClaims(sub: userIdentifier, iss: authProvider, aud: "com.yakis.Spendin", iat: Date(timeIntervalSinceNow: -10), exp: Date(timeIntervalSinceNow: 360000), email: userEmail)
                 let myJWT = JWT(header: header, claims: claims)
                 if let path = Bundle.main.url(forResource: "private_key", withExtension: "txt") {
                     let stringu = try? String(contentsOf: path)

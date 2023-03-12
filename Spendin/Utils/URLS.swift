@@ -110,7 +110,7 @@ extension URL {
     
     static func fetchShorten(id: String) -> URL {
         let percentEncodedID = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-        return URL(string: "\(URLS.env.url)urls/\(percentEncodedID)/")!
+        return URL(string: "\(URLS.env.url)urls/\(percentEncodedID)")!
     }
     
     
