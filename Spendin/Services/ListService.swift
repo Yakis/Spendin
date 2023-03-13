@@ -126,15 +126,20 @@ enum ListService {
     }
     
     
-    static func acceptInvitation(for userDetails: UserDetails, to listID: String) async throws -> ItemList {
+    static func acceptInvitation(for userDetails: UserDetails, to listID: String) async -> ItemList? {
         let jwt = JWTService.getJWTFromUID()
         var request = URLRequest(url: .invite(listID: listID))
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try encoder.encode(userDetails)
-        let (data, _) = try await session().data(for: request)
-        return try decoder.decode(ItemList.self, from: data)
+        do {
+            request.httpBody = try encoder.encode(userDetails)
+            let (data, _) = try await session().data(for: request)
+            let list = try decoder.decode(ItemList.self, from: data)
+            return list
+        } catch {
+            return nil
+        }
     }
     
     
@@ -144,7 +149,7 @@ enum ListService {
         request.httpMethod = "PATCH"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue(jwt, forHTTPHeaderField: "User-Id")
-        request.httpBody = try encoder.encode(["id": userID])
+        request.httpBody = try encoder.encode(["_id": userID])
         let (data, _) = try await session().data(for: request)
         let updatedList = try decoder.decode(ItemList.self, from: data)
         return updatedList

@@ -13,11 +13,12 @@ struct UserDetails: Codable {
     var email: String = ""
     var name: String?
     
-    init(id: String, isOwner: Bool, readOnly: Bool, email: String) {
+    init(id: String, isOwner: Bool, readOnly: Bool, email: String, name: String) {
         self.id = id
         self.isOwner = isOwner
         self.readOnly = readOnly
         self.email = email
+        self.name = name
     }
     
     
@@ -57,14 +58,14 @@ struct ItemList: Codable {
     var itemsCount: Int = 0
     
     init() {
-        self.id = UUID().uuidString
+        self.id = ""
         self.name = ""
         self.createdAt = ""
         self.users = []
     }
     
     init(name: String) {
-        self.id = UUID().uuidString
+        self.id = ""
         self.name = name
         self.createdAt = ""
         self.users = []

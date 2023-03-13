@@ -105,7 +105,7 @@ struct AcceptSharingView: View {
                     .padding(.trailing, 50)
                     Button {
                         Task {
-                            let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail)
+                            let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail, name: spendingVM.currentUser?.name ?? KeychainItem.currentUserEmail.components(separatedBy: "@").first!)
                             await spendingVM.acceptInvitation(for: userDetails, to: list)
                             presentationMode.wrappedValue.dismiss()
                         }

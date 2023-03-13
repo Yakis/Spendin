@@ -165,11 +165,8 @@ final class SpendingVM: ObservableObject {
     
     
     func acceptInvitation(for userDetails: UserDetails, to list: ItemList) async {
-        do {
-            let acceptedList = try await ListService.acceptInvitation(for: userDetails, to: list.id)
+        if let acceptedList = await ListService.acceptInvitation(for: userDetails, to: list.id) {
             lists.append(acceptedList)
-        } catch {
-            print("Error accepting list: \(error)")
         }
     }
     

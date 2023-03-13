@@ -88,17 +88,17 @@ extension URL {
     
     static func invite(listID: String) -> URL {
         let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
-        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/invite/")!
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/invite")!
     }
     
     static func stop(listID: String) -> URL {
         let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
-        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/stop/")!
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/stop")!
     }
     
     static func privileges(listID: String) -> URL {
         let percentEncodedID = listID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? listID
-        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/privileges/")!
+        return URL(string: "\(URLS.env.url)lists/\(percentEncodedID)/privileges")!
     }
     
     
