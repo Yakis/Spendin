@@ -222,7 +222,6 @@ final class SpendingVM: ObservableObject {
         Task {
             let suggestion = Suggestion(name: item.name, itemType: item.itemType, category: item.category, amount: item.amount, count: 0)
             if suggestions.contains(where: { $0.name == suggestion.name }) {
-                // Just update the counter
                 try await SuggestionService.update(suggestion: suggestions.filter({ $0.name == suggestion.name }).first!)
                 try await fetchSuggestions()
             } else {
@@ -285,59 +284,5 @@ final class SpendingVM: ObservableObject {
         }
         return nil
     }
-    
-    
-    
-    // MARK: JSON backup ---------------------------------------
-    //    func saveJSONToDocumentsDirectory(list: ItemList) {
-    //        let encoded = try! JSONEncoder().encode(list)
-    //        guard let jsonString = String(data: encoded, encoding: String.Encoding.utf8) else { return }
-    //        if let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-    //            let pathWithFilename = documentDirectory.appendingPathComponent("spendin_\(list.name).json")
-    //            do {
-    //                try jsonString.write(to: pathWithFilename, atomically: true, encoding: .utf8)
-    //                let input = try String(contentsOf: pathWithFilename)
-    //                let items = try FileManager.default.contentsOfDirectory(atPath: pathWithFilename.absoluteString)
-    //                print("===============================")
-    //                print(items)
-    //                print("===============================")
-    //            } catch {
-    //                print("Error saving json to documents: \(error)")
-    //            }
-    //        }
-    //    }
-    //
-    //
-    //    @discardableResult func printTimeElapsedWhenRunningCode<T>(title: String, operation: () -> T) -> T {
-    //        let startTime = CFAbsoluteTimeGetCurrent()
-    //        let result = operation()
-    //        let timeElapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
-    //        print("Time elapsed for \(title): \(timeElapsed) ms.")
-    //        return result
-    //    }
-    //
-    //
-    //    func getDocumentsDirectoryUrl() -> URL {
-    //        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-    //        let documentsDirectory = paths[0]
-    //        return documentsDirectory
-    //    }
-    //
-    //
-    //    func readFromDocumentsDirectory() {
-    //        let fm = FileManager.default
-    //        guard let path = fm.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-    //
-    //        do {
-    //            let items = try fm.contentsOfDirectory(atPath: path.absoluteString)
-    //
-    //            for item in items {
-    //                print("Found \(item)")
-    //            }
-    //        } catch {
-    //            print("failed to read directory – bad permissions, perhaps? -> \(error)")
-    //        }
-    //    }
-    
     
 }
