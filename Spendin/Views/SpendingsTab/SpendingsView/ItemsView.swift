@@ -6,52 +6,44 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ItemsView: View {
     
+    @Environment(\.modelContext) var modelContext
     @EnvironmentObject var spendingVM: SpendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
-    var isReadOnly: Bool
     @State private var yPos: CGFloat = 0
     @State private var height: CGFloat = 0
     @State private var size: CGSize = .zero
     @State private var showDeleteRestrictionAlert = false
+    @Binding var selectedItem: Item
     
     var body: some View {
-        List {
-            Section {
-                ForEach(0..<spendingVM.currentListItems.count, id: \.self) { index in
-                        DetailedListItemCell(index: index, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: isReadOnly)
-                            .environmentObject(spendingVM)
+            List {
+                Section {
+                    ForEach(spendingVM.currentList.items.sorted { $0.due < $1.due }, id: \.self) { item in
+                        DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal, selectedItem: $selectedItem)
+                                .environmentObject(spendingVM)
+                    }
+                    .onDelete(perform: delete)
+                    .listRowBackground(AdaptColors.container)
                 }
-                .onDelete(perform: delete)
-                .listRowBackground(AdaptColors.container)
+                
             }
-            
-        }
-        .padding([.leading, .trailing], 16)
-        .listStyle(.plain)
-        .onChange(of: spendingVM.currentListItems) { newValue in
-            spendingVM.calculateSpendings()
-        }
-        .refreshable {
-            Task {
-                try await spendingVM.getCurrentUser()                
-            }
-        }
+            .padding([.leading, .trailing], 16)
+            .listStyle(.plain)
+            .onChange(of: spendingVM.currentList.items, {
+                spendingVM.calculateSpendings()
+            })
     }
     
     
     private func delete(at offsets: IndexSet) {
-        guard !isReadOnly else {
-            showDeleteRestrictionAlert = true
-            return
-        }
-        let item = spendingVM.currentListItems[offsets.first!]
-        Task {
-            try await spendingVM.delete(item: item)
-            spendingVM.currentListItems.remove(at: offsets.first!)
+        for index in offsets {
+            let itemToDelete = spendingVM.currentList.items[index]
+            modelContext.delete(itemToDelete)
         }
     }
     

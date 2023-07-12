@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-
+import SwiftData
 
 struct CreateNewListView: View {
     
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var spendingVM: SpendingVM
     @State private var listName = ""
@@ -41,7 +42,7 @@ struct CreateNewListView: View {
                 .padding(.bottom, 20)
             Button {
                 let list = ItemList(name: listName)
-                spendingVM.save(list: list)
+                modelContext.insert(object: list)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")

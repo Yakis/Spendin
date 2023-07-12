@@ -13,45 +13,43 @@ var shouldCalculateDate: Bool = true
 struct DetailedListItemCell: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    var index: Int
+    var item: Item
     @Binding var isUpdate: Bool
     @Binding var showModal: Bool
-    var isReadOnly: Bool
     @State private var showUpdateRestrictionAlert = false
+    @Binding var selectedItem: Item
     
     var body: some View {
-        if index < spendingVM.currentListItems.count {
-            let itemAtIndex = spendingVM.currentListItems[index]
             HStack {
                 HStack {
-                    Image(systemName: itemAtIndex.category)
+                    Image(systemName: item.category)
                         .font(.title2)
                         .frame(width: 30)
                         .foregroundColor(AdaptColors.categoryIcon)
                         .padding(.trailing, 5)
-                        .offset(x: itemAtIndex.date.isToday() ? 16 : 0)
+                        .offset(x: item.date.isToday() ? 16 : 0)
                     VStack(alignment: .leading) {
-                        Text(itemAtIndex.name)
+                        Text(item.name)
                             .font(.title2)
                             .fontWeight(.thin)
                             .padding(.bottom, 1)
-                        Text((itemAtIndex.date.shortString()))
+                        Text((item.date.shortString()))
                             .font(.caption2)
                             .fontWeight(.thin)
-                    }.offset(x: itemAtIndex.date.isToday() ? 16 : 0)
+                    }.offset(x: item.date.isToday() ? 16 : 0)
                     Spacer()
                     VStack(alignment: .trailing) {
                         HStack {
-                            Image(systemName: itemAtIndex.itemType == .expense ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
+                            Image(systemName: item.itemType == "expense" ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
                                 .font(.caption2)
-                                .foregroundColor(itemAtIndex.itemType == .expense ? .red : .green)
-                            Text(amountString(item: itemAtIndex))
+                                .foregroundColor(item.itemType == "expense" ? .red : .green)
+                            Text(amountString(item: item))
                                 .font(.title3)
                                 .fontWeight(.thin)
                         }
-                        Text(spendingVM.amountList[index] ?? "Nada")
-                            .font(.caption2)
-                            .fontWeight(.thin)
+//                        Text(spendingVM.amountList.firstIndex(where: { $0.key == Int(item.amount) }) ?? "Nada")
+//                            .font(.caption2)
+//                            .fontWeight(.thin)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -60,35 +58,29 @@ struct DetailedListItemCell: View {
             .frame(height: 60, alignment: .leading)
             .cornerRadius(10)
             .onTapGesture {
-                if isReadOnly {
-                    showUpdateRestrictionAlert = true
-                } else {
                     isUpdate = true
                     showModal = true
-                    spendingVM.itemToSave = itemAtIndex
-                }
+                    selectedItem = item
             }
             .overlay {
                 HStack {
                     Text("Due")
                         .font(.caption2)
-                        .frame(height: itemAtIndex.date.isToday() ? 16 : 0)
-                        .frame(width: itemAtIndex.date.isToday() ? 65 : 0)
+                        .frame(height: item.date.isToday() ? 16 : 0)
+                        .frame(width: item.date.isToday() ? 65 : 0)
                         .padding(3)
                         .background(AdaptColors.theOrange)
-                        .opacity(itemAtIndex.date.isToday() ? 1 : 0)
+                        .opacity(item.date.isToday() ? 1 : 0)
                         .rotationEffect(Angle(degrees: -90))
                         .position(x: -9, y: 60 / 2)
                 }
             }
-            .deleteDisabled(isReadOnly)
-        }
     }
     
     
     private func amountString(item: Item) -> String {
         switch item.itemType {
-        case .expense: return "\(spendingVM.currency) \(item.amount)"
+        case "expense": return "\(spendingVM.currency) \(item.amount)"
         default: return "\(spendingVM.currency) \(item.amount)"
         }
     }

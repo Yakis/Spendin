@@ -20,7 +20,7 @@ struct CustomTabView: View {
                 .tabItem {
                     Label(NavElements.spending.title, systemImage: NavElements.spending.image)
                 }.tag(0)
-            CustomizedCalendarView()
+            CustomizedCalendarView(list: ItemList(name: ""))
                 .environmentObject(spendingVM)
                 .tabItem {
                     Label(NavElements.calendar.title, systemImage: NavElements.calendar.image)

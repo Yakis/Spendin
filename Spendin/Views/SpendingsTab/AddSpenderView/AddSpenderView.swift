@@ -6,50 +6,41 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 import Combine
 
 struct AddSpenderView: View {
     
+    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var spendingVM: SpendingVM
     @Environment(\.presentationMode) var presentationMode
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
     @Binding var date: Date
-    @State private var itemTypes = ItemType.allCases
+    @State private var itemTypes = ["expense", "income"]
     @State private var suggestions = [Suggestion]()
     
-    @State private var selectedType: ItemType = .expense
-    @State private var amount: String = ""
-    @State private var name: String = ""
-    @State private var selectedCategory: String = "cart.fill"
-    
     @State private var showSuggestionEditor = false
+    var list: ItemList
+    @Bindable var item: Item
     
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 20) {
                 ScrollView {
-                    ItemTypePicker(itemTypes: itemTypes, selectedType: $selectedType)
+                    ItemTypePicker(itemTypes: itemTypes, selectedType: $item.itemType)
                         .padding([.top, .bottom], 5)
                     NameTextField(
-                        itemName: $name,
-                        suggestions: $suggestions,
-                        onNameChange: { onNameChange() },
-                        onSuggestionTap:
-                            { suggestion in
-                                onSuggestionTap(suggestion)
-                            }
+                        itemName: $item.name,
+                        suggestions: $suggestions
                     )
-                    AmountTextField(amount: $amount)
-                    CategoryPicker(category: $selectedCategory)
+                    AmountTextField(amount: $item.amount)
+                    CategoryPicker(category: $item.category)
                     ItemDatePicker(date: $date)
-                    SaveButton(disabled: (name.isEmpty || amount.isEmpty), saveAction: {
-                        spendingVM.itemToSave = Item(id: spendingVM.itemToSave.id, name: name.trimmingCharacters(in: .whitespacesAndNewlines), amount: Double(amount)!, category: selectedCategory, due: date.ISO8601Format(), itemType: selectedType, listId: spendingVM.lists[spendingVM.currentListIndex].id)
-                        if isUpdate {
-                            spendingVM.updateItem()
-                        } else {
-                            spendingVM.saveItem()
+                    SaveButton(disabled: (item.name.isEmpty || item.amount.isEmpty), saveAction: {
+                        item.due = date.ISO8601Format()
+                        if !isUpdate {
+                            list.items.append(item)
                         }
                         presentationMode.wrappedValue.dismiss()
                     })
@@ -59,9 +50,6 @@ struct AddSpenderView: View {
                 .background(AdaptColors.container)
                 .edgesIgnoringSafeArea(.bottom)
             }
-            .onAppear(perform: {
-                setupFields()
-            })
             .navigationTitle(isUpdate ? "Update item" : "Add item")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -82,34 +70,34 @@ struct AddSpenderView: View {
     
     
     
-    func onNameChange() {
-        if name.isEmpty {
-            suggestions = spendingVM.suggestions
-        } else {
-            suggestions = spendingVM.suggestions.filter { suggestion in
-                suggestion.name.contains(name)
-            }
-        }
-    }
-    
-    
-    func onSuggestionTap(_ suggestion: Suggestion) {
-        name = suggestion.name
-        amount = String(suggestion.amount)
-        selectedType = suggestion.itemType
-        selectedCategory = suggestion.category
-    }
-    
-    
-    func setupFields() {
-        if isUpdate {
-            name = spendingVM.itemToSave.name
-            amount = String(spendingVM.itemToSave.amount)
-            date = spendingVM.itemToSave.due.isoToDate()
-            selectedType = spendingVM.itemToSave.itemType
-            selectedCategory = spendingVM.itemToSave.category
-        }
-        suggestions = spendingVM.suggestions
-    }
+//    func onNameChange() {
+//        if name.isEmpty {
+//            suggestions = spendingVM.suggestions
+//        } else {
+//            suggestions = spendingVM.suggestions.filter { suggestion in
+//                suggestion.name.contains(name)
+//            }
+//        }
+//    }
+//    
+//    
+//    func onSuggestionTap(_ suggestion: Suggestion) {
+//        name = suggestion.name
+//        amount = String(suggestion.amount)
+//        selectedType = suggestion.itemType
+//        selectedCategory = suggestion.category
+//    }
+//    
+//    
+//    func setupFields() {
+//        if isUpdate {
+//            name = spendingVM.itemToSave.name
+//            amount = String(spendingVM.itemToSave.amount)
+//            date = spendingVM.itemToSave.due.isoToDate()
+//            selectedType = spendingVM.itemToSave.itemType
+//            selectedCategory = spendingVM.itemToSave.category
+//        }
+//        suggestions = spendingVM.suggestions
+//    }
     
 }

@@ -6,21 +6,17 @@
 //
 
 import Foundation
+import SwiftData
 
-//struct ListID: Codable {
-//    var id: String = ""
-//}
-
-
-struct Item: Codable {
+@Model
+final class Item {
     
-    var id: String = ""
+    var id: String = UUID().uuidString
     var name: String = ""
-    var amount: Double = 0
-    var amountLeft: Double = 0
+    var amount: String = "0"
+    var amountLeft: String = "0"
     var category: String = "cart.fill"
-    var itemType: ItemType = .expense
-    var listId: String = ""
+    var itemType: String = "expense"
     var due: String = ""
     
     var date: Date {
@@ -30,66 +26,23 @@ struct Item: Codable {
     init() {
         self.id = ""
         self.name = ""
-        self.amount = 0
-        self.amountLeft = 0
+        self.amount = "0"
+        self.amountLeft = "0"
         self.category = "cart.fill"
-        self.itemType = .expense
-        self.listId = ""
+        self.itemType = "expense"
         self.due = ""
     }
     
     
-    init(id: String, name: String, amount: Double, category: String, due: String, itemType: ItemType, listId: String) {
+    init(id: String, name: String, amount: String, category: String, due: String, itemType: String) {
         self.id = id
         self.name = name
         self.amount = amount
-        self.amountLeft = 0
+        self.amountLeft = "0"
         self.category = category
         self.due = due
         self.itemType = itemType
-        self.listId = listId
     }
     
     
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case name, amount, amountLeft, category, due, itemType, listId
-    }
-    
-    
-}
-
-
-extension Item: Hashable, Equatable {
-    static func == (lhs: Item, rhs: Item) -> Bool {
-        lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
-struct UploadedItem: Encodable {
-
-
-    var name: String = ""
-    var amount: Double = 0
-    var amountLeft: Double = 0
-    var category: String = "cart.fill"
-    var itemType: ItemType = .expense
-    var listId: String = ""
-    var due: String = ""
-
-
-    init(item: Item) {
-        self.name = item.name
-        self.amount = item.amount
-        self.amountLeft = 0
-        self.category = item.category
-        self.due = item.due
-        self.itemType = item.itemType
-        self.listId = item.listId
-    }
-
 }

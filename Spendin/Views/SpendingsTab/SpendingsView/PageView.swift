@@ -9,6 +9,7 @@ import SwiftUI
 import Combine
 import UIKit
 import CoreImage.CIFilterBuiltins
+import SwiftData
 
 struct SpendingsView: View {
     
@@ -21,8 +22,8 @@ struct SpendingsView: View {
 
 struct PageView: View {
     
+    @Environment(\.modelContext) var modelContext
     @EnvironmentObject var spendingVM: SpendingVM
-    @EnvironmentObject var authService: AuthService
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
@@ -31,6 +32,8 @@ struct PageView: View {
     @State private var cancellables = Set<AnyCancellable>()
     @State private var listToDelete: ItemList?
     
+    @Query private var lists: [ItemList]
+    
     let context = CIContext()
     let filter = CIFilter.qrCodeGenerator()
     
@@ -38,7 +41,7 @@ struct PageView: View {
         NavigationView {
                 ZStack {
                     GeometryReader { geometry in
-                        if spendingVM.lists.isEmpty && !spendingVM.isLoading {
+                        if lists.isEmpty && !spendingVM.isLoading {
                             VStack {
                                 let image = Image(systemName: "plus.circle.fill")
                                 Text("Nothing here, you can add a list from the \(image) button")
@@ -66,14 +69,8 @@ struct PageView: View {
                     .sheet(isPresented: $showCreateNewListView) {
                         
                     } content: {
-                        if authService.isAuthenticated {
-                            CloseableView {
-                                CreateNewListView()
-                            }
-                        } else {
-                            CloseableView {
-                                AuthenticationView()
-                            }
+                        CloseableView {
+                            CreateNewListView()
                         }
                     }
                     .alert("Warning", isPresented: $showDeleteRestrictionAlert) {
@@ -89,34 +86,13 @@ struct PageView: View {
                     }
                     ProgressView("Loading...").opacity((spendingVM.isLoading) ? 1 : 0)
                 }
-                .refreshable(action: {
-                    Task {
-                        try await spendingVM.getCurrentUser()
-                    }
-                })
             }
     }
     
     
     private func delete(list: ItemList?) {
-        if let list = list {
-            Task {
-                try await spendingVM.delete(list: list)
-                listToDelete = nil
-            }
-        }
+        modelContext.delete(object: list!)
     }
-    
-    
-//    private func generateQRCode(from userDetails: UserDetails) -> UIImage {
-//        filter.message = try! JSONEncoder().encode(userDetails)
-//        if let outputImage = filter.outputImage {
-//            if let cgimg = context.createCGImage(outputImage, from: outputImage.extent) {
-//                return UIImage(cgImage: cgimg)
-//            }
-//        }
-//        return UIImage(systemName: "xmark.circle") ?? UIImage()
-//    }
     
     
 }
@@ -155,36 +131,32 @@ struct SummaryListView: View {
     @Binding var listToDelete: ItemList?
     @Binding var showDeleteListAlert: Bool
     @Binding var showDeleteRestrictionAlert: Bool
+    @Query private var lists: [ItemList]
     
     var body: some View {
         List {
-            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
-                if spendingVM.lists[index] != nil {
-                    NavigationLink {
-                        DetailedListView(list: spendingVM.lists[index])
-                    } label: {
-                        HStack {
-                            Text(spendingVM.lists[index].name)
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .padding(10)
-                            Spacer()
-                            Text("\(spendingVM.lists[index].itemsCount) items")
-                                .font(.caption)
-                                .fontWeight(.light)
-                                .padding(10)
-                        }
+            ForEach(lists, id: \.id) { list in
+                NavigationLink {
+                    DetailedListView(list: list)
+                } label: {
+                    HStack {
+                        Text(list.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(10)
+                        Spacer()
+                        Text("\(list.items.count) items")
+                            .font(.caption)
+                            .fontWeight(.light)
+                            .padding(10)
                     }
                 }
             }
             .onDelete { index in
-                listToDelete = spendingVM.lists[index.first!]
-                if let list = listToDelete {
-                    let currentUser = list.users.filter { user in return user.email == KeychainItem.currentUserEmail }.first!
-                    if currentUser.isOwner {
+                for i in index {
+                    listToDelete = lists[i]
+                    if let list = listToDelete {
                         showDeleteListAlert = true
-                    } else {
-                        showDeleteRestrictionAlert = true
                     }
                 }
             }

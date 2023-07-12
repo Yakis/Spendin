@@ -14,52 +14,48 @@ struct SpendingsForDateView: View {
     @Binding var selectedDate: Date
     @State private var isUpdate: Bool = false
     @State private var showModal: Bool = false
+    var list: ItemList
+    @State private var item: Item = Item()
     
     var body: some View {
-        if let currentUser = spendingVM.lists[spendingVM.currentListIndex].users.filter({ user in
-            user.email == KeychainItem.currentUserEmail
-        }).first {
-            VStack(alignment: .center) {
-                Text(selectedDate.shortString())
-                    .font(.title2)
-                    .foregroundColor(AdaptColors.theOrange)
-                    .padding()
-                List {
-                    ForEach(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame} , id: \.id) { item in
-                        DetailedListItemCell(index: 0, isUpdate: $isUpdate, showModal: $showModal, isReadOnly: currentUser.readOnly)
-                            .environmentObject(spendingVM)
-                    }
-                    .listRowBackground(AdaptColors.cellBackground)
+        VStack(alignment: .center) {
+            Text(selectedDate.shortString())
+                .font(.title2)
+                .foregroundColor(AdaptColors.theOrange)
+                .padding()
+            List {
+                ForEach(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame} , id: \.id) { item in
+                    DetailedListItemCell(item: Item(), isUpdate: $isUpdate, showModal: $showModal, selectedItem: $item)
+                        .environmentObject(spendingVM)
                 }
-                .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : .infinity)
-                .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : 1)
-                Text("Nothing today")
-                    .font(.callout)
-                    .fontWeight(.bold)
-                    .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? .infinity : 0)
-                    .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0.6 : 0)
-                    .sheet(isPresented: $showModal) {
-                        AddSpenderView(isUpdate: $isUpdate, date: $selectedDate)
-                            .environmentObject(spendingVM)
-                    }
-                if !currentUser.readOnly {
-                    HStack {
-                        Spacer()
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 60, height: 60, alignment: .center)
-                            .foregroundColor(AdaptColors.theOrange)
-                            .shadow(radius: 2)
-                            .transition(.scale)
-                            .padding([.trailing, .bottom], 20)
-                    }
-                    .onTapGesture {
-                        showModal.toggle()
-                    }
-                }
+                .listRowBackground(AdaptColors.cellBackground)
             }
-            .padding()
+            .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : .infinity)
+            .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : 1)
+            Text("Nothing today")
+                .font(.callout)
+                .fontWeight(.bold)
+                .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? .infinity : 0)
+                .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0.6 : 0)
+                .sheet(isPresented: $showModal) {
+                    AddSpenderView(isUpdate: $isUpdate, date: $selectedDate, list: list, item: Item())
+                        .environmentObject(spendingVM)
+                }
+            HStack {
+                Spacer()
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: 60, height: 60, alignment: .center)
+                    .foregroundColor(AdaptColors.theOrange)
+                    .shadow(radius: 2)
+                    .transition(.scale)
+                    .padding([.trailing, .bottom], 20)
+            }
+            .onTapGesture {
+                showModal.toggle()
+            }
         }
+        .padding()
     }
     
     

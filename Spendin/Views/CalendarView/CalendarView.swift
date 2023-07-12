@@ -56,15 +56,18 @@ struct CalendarView<DateView>: View where DateView: View {
     
     @State private var showTodaySpendings: Bool = false
     @State private var selectedDate: Date = Date()
+    var list: ItemList
 
     init(
         interval: DateInterval,
         showHeaders: Bool = true,
+        list: ItemList,
         @ViewBuilder content: @escaping (Date) -> DateView
     ) {
         self.interval = interval
         self.showHeaders = showHeaders
         self.content = content
+        self.list = list
     }
 
     var body: some View {
@@ -81,7 +84,7 @@ struct CalendarView<DateView>: View where DateView: View {
                                 }
                                 .sheet(isPresented: $showTodaySpendings, content: {
                                     CloseableView {
-                                    SpendingsForDateView(selectedDate: $selectedDate)
+                                        SpendingsForDateView(selectedDate: $selectedDate, list: list)
                                         .background(AdaptColors.container)
                                     }
                                 })

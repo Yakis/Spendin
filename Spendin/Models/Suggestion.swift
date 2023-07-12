@@ -6,29 +6,31 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Suggestion: Codable, Hashable {
+@Model
+final class Suggestion {
     
-    var id: String = ""
+    var id: String = UUID().uuidString
     var name: String = ""
-    var itemType: ItemType = .expense
+    var itemType: String = "expense"
     var category: String = ""
-    var amount: Double = 0
-    var count: Int = 0
+    var amount: String = "0"
     
     
-    init(name: String, itemType: ItemType, category: String, amount: Double, count: Int) {
+    init(name: String, itemType: String, category: String, amount: String, count: Int) {
         self.name = name
         self.itemType = itemType
         self.category = category
         self.amount = amount
-        self.count = count
     }
     
     
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case name, amount, itemType, category, count
+    init() {
+        self.name = ""
+        self.itemType = ""
+        self.category = ""
+        self.amount = "0"
     }
     
     

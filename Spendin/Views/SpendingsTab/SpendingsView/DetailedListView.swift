@@ -7,26 +7,26 @@
 
 import SwiftUI
 import Combine
-import CoreData
+import SwiftData
 import CloudKit
 import UIKit
 import CoreImage.CIFilterBuiltins
 
-enum ItemType: String, CaseIterable, Codable {
-    case expense, income
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let rawString = try container.decode(String.self)
-        
-        if let type = ItemType(rawValue: rawString.lowercased()) {
-            self = type
-        } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
-        }
-    }
-    
-}
+//enum ItemType: String, CaseIterable, Codable {
+//    case expense, income
+//    
+//    init(from decoder: Decoder) throws {
+//        let container = try decoder.singleValueContainer()
+//        let rawString = try container.decode(String.self)
+//        
+//        if let type = ItemType(rawValue: rawString.lowercased()) {
+//            self = type
+//        } else {
+//            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
+//        }
+//    }
+//    
+//}
 
 
 
@@ -42,44 +42,25 @@ struct DetailedListView: View {
     @State private var showSharingList = false
     @State private var showEditSharingView = false
     @State private var showShareSheet = false
+    @State private var item: Item = Item()
+    
+    @Query private var lists: [ItemList]
     
     var list: ItemList
     
     var body: some View {
-        if let currentUser = list.users.filter({ user in
-            return user.email == KeychainItem.currentUserEmail
-        }).first {
             ZStack {
                 VStack(alignment: .leading) {
-                    ItemsView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
-                    TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, isReadOnly: currentUser.readOnly)
+                    ItemsView(showModal: $showModal, isUpdate: $isUpdate, selectedItem: $item)
+                    TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, list: list, item: item)
                         .environmentObject(spendingVM)
                 }
                 .background(AdaptColors.container)
                 .onAppear {
-                    spendingVM.currentListIndex = spendingVM.lists.firstIndex(of: list)!
+                    spendingVM.currentList = list
                 }
                 ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
             }
-            .sheet(isPresented: $showShareSheet, onDismiss: {
-                spendingVM.readOnly = true
-            }, content: {
-                ShareSheet(activityItems: ["Sharing <\(list.name)> list.", spendingVM.shortenedURL], applicationActivities: nil, callback: { activityType, completed, returnedItems, error in
-                    if completed && error == nil {
-                        showShareSheet = false
-                    }
-                }).presentationDetents([.medium, .large])
-            })
-            .popover(isPresented: $showSharingList, content: {
-                CloseableView {
-                    ShareListView(list: list, showSharingList: $showSharingList, showShareSheet: $showShareSheet)
-                }
-            })
-            .sheet(isPresented: $showEditSharingView, content: {
-                CloseableView {
-                    EditSharingView(list: list)
-                }
-            })
             .navigationTitle(list.name)
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -89,23 +70,20 @@ struct DetailedListView: View {
                             showSharingList = true
                         } label: {
                             Label("Share list", systemImage: "square.and.arrow.up")
-                                .foregroundColor(currentUser.isOwner ? AdaptColors.theOrange : Color.gray)
-                        }.disabled(!currentUser.isOwner)
+                                .foregroundColor(AdaptColors.theOrange)
+                        }
                         Button {
                             showEditSharingView = true
                         } label: {
                             Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
-                                .foregroundColor((!currentUser.isOwner || list.users.count == 1) ? Color.gray : AdaptColors.theOrange)
-                        }.disabled(!currentUser.isOwner || list.users.count == 1)
+                                .foregroundColor(AdaptColors.theOrange)
+                        }
                     } label: {
                         Image(systemName: "person.crop.circle.fill")
-                            .foregroundColor((!currentUser.isOwner) ? Color.gray : AdaptColors.theOrange)
+                            .foregroundColor(AdaptColors.theOrange)
                     }
                 }
             }
-        } else {
-            Text("Shit happened")
-        }
     }
     
     

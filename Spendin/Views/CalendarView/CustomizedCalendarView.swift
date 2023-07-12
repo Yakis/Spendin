@@ -24,12 +24,13 @@ struct CustomizedCalendarView: View {
         let nextYear = calendar.dateInterval(of: .year, for: todayNextYear)
         return DateInterval(start: currentYear!.start, end: nextYear!.end)
     }
+    var list: ItemList
     
     var body: some View {
         NavigationView {
             ScrollView {
                 ScrollViewReader { scroll in
-                    CalendarView(interval: year) { date in
+                    CalendarView(interval: year, list: list) { date in
                         Text("30")
                             .hidden()
                             .padding(8)
@@ -45,13 +46,13 @@ struct CustomizedCalendarView: View {
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
                         guard !spendingVM.lists.isEmpty else { return }
-                        selectedIndex = spendingVM.currentListIndex
+//                        selectedIndex = spendingVM.currentListIndex
                     }
                 }
             }
             .background(AdaptColors.container)
             .padding(.bottom, 1)
-            .navigationTitle(spendingVM.lists.isEmpty ? "" : spendingVM.lists[spendingVM.currentListIndex].name.capitalized)
+            .navigationTitle(spendingVM.lists.isEmpty ? "" : spendingVM.currentList.name.capitalized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -67,9 +68,6 @@ struct CustomizedCalendarView: View {
                         .foregroundColor(spendingVM.lists.isEmpty ? .gray : AdaptColors.theOrange)
                 }.disabled(spendingVM.lists.isEmpty)
                 }
-            }
-            .onChange(of: selectedIndex) { newValue in
-                spendingVM.currentListIndex = newValue
             }
         }
     }

@@ -31,7 +31,6 @@ struct QRGeneratorView: View {
                 .padding()
             Button {
                 presentationMode.wrappedValue.dismiss()
-                spendingVM.fetchLists()
             } label: {
                 Text("Done")
                     .padding(5)

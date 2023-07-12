@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -34,91 +35,32 @@ struct SpendinApp: App {
     
     @Environment(\.scenePhase) var scenePhase
     @StateObject var spendingVM: SpendingVM
-    @StateObject var authService = AuthService()
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State private var showListInviteConfirmation = false
-    @State private var readOnly: Bool = true
     
     init() {
         _spendingVM = StateObject(wrappedValue: SpendingVM())
     }
+    
+    let container: ModelContainer = {
+        let schema = Schema([
+            ItemList.self,
+            Item.self,
+            Suggestion.self
+        ])
+        let config = ModelConfiguration()
+        return try! ModelContainer(for: schema, configurations: [config])
+    }()
+    
     
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(spendingVM)
-                .environmentObject(authService)
-                .sheet(isPresented: $showListInviteConfirmation, content: {
-                    AcceptSharingView(readOnly: readOnly).environmentObject(spendingVM)
-                })
-                .onOpenURL { url in
-                    Task {
-                        let longURLString = try await spendingVM.fetchShortened(id: url.lastPathComponent)
-                        guard longURLString.contains("com.spendin") else { return }
-                        let replaced = longURLString.replacingOccurrences(of: "\\", with: "").replacingOccurrences(of: "\"", with: "")
-                        guard let longURL = URL(string: replaced) else {
-                            print("Url expired!")
-                            return
-                        }
-                        var parameters: [String: String] = [:]
-                        URLComponents(url: longURL, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-                            parameters[$0.name] = $0.value
-                        }
-                        guard let id = parameters["list"], !id.isEmpty else {return}
-                        guard let readOnly = parameters["readonly"]?.boolean else {return}
-                        self.readOnly = readOnly
-                        spendingVM.getListFor(id: id)
-                        showListInviteConfirmation = true
-                    }
-                }
         }
+        .modelContainer(container)
     }
     
     
 }
 
-
-struct AcceptSharingView: View {
-    
-    @EnvironmentObject var spendingVM: SpendingVM
-    @Environment(\.presentationMode) var presentationMode
-    var readOnly: Bool
-    
-    var body: some View {
-        VStack {
-            if let list = spendingVM.sharedList {
-                Text("I want to to share \n**\(list.name)** \nwith you.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                HStack {
-                    Button {
-                        presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        Text("Cancel")
-                            .padding(5)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(AdaptColors.theOrange)
-                    .opacity(0.7)
-                    .padding(.trailing, 50)
-                    Button {
-                        Task {
-                            let userDetails = UserDetails(id: KeychainItem.currentUserIdentifier, isOwner: false, readOnly: readOnly, email: KeychainItem.currentUserEmail, name: spendingVM.currentUser?.name ?? KeychainItem.currentUserEmail.components(separatedBy: "@").first!)
-                            await spendingVM.acceptInvitation(for: userDetails, to: list)
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                    } label: {
-                        Text("Accept")
-                            .padding(5)
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .tint(AdaptColors.theOrange)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.top, 50)
-            }
-        }.frame(maxHeight: .infinity)
-    }
-}

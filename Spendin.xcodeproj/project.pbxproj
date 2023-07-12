@@ -3,16 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		150439A128892EDF000B5C35 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150439A028892EDF000B5C35 /* ShareSheet.swift */; };
-		1506CFC928716DE500FDE913 /* JWTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFC828716DE500FDE913 /* JWTService.swift */; };
-		1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFCA28716E3E00FDE913 /* Keychain Item.swift */; };
-		1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = 1506CFD028716FD900FDE913 /* SwiftJWT */; };
-		1506CFD32871709F00FDE913 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD22871709F00FDE913 /* AuthService.swift */; };
-		1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD42871711D00FDE913 /* AuthenticationView.swift */; };
 		1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1506CFD62871738F00FDE913 /* CloseableView.swift */; };
 		150867F1292E94E300C1B3C7 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 150867F0292E94E300C1B3C7 /* Currency.swift */; };
 		150867F3292E959B00C1B3C7 /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = 150867F2292E959B00C1B3C7 /* currencies.json */; };
@@ -25,9 +20,7 @@
 		151F966924C49DA8002C27F4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F966824C49DA8002C27F4 /* Constants.swift */; };
 		15273BD1287B2F1800E7186E /* AdaptiveSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15273BD0287B2F1800E7186E /* AdaptiveSheet.swift */; };
 		15304B74298A477C0006F6E1 /* SuggestionEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15304B73298A477C0006F6E1 /* SuggestionEditor.swift */; };
-		15341DF6286F39FC00C0F737 /* ListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15341DF5286F39FC00C0F737 /* ListService.swift */; };
 		15341DF8286F3AB600C0F737 /* URLS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15341DF7286F3AB600C0F737 /* URLS.swift */; };
-		15341DFA286F484300C0F737 /* ItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15341DF9286F484300C0F737 /* ItemService.swift */; };
 		1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */; };
 		1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1545DDF2273536BB00194A0B /* CalendarView.swift */; };
 		154D4005273D82A200743B96 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154D4004273D82A200743B96 /* List.swift */; };
@@ -57,13 +50,8 @@
 		156938F624C49C4300521D57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 156938F424C49C4300521D57 /* LaunchScreen.storyboard */; };
 		1569390124C49C4400521D57 /* SpendyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390024C49C4400521D57 /* SpendyTests.swift */; };
 		1569390C24C49C4400521D57 /* SpendyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1569390B24C49C4400521D57 /* SpendyUITests.swift */; };
-		157E1AD4287859D5007C049C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E1AD3287859D5007C049C /* User.swift */; };
-		157E7EC6287061300088282F /* SuggestionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157E7EC5287061300088282F /* SuggestionService.swift */; };
 		1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */; };
 		159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 159DB409274434EF004921AD /* CreateNewListView.swift */; };
-		15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9CFA428805D7300B62210 /* EditSharingView.swift */; };
-		15A9CFA728805FF100B62210 /* UserPrivilegesEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A9CFA628805FF100B62210 /* UserPrivilegesEditorView.swift */; };
-		15BFA510292CC31800D67E02 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BFA50F292CC31700D67E02 /* AccountView.swift */; };
 		15BFA512292CC33600D67E02 /* SuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BFA511292CC33600D67E02 /* SuggestionsView.swift */; };
 		15C64D2128D1B2750085B79C /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64D2028D1B2750085B79C /* WidgetKit.framework */; };
 		15C64D2328D1B2750085B79C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64D2228D1B2750085B79C /* SwiftUI.framework */; };
@@ -75,9 +63,7 @@
 		15C64D3528D1B40F0085B79C /* AccessoryRectangularWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C64D3428D1B40F0085B79C /* AccessoryRectangularWidgetView.swift */; };
 		15C64D3728D1B6490085B79C /* ListLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C64D3628D1B6490085B79C /* ListLoader.swift */; };
 		15D66BC5287DA785008FEBC6 /* QRGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D66BC4287DA785008FEBC6 /* QRGeneratorView.swift */; };
-		15D66BC7287DACBC008FEBC6 /* ShareListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15D66BC6287DACBC008FEBC6 /* ShareListView.swift */; };
 		15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15F8760424D1BA3B00CDF163 /* CloudKit.framework */; };
-		15FE8B7F288BCAE5006FF2D9 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,10 +106,6 @@
 
 /* Begin PBXFileReference section */
 		150439A028892EDF000B5C35 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
-		1506CFC828716DE500FDE913 /* JWTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTService.swift; sourceTree = "<group>"; };
-		1506CFCA28716E3E00FDE913 /* Keychain Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keychain Item.swift"; sourceTree = "<group>"; };
-		1506CFD22871709F00FDE913 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		1506CFD42871711D00FDE913 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		1506CFD62871738F00FDE913 /* CloseableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseableView.swift; sourceTree = "<group>"; };
 		150867F0292E94E300C1B3C7 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		150867F2292E959B00C1B3C7 /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currencies.json; sourceTree = SOURCE_ROOT; };
@@ -136,9 +118,7 @@
 		151F966824C49DA8002C27F4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		15273BD0287B2F1800E7186E /* AdaptiveSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveSheet.swift; sourceTree = "<group>"; };
 		15304B73298A477C0006F6E1 /* SuggestionEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionEditor.swift; sourceTree = "<group>"; };
-		15341DF5286F39FC00C0F737 /* ListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListService.swift; sourceTree = "<group>"; };
 		15341DF7286F3AB600C0F737 /* URLS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLS.swift; sourceTree = "<group>"; };
-		15341DF9286F484300C0F737 /* ItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemService.swift; sourceTree = "<group>"; };
 		1545DDF1273536BB00194A0B /* SpendingsForDateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendingsForDateView.swift; sourceTree = "<group>"; };
 		1545DDF2273536BB00194A0B /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		154D4004273D82A200743B96 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
@@ -174,13 +154,8 @@
 		1569390724C49C4400521D57 /* SpendinUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendinUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1569390B24C49C4400521D57 /* SpendyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpendyUITests.swift; sourceTree = "<group>"; };
 		1569390D24C49C4400521D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		157E1AD3287859D5007C049C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		157E7EC5287061300088282F /* SuggestionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionService.swift; sourceTree = "<group>"; };
 		1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListPlaceholder.swift; sourceTree = "<group>"; };
 		159DB409274434EF004921AD /* CreateNewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewListView.swift; sourceTree = "<group>"; };
-		15A9CFA428805D7300B62210 /* EditSharingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSharingView.swift; sourceTree = "<group>"; };
-		15A9CFA628805FF100B62210 /* UserPrivilegesEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPrivilegesEditorView.swift; sourceTree = "<group>"; };
-		15BFA50F292CC31700D67E02 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		15BFA511292CC33600D67E02 /* SuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsView.swift; sourceTree = "<group>"; };
 		15C64D1F28D1B2750085B79C /* Spendin WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Spendin WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15C64D2028D1B2750085B79C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -192,7 +167,6 @@
 		15C64D3428D1B40F0085B79C /* AccessoryRectangularWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessoryRectangularWidgetView.swift; sourceTree = "<group>"; };
 		15C64D3628D1B6490085B79C /* ListLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLoader.swift; sourceTree = "<group>"; };
 		15D66BC4287DA785008FEBC6 /* QRGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGeneratorView.swift; sourceTree = "<group>"; };
-		15D66BC6287DACBC008FEBC6 /* ShareListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareListView.swift; sourceTree = "<group>"; };
 		15F8760224D1BA1B00CDF163 /* Spendin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Spendin.entitlements; sourceTree = "<group>"; };
 		15F8760424D1BA3B00CDF163 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -202,9 +176,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1506CFD128716FD900FDE913 /* SwiftJWT in Frameworks */,
 				15F8760524D1BA3B00CDF163 /* CloudKit.framework in Frameworks */,
-				15FE8B7F288BCAE5006FF2D9 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,7 +209,6 @@
 		1506CFD82871762F00FDE913 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				1506CFD42871711D00FDE913 /* AuthenticationView.swift */,
 				1506CFD62871738F00FDE913 /* CloseableView.swift */,
 				155963B52879C8AF00F5730B /* QRCodeReader.swift */,
 				155963B72879C8CE00F5730B /* ImagePickerView.swift */,
@@ -303,7 +274,6 @@
 			isa = PBXGroup;
 			children = (
 				151F965D24C49D92002C27F4 /* SettingsView.swift */,
-				15BFA50F292CC31700D67E02 /* AccountView.swift */,
 				15304B72298A476C0006F6E1 /* Suggestions */,
 				150867F4292E967600C1B3C7 /* Currencies.swift */,
 			);
@@ -325,8 +295,6 @@
 				155013D5273448A500FF14AD /* Item.swift */,
 				1553D6F72736E85300191DCC /* Suggestion.swift */,
 				154D4004273D82A200743B96 /* List.swift */,
-				1506CFCA28716E3E00FDE913 /* Keychain Item.swift */,
-				157E1AD3287859D5007C049C /* User.swift */,
 				150867F0292E94E300C1B3C7 /* Currency.swift */,
 			);
 			path = Models;
@@ -345,11 +313,6 @@
 		155013D227343AD800FF14AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				15341DF5286F39FC00C0F737 /* ListService.swift */,
-				15341DF9286F484300C0F737 /* ItemService.swift */,
-				157E7EC5287061300088282F /* SuggestionService.swift */,
-				1506CFC828716DE500FDE913 /* JWTService.swift */,
-				1506CFD22871709F00FDE913 /* AuthService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -381,9 +344,6 @@
 				155E65832530466600082584 /* TotalBottomView.swift */,
 				159DB409274434EF004921AD /* CreateNewListView.swift */,
 				1595CDB127B0838400C1C30A /* NewListPlaceholder.swift */,
-				15D66BC6287DACBC008FEBC6 /* ShareListView.swift */,
-				15A9CFA428805D7300B62210 /* EditSharingView.swift */,
-				15A9CFA628805FF100B62210 /* UserPrivilegesEditorView.swift */,
 			);
 			path = SpendingsView;
 			sourceTree = "<group>";
@@ -511,8 +471,6 @@
 			);
 			name = Spendin;
 			packageProductDependencies = (
-				1506CFD028716FD900FDE913 /* SwiftJWT */,
-				15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */,
 			);
 			productName = Spendy;
 			productReference = 156938E324C49C4300521D57 /* Spendin.app */;
@@ -606,8 +564,6 @@
 			);
 			mainGroup = 156938DA24C49C4300521D57;
 			packageReferences = (
-				1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */,
-				15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 156938E424C49C4300521D57 /* Products */;
 			projectDirPath = "";
@@ -665,7 +621,6 @@
 			files = (
 				15304B74298A477C0006F6E1 /* SuggestionEditor.swift in Sources */,
 				151F966324C49D93002C27F4 /* SettingsView.swift in Sources */,
-				1506CFCB28716E3E00FDE913 /* Keychain Item.swift in Sources */,
 				1553D6EF2736D60200191DCC /* CustomizedCalendarView.swift in Sources */,
 				15BFA512292CC33600D67E02 /* SuggestionsView.swift in Sources */,
 				151F966224C49D93002C27F4 /* DetailedListView.swift in Sources */,
@@ -675,16 +630,13 @@
 				150867F1292E94E300C1B3C7 /* Currency.swift in Sources */,
 				15273BD1287B2F1800E7186E /* AdaptiveSheet.swift in Sources */,
 				150439A128892EDF000B5C35 /* ShareSheet.swift in Sources */,
-				15A9CFA528805D7300B62210 /* EditSharingView.swift in Sources */,
 				151F966924C49DA8002C27F4 /* Constants.swift in Sources */,
 				155E659D25304E2D00082584 /* ItemTypePicker.swift in Sources */,
-				15341DFA286F484300C0F737 /* ItemService.swift in Sources */,
 				1553D6ED2736D57C00191DCC /* TabBar.swift in Sources */,
 				1555D9042530426B0091D21C /* DetailedListItemCell.swift in Sources */,
 				151F966724C49D93002C27F4 /* AddSpenderView.swift in Sources */,
 				159DB40A274434EF004921AD /* CreateNewListView.swift in Sources */,
 				150867F5292E967600C1B3C7 /* Currencies.swift in Sources */,
-				1506CFD52871711D00FDE913 /* AuthenticationView.swift in Sources */,
 				155E658E25304DDA00082584 /* ItemDatePicker.swift in Sources */,
 				15D66BC5287DA785008FEBC6 /* QRGeneratorView.swift in Sources */,
 				1555D8E725303CFD0091D21C /* ItemsView.swift in Sources */,
@@ -697,23 +649,15 @@
 				155E658925304DBE00082584 /* SaveButton.swift in Sources */,
 				155E659825304E0500082584 /* AmountTextField.swift in Sources */,
 				1595CDB227B0838400C1C30A /* NewListPlaceholder.swift in Sources */,
-				15A9CFA728805FF100B62210 /* UserPrivilegesEditorView.swift in Sources */,
-				1506CFC928716DE500FDE913 /* JWTService.swift in Sources */,
 				1545DDF4273536BC00194A0B /* CalendarView.swift in Sources */,
 				155E65842530466600082584 /* TotalBottomView.swift in Sources */,
-				15D66BC7287DACBC008FEBC6 /* ShareListView.swift in Sources */,
 				15341DF8286F3AB600C0F737 /* URLS.swift in Sources */,
-				157E1AD4287859D5007C049C /* User.swift in Sources */,
 				156938EE24C49C4300521D57 /* ContentView.swift in Sources */,
 				155E659325304DF200082584 /* CategoryPicker.swift in Sources */,
-				15341DF6286F39FC00C0F737 /* ListService.swift in Sources */,
-				1506CFD32871709F00FDE913 /* AuthService.swift in Sources */,
 				1506CFD72871738F00FDE913 /* CloseableView.swift in Sources */,
 				1545DDF3273536BC00194A0B /* SpendingsForDateView.swift in Sources */,
-				15BFA510292CC31800D67E02 /* AccountView.swift in Sources */,
 				1553D6F82736E85300191DCC /* Suggestion.swift in Sources */,
 				1553D6EB2736D54800191DCC /* Sidebar.swift in Sources */,
-				157E7EC6287061300088282F /* SuggestionService.swift in Sources */,
 				155E65A225304E4200082584 /* NameTextField.swift in Sources */,
 				154D4005273D82A200743B96 /* List.swift in Sources */,
 			);
@@ -908,12 +852,12 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Spendin/Supporting Files/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -935,12 +879,12 @@
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Spendin/Supporting Files/Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yakis.Spendin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1141,38 +1085,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-		15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/scinfu/SwiftSoup";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1506CFD028716FD900FDE913 /* SwiftJWT */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1506CFCF28716FD900FDE913 /* XCRemoteSwiftPackageReference "Swift-JWT" */;
-			productName = SwiftJWT;
-		};
-		15FE8B7E288BCAE5006FF2D9 /* SwiftSoup */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 15FE8B7D288BCAE5006FF2D9 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
-			productName = SwiftSoup;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 156938DB24C49C4300521D57 /* Project object */;
 }
