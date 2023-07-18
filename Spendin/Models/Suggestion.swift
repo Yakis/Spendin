@@ -11,7 +11,6 @@ import SwiftData
 @Model
 final class Suggestion {
     
-    var id: String = UUID().uuidString
     var name: String = ""
     var itemType: String = "expense"
     var category: String = ""

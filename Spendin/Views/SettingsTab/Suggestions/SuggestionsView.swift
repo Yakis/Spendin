@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SuggestionsView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
+    @Query(filter: #Predicate { $0.itemType == "income" }) private var incomeSuggestions: [Suggestion]
+    @Query(filter: #Predicate { $0.itemType == "expense" }) private var expenseSuggestions: [Suggestion]
     @State private var showSuggestionEditor = false
     @State private var columns = [
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3),
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3),
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3)
     ]
+    
+    @State private var selectedSuggestion: Suggestion = Suggestion()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -31,7 +36,7 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(spendingVM.suggestions.filter({ $0.itemType == "income" }), id: \.self) { suggestion in
+                    ForEach(incomeSuggestions, id: \.self) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
                             spendingVM.selectedSuggestion = selected
                             self.showSuggestionEditor = true
@@ -47,9 +52,9 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(spendingVM.suggestions.filter({ $0.itemType == "expense" }), id: \.self) { suggestion in
+                    ForEach(expenseSuggestions, id: \.self) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
-                            spendingVM.selectedSuggestion = selected
+                            self.selectedSuggestion = selected
                             self.showSuggestionEditor = true
                         })
                     }

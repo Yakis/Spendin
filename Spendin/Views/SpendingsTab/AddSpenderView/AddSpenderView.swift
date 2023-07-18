@@ -11,6 +11,7 @@ import Combine
 
 struct AddSpenderView: View {
     
+    @Query private var suggestions: [Suggestion]
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var spendingVM: SpendingVM
     @Environment(\.presentationMode) var presentationMode
@@ -18,8 +19,6 @@ struct AddSpenderView: View {
     @Binding var isUpdate: Bool
     @Binding var date: Date
     @State private var itemTypes = ["expense", "income"]
-    @State private var suggestions = [Suggestion]()
-    
     @State private var showSuggestionEditor = false
     var list: ItemList
     @Bindable var item: Item
@@ -32,7 +31,7 @@ struct AddSpenderView: View {
                         .padding([.top, .bottom], 5)
                     NameTextField(
                         itemName: $item.name,
-                        suggestions: $suggestions
+                        onSuggestionTap: onSuggestionTap(_:)
                     )
                     AmountTextField(amount: $item.amount)
                     CategoryPicker(category: $item.category)
@@ -42,7 +41,9 @@ struct AddSpenderView: View {
                         if !isUpdate {
                             list.items!.append(item)
                         }
+                        saveSuggestion(item)
                         presentationMode.wrappedValue.dismiss()
+                        spendingVM.calculateSpendings()
                     })
                     Spacer().frame(height: 300)
                 }
@@ -62,7 +63,7 @@ struct AddSpenderView: View {
                             .font(.title3)
                             .foregroundColor(AdaptColors.theOrange)
                     }
-
+                    
                 }
             }
         }
@@ -70,34 +71,20 @@ struct AddSpenderView: View {
     
     
     
-//    func onNameChange() {
-//        if name.isEmpty {
-//            suggestions = spendingVM.suggestions
-//        } else {
-//            suggestions = spendingVM.suggestions.filter { suggestion in
-//                suggestion.name.contains(name)
-//            }
-//        }
-//    }
-//    
-//    
-//    func onSuggestionTap(_ suggestion: Suggestion) {
-//        name = suggestion.name
-//        amount = String(suggestion.amount)
-//        selectedType = suggestion.itemType
-//        selectedCategory = suggestion.category
-//    }
-//    
-//    
-//    func setupFields() {
-//        if isUpdate {
-//            name = spendingVM.itemToSave.name
-//            amount = String(spendingVM.itemToSave.amount)
-//            date = spendingVM.itemToSave.due.isoToDate()
-//            selectedType = spendingVM.itemToSave.itemType
-//            selectedCategory = spendingVM.itemToSave.category
-//        }
-//        suggestions = spendingVM.suggestions
-//    }
+    private func saveSuggestion(_ item: Item) {
+        if !suggestions.contains(where: { $0.name == item.name }) {
+            let suggestion = Suggestion(name: item.name, itemType: item.itemType, category: item.category, amount: item.amount, count: 0)
+            modelContext.insert(object: suggestion)
+        }
+    }
+    
+    
+    
+    private func onSuggestionTap(_ suggestion: Suggestion) {
+        item.name = suggestion.name
+        item.amount = String(suggestion.amount)
+        item.itemType = suggestion.itemType
+        item.category = suggestion.category
+    }
     
 }

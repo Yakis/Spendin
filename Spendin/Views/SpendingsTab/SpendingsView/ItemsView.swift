@@ -35,6 +35,7 @@ struct ItemsView: View {
             .padding([.leading, .trailing], 16)
             .listStyle(.plain)
             .onChange(of: spendingVM.currentList.items, {
+                print("===============ITEMS CHANGED=============")
                 spendingVM.calculateSpendings()
             })
     }
@@ -42,9 +43,7 @@ struct ItemsView: View {
     
     private func delete(at offsets: IndexSet) {
         for index in offsets {
-            if let itemToDelete = spendingVM.currentList.items?[index] {
-                modelContext.delete(itemToDelete)
-            }
+            spendingVM.currentList.items?.remove(at: index)
         }
     }
     
