@@ -30,10 +30,10 @@ final class SpendingVM: ObservableObject {
     
     func calculateSpendings() {
         var temp: Double = 0
-        switch currentList.items.count {
+        switch currentList.items?.count {
         case 0: self.total = 0
         default:
-            currentList.items.enumerated().forEach {
+            currentList.items?.enumerated().forEach {
                 if $1.itemType == "expense" {
                     temp -= Double($1.amount)!
                     self.amountList[$0] = String(format: "%.2f", temp)

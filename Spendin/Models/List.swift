@@ -16,7 +16,7 @@ final class ItemList {
     var createdAt: String = Date().ISO8601Format()
     
     @Relationship(.cascade)
-    var items: [Item]
+    var items: [Item]? = []
     
     init() {
         self.name = ""

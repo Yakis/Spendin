@@ -11,20 +11,21 @@ import SwiftData
 @Model
 final class Item {
     
-    var id: String = UUID().uuidString
-    var name: String = ""
-    var amount: String = "0"
-    var amountLeft: String = "0"
-    var category: String = "cart.fill"
-    var itemType: String = "expense"
-    var due: String = ""
+    var name: String
+    var amount: String
+    var amountLeft: String
+    var category: String
+    var itemType: String
+    var due: String
+    
+    @Relationship(inverse: \ItemList.items)
+    var list: ItemList?
     
     var date: Date {
         return due.isoToDate()
     }
     
     init() {
-        self.id = ""
         self.name = ""
         self.amount = "0"
         self.amountLeft = "0"
@@ -34,8 +35,7 @@ final class Item {
     }
     
     
-    init(id: String, name: String, amount: String, category: String, due: String, itemType: String) {
-        self.id = id
+    init(name: String, amount: String, category: String, due: String, itemType: String) {
         self.name = name
         self.amount = amount
         self.amountLeft = "0"

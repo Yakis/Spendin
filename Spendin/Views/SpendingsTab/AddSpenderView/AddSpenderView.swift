@@ -40,7 +40,7 @@ struct AddSpenderView: View {
                     SaveButton(disabled: (item.name.isEmpty || item.amount.isEmpty), saveAction: {
                         item.due = date.ISO8601Format()
                         if !isUpdate {
-                            list.items.append(item)
+                            list.items!.append(item)
                         }
                         presentationMode.wrappedValue.dismiss()
                     })

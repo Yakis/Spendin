@@ -23,7 +23,7 @@ struct ItemsView: View {
     var body: some View {
             List {
                 Section {
-                    ForEach(spendingVM.currentList.items.sorted { $0.due < $1.due }, id: \.self) { item in
+                    ForEach(spendingVM.currentList.items!.sorted { $0.due < $1.due }, id: \.self) { item in
                         DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal, selectedItem: $selectedItem)
                                 .environmentObject(spendingVM)
                     }
@@ -42,8 +42,9 @@ struct ItemsView: View {
     
     private func delete(at offsets: IndexSet) {
         for index in offsets {
-            let itemToDelete = spendingVM.currentList.items[index]
-            modelContext.delete(itemToDelete)
+            if let itemToDelete = spendingVM.currentList.items?[index] {
+                modelContext.delete(itemToDelete)
+            }
         }
     }
     

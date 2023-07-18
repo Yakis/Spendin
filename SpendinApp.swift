@@ -44,7 +44,6 @@ struct SpendinApp: App {
     let container: ModelContainer = {
         let schema = Schema([
             ItemList.self,
-            Item.self,
             Suggestion.self
         ])
         let config = ModelConfiguration()

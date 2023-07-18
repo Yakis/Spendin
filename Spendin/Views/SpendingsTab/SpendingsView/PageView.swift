@@ -145,7 +145,7 @@ struct SummaryListView: View {
                             .fontWeight(.bold)
                             .padding(10)
                         Spacer()
-                        Text("\(list.items.count) items")
+                        Text("\(list.items?.count ?? 0) items")
                             .font(.caption)
                             .fontWeight(.light)
                             .padding(10)
