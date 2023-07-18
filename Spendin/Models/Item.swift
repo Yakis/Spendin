@@ -11,12 +11,12 @@ import SwiftData
 @Model
 final class Item {
     
-    var name: String
-    var amount: String
-    var amountLeft: String
-    var category: String
-    var itemType: String
-    var due: String
+    var name: String = ""
+    var amount: String = ""
+    var amountLeft: String = ""
+    var category: String = ""
+    var itemType: String = ""
+    var due: String = ""
     
     @Relationship(inverse: \ItemList.items)
     var list: ItemList?

@@ -44,9 +44,17 @@ struct SpendinApp: App {
     let container: ModelContainer = {
         let schema = Schema([
             ItemList.self,
+            Item.self,
             Suggestion.self
         ])
-        let config = ModelConfiguration()
+        let config = ModelConfiguration(
+            schema: Schema([
+                ItemList.self,
+                Item.self,
+                Suggestion.self
+            ]),
+            cloudKitContainerIdentifier: "iCloud.Spendin"
+        )
         return try! ModelContainer(for: schema, configurations: [config])
     }()
     
