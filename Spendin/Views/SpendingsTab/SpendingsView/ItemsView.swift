@@ -43,7 +43,9 @@ struct ItemsView: View {
     
     private func delete(at offsets: IndexSet) {
         for index in offsets {
-            spendingVM.currentList.items?.remove(at: index)
+            if let itemToDelete = spendingVM.currentList.items?.sorted(by: { $0.due < $1.due })[index], let indexToDelete = spendingVM.currentList.items?.firstIndex(of: itemToDelete) {
+                spendingVM.currentList.items?.remove(at: indexToDelete)
+            }
         }
     }
     
