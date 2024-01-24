@@ -36,27 +36,17 @@ struct SpendinApp: App {
     @Environment(\.scenePhase) var scenePhase
     @StateObject var spendingVM: SpendingVM
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    let modelContainer: ModelContainer
     
+        
     init() {
         _spendingVM = StateObject(wrappedValue: SpendingVM())
+        do {
+            modelContainer = try ModelContainer(for: Item.self, ItemList.self, Suggestion.self)
+        } catch {
+            fatalError("Could not initialize ModelContainer: \(error)")
+        }
     }
-    
-    let container: ModelContainer = {
-        let schema = Schema([
-            ItemList.self,
-            Item.self,
-            Suggestion.self
-        ])
-        let config = ModelConfiguration(
-            schema: Schema([
-                ItemList.self,
-                Item.self,
-                Suggestion.self
-            ]),
-            cloudKitContainerIdentifier: "iCloud.Spendin"
-        )
-        return try! ModelContainer(for: schema, configurations: [config])
-    }()
     
     
     
@@ -65,7 +55,7 @@ struct SpendinApp: App {
             ContentView()
                 .environmentObject(spendingVM)
         }
-        .modelContainer(container)
+        .modelContainer(modelContainer)
     }
     
     

@@ -63,27 +63,28 @@ struct DetailedListView: View {
             }
             .navigationTitle(list.name)
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button {
-                            showSharingList = true
-                        } label: {
-                            Label("Share list", systemImage: "square.and.arrow.up")
-                                .foregroundColor(AdaptColors.theOrange)
-                        }
-                        Button {
-                            showEditSharingView = true
-                        } label: {
-                            Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
-                                .foregroundColor(AdaptColors.theOrange)
-                        }
-                    } label: {
-                        Image(systemName: "person.crop.circle.fill")
-                            .foregroundColor(AdaptColors.theOrange)
-                    }
-                }
-            }
+        // Later if we sync with iCloud
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Menu {
+//                        Button {
+//                            showSharingList = true
+//                        } label: {
+//                            Label("Share list", systemImage: "square.and.arrow.up")
+//                                .foregroundColor(AdaptColors.theOrange)
+//                        }
+//                        Button {
+//                            showEditSharingView = true
+//                        } label: {
+//                            Label("Manage permissions", systemImage: "person.crop.circle.badge.checkmark")
+//                                .foregroundColor(AdaptColors.theOrange)
+//                        }
+//                    } label: {
+//                        Image(systemName: "person.crop.circle.fill")
+//                            .foregroundColor(AdaptColors.theOrange)
+//                    }
+//                }
+//            }
     }
     
     

@@ -51,7 +51,7 @@ struct PageView: View {
                             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                         } else {
                             SummaryListView(listToDelete: $listToDelete, showDeleteListAlert: $showDeleteListAlert, showDeleteRestrictionAlert: $showDeleteRestrictionAlert)
-                                .onChange(of: spendingVM.currentListItems) { newValue in
+                                .onChange(of: spendingVM.currentListItems) { 
                                     spendingVM.calculateSpendings()
                                 }
                                 .alert("Warning", isPresented: $showDeleteListAlert) {
@@ -91,7 +91,7 @@ struct PageView: View {
     
     
     private func delete(list: ItemList?) {
-        modelContext.delete(object: list!)
+        modelContext.delete(list!)
     }
     
     
@@ -111,11 +111,12 @@ struct MainViewToolbar: ToolbarContent {
                 } label: {
                     Label("New list", systemImage: "plus.circle.fill")
                 }
-                Button {
-                    
-                } label: {
-                    Label("Import", systemImage: "square.and.arrow.down")
-                }
+                // We don't have a import logic yet
+//                Button {
+//                    
+//                } label: {
+//                    Label("Import", systemImage: "square.and.arrow.down")
+//                }
             } label: {
                 Image(systemName: "plus.circle.fill")
             }

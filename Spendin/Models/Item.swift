@@ -11,6 +11,7 @@ import SwiftData
 @Model
 final class Item {
     
+    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
     var amount: String = ""
     var amountLeft: String = ""

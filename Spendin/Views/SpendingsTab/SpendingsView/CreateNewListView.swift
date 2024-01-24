@@ -42,7 +42,7 @@ struct CreateNewListView: View {
                 .padding(.bottom, 20)
             Button {
                 let list = ItemList(name: listName)
-                modelContext.insert(object: list)
+                modelContext.insert(list)
                 presentationMode.wrappedValue.dismiss()
             } label: {
                 Text("Save")

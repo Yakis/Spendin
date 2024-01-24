@@ -18,44 +18,48 @@ struct SpendingsForDateView: View {
     @State private var item: Item = Item()
     
     var body: some View {
-        VStack(alignment: .center) {
-            Text(selectedDate.shortString())
-                .font(.title2)
-                .foregroundColor(AdaptColors.theOrange)
-                .padding()
-            List {
-                ForEach(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame} , id: \.id) { item in
-                    DetailedListItemCell(item: Item(), isUpdate: $isUpdate, showModal: $showModal, selectedItem: $item)
-                        .environmentObject(spendingVM)
-                }
-                .listRowBackground(AdaptColors.cellBackground)
-            }
-            .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : .infinity)
-            .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0 : 1)
-            Text("Nothing today")
-                .font(.callout)
-                .fontWeight(.bold)
-                .frame(maxHeight: spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? .infinity : 0)
-                .opacity(spendingVM.currentListItems.filter { calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}.isEmpty ? 0.6 : 0)
-                .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate, date: $selectedDate, list: list, item: Item())
-                        .environmentObject(spendingVM)
-                }
-            HStack {
-                Spacer()
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 60, height: 60, alignment: .center)
+        if let items = list.items?.filter({ calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}) {
+            VStack(alignment: .center) {
+                Text(selectedDate.shortString())
+                    .font(.title2)
                     .foregroundColor(AdaptColors.theOrange)
-                    .shadow(radius: 2)
-                    .transition(.scale)
-                    .padding([.trailing, .bottom], 20)
+                    .padding()
+                List {
+                    ForEach(items, id: \.id) { item in
+                        DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal, selectedItem: $item)
+                            .environmentObject(spendingVM)
+                    }
+                    .listRowBackground(AdaptColors.cellBackground)
+                }
+                .frame(maxHeight: items.isEmpty ? 0 : .infinity)
+                .opacity(items.isEmpty ? 0 : 1)
+                Text("Nothing today")
+                    .font(.callout)
+                    .fontWeight(.bold)
+                    .frame(maxHeight: items.isEmpty ? .infinity : 0)
+                    .opacity(items.isEmpty ? 0.6 : 0)
+                    .sheet(isPresented: $showModal) {
+                        AddSpenderView(isUpdate: $isUpdate, date: $selectedDate, list: list, item: item)
+                            .environmentObject(spendingVM)
+                    }
+                HStack {
+                    Spacer()
+                    Image(systemName: "plus.circle.fill")
+                        .resizable()
+                        .frame(width: 60, height: 60, alignment: .center)
+                        .foregroundColor(AdaptColors.theOrange)
+                        .shadow(radius: 2)
+                        .transition(.scale)
+                        .padding([.trailing, .bottom], 20)
+                }
+                .onTapGesture {
+                    showModal.toggle()
+                }
             }
-            .onTapGesture {
-                showModal.toggle()
-            }
+            .padding()
+        } else {
+            EmptyView()
         }
-        .padding()
     }
     
     

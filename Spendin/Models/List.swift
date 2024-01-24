@@ -11,11 +11,9 @@ import SwiftData
 @Model
 final class ItemList {
     
+    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
-    
     var createdAt: String = Date().ISO8601Format()
-    
-    @Relationship(.cascade)
     var items: [Item]? = []
     
     init() {

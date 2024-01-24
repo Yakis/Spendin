@@ -51,7 +51,7 @@ struct SideBarView: View {
                     Label(element.title, systemImage: element.image)
                 }
             case .calendar:
-                NavigationLink(destination: CustomizedCalendarView(list: ItemList(name: ""))) {
+                NavigationLink(destination: CustomizedCalendarView()) {
                     Label(element.title, systemImage: element.image)
                 }
             case .settings:

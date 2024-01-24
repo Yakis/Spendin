@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CustomizedCalendarView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     
-    @State private var selectedIndex: Int = 0
+    @State private var selectedList: UUID = UUID()
     
     @Environment(\.calendar) var calendar
     
     @State private var showListPicker = false
+    @Query private var lists: [ItemList]
     
     private var year: DateInterval {
         let components = DateComponents(year: 1)
@@ -24,50 +26,57 @@ struct CustomizedCalendarView: View {
         let nextYear = calendar.dateInterval(of: .year, for: todayNextYear)
         return DateInterval(start: currentYear!.start, end: nextYear!.end)
     }
-    var list: ItemList
     
     var body: some View {
         NavigationView {
             ScrollView {
                 ScrollViewReader { scroll in
-                    CalendarView(interval: year, list: list) { date in
-                        Text("30")
-                            .hidden()
-                            .padding(8)
-                            .background(date.isToday() ? AdaptColors.theOrange : AdaptColors.cellBackground)
-                            .clipShape(Circle())
-                            .padding(.vertical, 4)
-                            .overlay(
-                                Text(String(self.calendar.component(.day, from: date)))
-                                    .foregroundColor(date.isToday() ? .white : AdaptColors.theOrange)
-                            )
+                    VStack {
+//                        if let currentList = lists.first { $0.id == selectedList } {
+                        CalendarView(interval: year, list: lists.first { $0.id == selectedList } ?? ItemList(name: "")) { date in
+                                Text("30")
+                                    .hidden()
+                                    .padding(8)
+                                    .background(date.isToday() ? AdaptColors.theOrange : AdaptColors.cellBackground)
+                                    .clipShape(Circle())
+                                    .padding(.vertical, 4)
+                                    .overlay(
+                                        Text(String(self.calendar.component(.day, from: date)))
+                                            .foregroundColor(date.isToday() ? .white : AdaptColors.theOrange)
+                                    )
+                            }
+                            .padding()
+//                        }
                     }
-                    .padding()
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
-                        guard !spendingVM.lists.isEmpty else { return }
-//                        selectedIndex = spendingVM.currentListIndex
+                        if let currentList = lists.first {
+                            self.selectedList = currentList.id
+                        }
                     }
                 }
             }
             .background(AdaptColors.container)
             .padding(.bottom, 1)
-            .navigationTitle(spendingVM.lists.isEmpty ? "" : spendingVM.currentList.name.capitalized)
+            .navigationTitle((lists.isEmpty ? "" : lists.first { $0.id == selectedList }?.name) ?? "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
-                        Picker("", selection: $selectedIndex) {
-                            ForEach(0..<spendingVM.lists.count, id: \.self) { index in
-                                Text(spendingVM.lists[index].name).tag(index)
+                        Picker("", selection: $selectedList) {
+                            ForEach(lists, id: \.id) { list in
+                                Text(list.name).tag(list.id)
                             }
                         }
                     }
                 label: {
                     Image(systemName: "list.bullet.circle.fill")
-                        .foregroundColor(spendingVM.lists.isEmpty ? .gray : AdaptColors.theOrange)
-                }.disabled(spendingVM.lists.isEmpty)
+                        .foregroundColor(lists.isEmpty ? .gray : AdaptColors.theOrange)
+                }.disabled(lists.isEmpty)
                 }
+            }
+            .onChange(of: selectedList) { key, value in
+                print("List changed: \(String(describing: lists.first {$0.id == selectedList}?.name))")
             }
         }
     }

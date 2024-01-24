@@ -74,7 +74,7 @@ struct AddSpenderView: View {
     private func saveSuggestion(_ item: Item) {
         if !suggestions.contains(where: { $0.name == item.name }) {
             let suggestion = Suggestion(name: item.name, itemType: item.itemType, category: item.category, amount: item.amount, count: 0)
-            modelContext.insert(object: suggestion)
+            modelContext.insert(suggestion)
         }
     }
     

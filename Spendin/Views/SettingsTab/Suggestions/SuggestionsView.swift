@@ -11,8 +11,8 @@ import SwiftData
 struct SuggestionsView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    @Query(filter: #Predicate { $0.itemType == "income" }) private var incomeSuggestions: [Suggestion]
-    @Query(filter: #Predicate { $0.itemType == "expense" }) private var expenseSuggestions: [Suggestion]
+    @Query(filter: #Predicate<Suggestion> { $0.itemType == "income" }) private var incomeSuggestions: [Suggestion]
+    @Query(filter: #Predicate<Suggestion> { $0.itemType == "expense" }) private var expenseSuggestions: [Suggestion]
     @State private var showSuggestionEditor = false
     @State private var columns = [
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3),

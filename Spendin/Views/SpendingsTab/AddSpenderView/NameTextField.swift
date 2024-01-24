@@ -12,7 +12,7 @@ struct NameTextField: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     @FocusState var isInputActive: Bool
-    @Query(sort: \.name, order: .forward) private var suggestions: [Suggestion]
+    @Query(sort: \Suggestion.name, order: .forward) private var suggestions: [Suggestion]
     @Binding var itemName: String
     var onSuggestionTap: (Suggestion) -> ()
     
