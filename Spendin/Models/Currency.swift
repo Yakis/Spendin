@@ -15,4 +15,17 @@ struct Currency : Codable {
     let rounding: Double
     let code: String
     let name_plural: String
+    var icon: String
+    
+    
+    init() {
+        self.symbol = ""
+        self.name = ""
+        self.symbol_native = ""
+        self.decimal_digits = 0
+        self.rounding = 0.0
+        self.code = ""
+        self.name_plural = ""
+        self.icon = "dollarsign"
+    }
 }
