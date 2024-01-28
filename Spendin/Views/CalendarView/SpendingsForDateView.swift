@@ -10,12 +10,11 @@ import SwiftUI
 struct SpendingsForDateView: View {
     
     @Environment(\.calendar) var calendar
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @Binding var selectedDate: Date
     @State private var isUpdate: Bool = false
     @State private var showModal: Bool = false
     var list: ItemList
-    @State private var item: Item = Item()
     
     var body: some View {
         if let items = list.items?.filter({ calendar.compare($0.due, to: selectedDate, toGranularity: .day) == .orderedSame}) {
@@ -26,8 +25,7 @@ struct SpendingsForDateView: View {
                     .padding()
                 List {
                     ForEach(items, id: \.id) { item in
-                        DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal, selectedItem: $item)
-                            .environmentObject(spendingVM)
+                        DetailedListItemCell(item: spendingVM.itemToSave, isUpdate: $isUpdate, showModal: $showModal)
                     }
                     .listRowBackground(AdaptColors.cellBackground)
                 }
@@ -39,8 +37,7 @@ struct SpendingsForDateView: View {
                     .frame(maxHeight: items.isEmpty ? .infinity : 0)
                     .opacity(items.isEmpty ? 0.6 : 0)
                     .sheet(isPresented: $showModal) {
-                        AddSpenderView(isUpdate: $isUpdate, date: $selectedDate, list: list, item: item)
-                            .environmentObject(spendingVM)
+                        AddSpenderView(isUpdate: $isUpdate, list: list)
                     }
                 HStack {
                     Spacer()

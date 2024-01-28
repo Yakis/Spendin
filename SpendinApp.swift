@@ -30,17 +30,29 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 
+extension EnvironmentValues {
+    var spendingVM: SpendingVM {
+        get { self[SpendingVMKey.self] }
+        set { self[SpendingVMKey.self] = newValue }
+    }
+}
+
+
+private struct SpendingVMKey: EnvironmentKey {
+    static var defaultValue: SpendingVM = SpendingVM()
+}
+
+
+
 @main
 struct SpendinApp: App {
     
     @Environment(\.scenePhase) var scenePhase
-    @StateObject var spendingVM: SpendingVM
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let modelContainer: ModelContainer
     
         
     init() {
-        _spendingVM = StateObject(wrappedValue: SpendingVM())
         do {
             let schema = Schema([ItemList.self, Item.self, Suggestion.self])
             let storeURL = URL.documentsDirectory.appending(path: "spendin.store")
@@ -56,7 +68,6 @@ struct SpendinApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(spendingVM)
         }
         .modelContainer(modelContainer)
     }

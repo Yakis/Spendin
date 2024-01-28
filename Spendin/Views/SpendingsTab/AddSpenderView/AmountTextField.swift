@@ -9,10 +9,10 @@ import SwiftUI
 
 struct AmountTextField: View {
     
-    @Binding var amount: String
-    
+    @Environment(\.spendingVM) private var spendingVM
+    @Bindable var item: Item
     var body: some View {
-        TextField("Amount", text: $amount)
+        TextField("Amount", text: $item.amount)
             .frame(height: 50)
             .padding(10)
             .background(AdaptColors.fieldContainer)
@@ -23,9 +23,8 @@ struct AmountTextField: View {
             .shadow(color: .black, radius: -4)
             .padding([.top, .bottom], 5)
             .onTapGesture {
-                amount.removeAll()
+                item.amount.removeAll()
             }
-        
     }
     
 }

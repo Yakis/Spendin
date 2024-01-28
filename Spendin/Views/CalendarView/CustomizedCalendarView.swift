@@ -10,7 +10,7 @@ import SwiftData
 
 struct CustomizedCalendarView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     
     @State private var selectedList: String = ""
     

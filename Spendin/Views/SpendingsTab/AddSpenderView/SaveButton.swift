@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SaveButton: View {
     
-    var disabled: Bool
+    @Environment(\.spendingVM) private var spendingVM
+    @Bindable var item: Item
     var saveAction: () -> ()
     
     var body: some View {
@@ -19,14 +20,14 @@ struct SaveButton: View {
             Text("Save")
                 .frame(width: 300, height: 50, alignment: .center)
                 .padding(5)
-                .background(disabled ? .gray : AdaptColors.theOrange)
+                .background((item.name.isEmpty || item.amount.isEmpty) ? .gray : AdaptColors.theOrange)
                 .foregroundColor(AdaptColors.container)
                 .clipShape(RoundedRectangle(cornerRadius: 30))
                 .shadow(radius: 5)
                 .padding(.all, 20)
         }
-        .disabled(disabled)
-        .opacity(disabled ? 0.5 : 1)
+        .disabled((item.name.isEmpty || item.amount.isEmpty))
+        .opacity((item.name.isEmpty || item.amount.isEmpty) ? 0.5 : 1)
     }
     
 }

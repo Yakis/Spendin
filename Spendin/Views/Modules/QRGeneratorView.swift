@@ -10,7 +10,7 @@ import SwiftUI
 struct QRGeneratorView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     var image: UIImage
     
     var body: some View {

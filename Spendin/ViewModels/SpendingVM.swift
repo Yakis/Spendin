@@ -6,39 +6,31 @@
 //
 
 import SwiftUI
-import Combine
+import Observation
 
-@MainActor
-final class SpendingVM: ObservableObject {
+@Observable
+final class SpendingVM {
     
-    @Published var total: Double = 0
-    @Published var isLoading: Bool = false
-    @Published var currentList: ItemList = ItemList()
-    @Published var currentListItems: [Item] = []
-    @Published var lists: [ItemList] = []
-    @Published var suggestions = [Suggestion]()
-    @Published var amountList: Dictionary<Int, String> = [:]
-    @Published var itemToSave: Item = Item()
-    @Published var selectedSuggestion = Suggestion()
+    var total: Double = 0
+    var isLoading: Bool = false
+    var suggestions = [Suggestion]()
+    var amountList: Dictionary<String, String> = [:]
+    var itemToSave: Item = Item()
+    var selectedSuggestion = Suggestion()
+            
     
-    @AppStorage("currency") var currency = "$"
-    
-    private var cancellables = Set<AnyCancellable>()
-    
-    
-    
-    func calculateSpendings() {
+    func calculateSpendings(list: ItemList) {
         var temp: Double = 0
-        switch currentList.items?.count {
+        switch list.items?.count {
         case 0: self.total = 0
         default:
-            currentList.items?.enumerated().forEach {
-                if $1.itemType == .expense {
-                    temp -= Double($1.amount)!
-                    self.amountList[$0] = String(format: "%.2f", temp)
+            list.items?.sorted { $0.due < $1.due }.forEach {
+                if $0.itemType == .expense {
+                    temp -= Double($0.amount)!
+                    self.amountList[$0.amount + $0.name] = String(format: "%.2f", temp)
                 } else {
-                    temp += Double($1.amount)!
-                    self.amountList[$0] = String(format: "%.2f", temp)
+                    temp += Double($0.amount)!
+                    self.amountList[$0.amount + $0.name] = String(format: "%.2f", temp)
                 }
                 self.total = temp
             }

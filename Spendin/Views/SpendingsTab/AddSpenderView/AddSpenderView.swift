@@ -13,38 +13,39 @@ struct AddSpenderView: View {
     
     @Query private var suggestions: [Suggestion]
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @Environment(\.presentationMode) var presentationMode
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
-    @Binding var date: Date
     @State private var itemTypes = ItemType.allCases
     @State private var showSuggestionEditor = false
     var list: ItemList
-    @Bindable var item: Item
     
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 20) {
                 ScrollView {
-                    ItemTypePicker(itemTypes: itemTypes, selectedType: $item.itemType)
+                    ItemTypePicker(itemTypes: itemTypes, item: spendingVM.itemToSave)
                         .padding([.top, .bottom], 5)
                     NameTextField(
-                        itemName: $item.name,
+                        item: spendingVM.itemToSave,
                         onSuggestionTap: onSuggestionTap(_:)
                     )
-                    AmountTextField(amount: $item.amount)
-                    CategoryPicker(category: $item.category)
-                    ItemDatePicker(date: $date)
-                    SaveButton(disabled: (item.name.isEmpty || item.amount.isEmpty), saveAction: {
-                        item.due = date
+                    AmountTextField(item: spendingVM.itemToSave)
+                    CategoryPicker(item: spendingVM.itemToSave)
+                    ItemDatePicker(item: spendingVM.itemToSave)
+                    SaveButton(
+                        item: spendingVM.itemToSave,
+                        saveAction: {
                         if !isUpdate {
-                            list.items!.append(item)
+//                            list.items!.append(spendingVM.itemToSave)
+                            spendingVM.itemToSave.list = list
+                            modelContext.insert(spendingVM.itemToSave)
                             try? modelContext.save()
                         }
-                        saveSuggestion(item)
+                        saveSuggestion(spendingVM.itemToSave)
                         presentationMode.wrappedValue.dismiss()
-                        spendingVM.calculateSpendings()
+                        spendingVM.calculateSpendings(list: list)
                     })
                     Spacer().frame(height: 300)
                 }
@@ -83,10 +84,16 @@ struct AddSpenderView: View {
     
     
     private func onSuggestionTap(_ suggestion: Suggestion) {
-        item.name = suggestion.name
-        item.amount = String(suggestion.amount)
-        item.itemType = suggestion.itemType
-        item.category = suggestion.category
+        var newItem = Item(name: suggestion.name, amount: suggestion.amount, category: suggestion.category, due: spendingVM.itemToSave.due, itemType: suggestion.itemType)
+        spendingVM.itemToSave = newItem
+        print("================================================")
+        print(spendingVM.itemToSave.name)
+        print(spendingVM.itemToSave.amount)
+        print(spendingVM.itemToSave.itemType)
+        print(spendingVM.itemToSave.category)
+        print(spendingVM.itemToSave.due)
+        print(spendingVM.itemToSave.amountLeft)
+        print("================================================")
     }
     
 }

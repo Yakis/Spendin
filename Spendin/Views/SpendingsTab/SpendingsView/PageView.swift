@@ -23,7 +23,7 @@ struct SpendingsView: View {
 struct PageView: View {
     
     @Environment(\.modelContext) var modelContext
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @State private var currentIndex: Int?
     @State private var size: CGSize = .zero
     @State private var showCreateNewListView = false
@@ -51,9 +51,9 @@ struct PageView: View {
                             }.frame(maxWidth: .infinity, maxHeight: .infinity)
                         } else {
                             SummaryListView(listToDelete: $listToDelete, showDeleteListAlert: $showDeleteListAlert, showDeleteRestrictionAlert: $showDeleteRestrictionAlert)
-                                .onChange(of: spendingVM.currentListItems) { 
-                                    spendingVM.calculateSpendings()
-                                }
+//                                .onChange(of: spendingVM.currentListItems) { 
+//                                    spendingVM.calculateSpendings()
+//                                }
                                 .alert("Warning", isPresented: $showDeleteListAlert) {
                                     Button("Cancel", role: .cancel, action: {
                                         showDeleteListAlert = false
@@ -128,7 +128,7 @@ struct MainViewToolbar: ToolbarContent {
 
 struct SummaryListView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @Binding var listToDelete: ItemList?
     @Binding var showDeleteListAlert: Bool
     @Binding var showDeleteRestrictionAlert: Bool
@@ -156,7 +156,7 @@ struct SummaryListView: View {
             .onDelete { index in
                 for i in index {
                     listToDelete = lists[i]
-                    if let list = listToDelete {
+                    if let _ = listToDelete {
                         showDeleteListAlert = true
                     }
                 }

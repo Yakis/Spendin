@@ -10,29 +10,11 @@ import Combine
 import SwiftData
 import CloudKit
 import UIKit
-import CoreImage.CIFilterBuiltins
-
-//enum ItemType: String, CaseIterable, Codable {
-//    case expense, income
-//    
-//    init(from decoder: Decoder) throws {
-//        let container = try decoder.singleValueContainer()
-//        let rawString = try container.decode(String.self)
-//        
-//        if let type = ItemType(rawValue: rawString.lowercased()) {
-//            self = type
-//        } else {
-//            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize UserType from invalid String value \(rawString)")
-//        }
-//    }
-//    
-//}
-
 
 
 struct DetailedListView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @State var showModal: Bool = false
     @State var isUpdate: Bool = false
     @State private var isLoading: Bool = true
@@ -42,28 +24,21 @@ struct DetailedListView: View {
     @State private var showSharingList = false
     @State private var showEditSharingView = false
     @State private var showShareSheet = false
-    @State private var item: Item = Item()
-    
-    @Query private var lists: [ItemList]
-    
+        
     var list: ItemList
     
     var body: some View {
             ZStack {
                 VStack(alignment: .leading) {
-                    ItemsView(showModal: $showModal, isUpdate: $isUpdate, selectedItem: $item)
-                    TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, list: list, item: item)
-                        .environmentObject(spendingVM)
+                    ItemsView(showModal: $showModal, isUpdate: $isUpdate, list: list)
+                    TotalBottomView(showModal: $showModal, isUpdate: $isUpdate, list: list)
                 }
                 .background(AdaptColors.container)
-                .onAppear {
-                    spendingVM.currentList = list
-                }
                 ProgressView("Syncing data...").opacity(spendingVM.isLoading ? 1 : 0)
             }
             .navigationTitle(list.name)
             .navigationBarTitleDisplayMode(.large)
-        // Later if we sync with iCloud
+        // Later if we share with iCloud
 //            .toolbar {
 //                ToolbarItem(placement: .navigationBarTrailing) {
 //                    Menu {

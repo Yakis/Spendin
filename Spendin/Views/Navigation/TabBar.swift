@@ -10,19 +10,16 @@ import SwiftData
 
 struct CustomTabView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
     @State private var tabSelection: Int = 0
     @Query private var lists: [ItemList]
     
     var body: some View {
         TabView(selection: $tabSelection) {
             SpendingsView()
-                .environmentObject(spendingVM)
                 .tabItem {
                     Label(NavElements.spending.title, systemImage: NavElements.spending.image)
                 }.tag(0)
             CustomizedCalendarView()
-                .environmentObject(spendingVM)
                 .tabItem {
                     Label(NavElements.calendar.title, systemImage: NavElements.calendar.image)
                 }.tag(1)

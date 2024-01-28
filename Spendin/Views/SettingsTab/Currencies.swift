@@ -10,7 +10,8 @@ import SwiftUI
 
 struct CurrenciesView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @AppStorage("currency") var currency = "$"
+    @Environment(\.spendingVM) private var spendingVM
     @State private var isCurrencyChanging = false
     @State private var selectedCurrency: Currency = Currency()
     @State private var searchText = ""
@@ -18,7 +19,6 @@ struct CurrenciesView: View {
     var body: some View {
         ZStack {
             VStack {
-//                Text("Selected currency: \(selectedCurrency.name)")
                 if let currencies = spendingVM.loadCurrencies() {
                     List {
                         ForEach(searchText.isEmpty ? currencies : currencies.filter { $0.name.lowercased().contains(searchText.lowercased()) }, id: \.name) { currency in
@@ -62,7 +62,7 @@ struct CurrenciesView: View {
                 }
             }
             .onAppear {
-                selectedCurrency = spendingVM.loadCurrencies()?.first { $0.symbol_native == spendingVM.currency } ?? Currency()
+                selectedCurrency = spendingVM.loadCurrencies()?.first { $0.symbol_native == currency } ?? Currency()
             }
         }
         .searchable(text: $searchText, placement: .automatic, prompt: Text("Search currencies..."))
@@ -74,7 +74,7 @@ struct CurrenciesView: View {
     func change(_ currency: Currency) {
         Task {
             guard isCurrencyChanging == false else { return }
-            spendingVM.currency = currency.symbol_native
+            self.currency = currency.symbol_native
             self.selectedCurrency = currency
             isCurrencyChanging = true
             try await Task.sleep(nanoseconds: 2_000_000_000)

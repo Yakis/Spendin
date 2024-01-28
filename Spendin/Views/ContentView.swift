@@ -9,13 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     
     
     var body: some View {
         if UIDevice.current.userInterfaceIdiom == .phone {
             CustomTabView()
-                .environmentObject(spendingVM)
         } else {
             NavigationView {
                 SideBarView()

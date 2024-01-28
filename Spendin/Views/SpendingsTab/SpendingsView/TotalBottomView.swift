@@ -9,16 +9,15 @@ import SwiftUI
 
 struct TotalBottomView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @AppStorage("currency") var currency = "$"
+    @Environment(\.spendingVM) private var spendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
-    @State private var date = Date()
     var list: ItemList
-    var item: Item
     
     var body: some View {
         HStack {
-            Text("\(spendingVM.currency) \(String(format: "%.2f", spendingVM.total)) left")
+            Text("\(currency) \(String(format: "%.2f", spendingVM.total)) left")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding([.leading, .bottom], 20)
@@ -35,9 +34,11 @@ struct TotalBottomView: View {
                     showModal = true
                 }
                 .sheet(isPresented: $showModal) {
-                    AddSpenderView(isUpdate: $isUpdate, date: $date, list: list, item: isUpdate ? item : Item())
-                        .environmentObject(spendingVM)
+                    AddSpenderView(isUpdate: $isUpdate, list: list)
                 }
+        }
+        .onAppear {
+            spendingVM.calculateSpendings(list: list)
         }
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @State private var message = ""
     @State private var showAuthentication = false
     
@@ -30,8 +30,8 @@ struct SettingsView: View {
             .listStyle(.insetGrouped)
             .navigationDestination(for: String.self) { menu in
                 switch menu {
-                case "Suggestions": SuggestionsView().environmentObject(spendingVM)
-                case "Currencies": CurrenciesView().environmentObject(spendingVM)
+                case "Suggestions": SuggestionsView()
+                case "Currencies": CurrenciesView()
                 default:
                     Text("Error")
                 }

@@ -10,14 +10,14 @@ import SwiftData
 
 struct NameTextField: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @FocusState var isInputActive: Bool
     @Query(sort: \Suggestion.name, order: .forward) private var suggestions: [Suggestion]
-    @Binding var itemName: String
+    @Bindable var item: Item
     var onSuggestionTap: (Suggestion) -> ()
     
     var body: some View {
-        TextField("Name", text: $itemName)
+        TextField("Name", text: $item.name)
             .frame(height: 50)
             .padding(10)
             .focused($isInputActive)
@@ -29,28 +29,36 @@ struct NameTextField: View {
             .shadow(color: .black, radius: -4)
             .padding([.top, .bottom], 5)
             .onTapGesture {
-                itemName.removeAll()
+                item.name.removeAll()
             }
             .toolbar {
                 ToolbarItem(placement: .keyboard) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
-                            ForEach(suggestions, id: \.name) { suggestion in
-                                Text(suggestion.name)
-                                    .font(.caption)
-                                    .foregroundColor(AdaptColors.container)
-                                    .padding(5)
-                                    .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
-                                    .clipShape(Capsule())
-                                    .padding(5)
-                                    .onTapGesture(perform: {
-                                        onSuggestionTap(suggestion)
-                                        isInputActive = false
-                                    })
-                            }
-                        }
-                    }.frame(maxHeight: 40)
+                    SuggestionsBand(suggestions: suggestions) { suggestion in
+                        onSuggestionTap(suggestion)
+                        isInputActive = false
+                    }
                 }
             }
     }
+}
+
+
+@ViewBuilder
+func SuggestionsBand(suggestions: [Suggestion], onSuggestionTap: @escaping (Suggestion) -> ()) -> some View {
+    ScrollView(.horizontal, showsIndicators: false) {
+        LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
+            ForEach(suggestions, id: \.name) { suggestion in
+                Text(suggestion.name)
+                    .font(.caption)
+                    .foregroundColor(AdaptColors.container)
+                    .padding(5)
+                    .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
+                    .clipShape(Capsule())
+                    .padding(5)
+                    .onTapGesture(perform: {
+                        onSuggestionTap(suggestion)
+                    })
+            }
+        }
+    }.frame(maxHeight: 40)
 }

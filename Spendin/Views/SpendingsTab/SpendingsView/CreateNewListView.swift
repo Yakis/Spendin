@@ -12,7 +12,7 @@ struct CreateNewListView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @State private var listName = ""
     
     

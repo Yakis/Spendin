@@ -11,21 +11,20 @@ import SwiftData
 struct ItemsView: View {
     
     @Environment(\.modelContext) var modelContext
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @Binding var showModal: Bool
     @Binding var isUpdate: Bool
     @State private var yPos: CGFloat = 0
     @State private var height: CGFloat = 0
     @State private var size: CGSize = .zero
     @State private var showDeleteRestrictionAlert = false
-    @Binding var selectedItem: Item
+    var list: ItemList
     
     var body: some View {
             List {
                 Section {
-                    ForEach(spendingVM.currentList.items!.sorted { $0.due < $1.due }, id: \.self) { item in
-                        DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal, selectedItem: $selectedItem)
-                                .environmentObject(spendingVM)
+                    ForEach(list.items?.sorted { $0.due < $1.due } ?? [], id: \.self) { item in
+                        DetailedListItemCell(item: item, isUpdate: $isUpdate, showModal: $showModal)
                     }
                     .onDelete(perform: delete)
                     .listRowBackground(AdaptColors.container)
@@ -34,17 +33,16 @@ struct ItemsView: View {
             }
             .padding([.leading, .trailing], 16)
             .listStyle(.plain)
-            .onChange(of: spendingVM.currentList.items, {
-                print("===============ITEMS CHANGED=============")
-                spendingVM.calculateSpendings()
+            .onChange(of: list.items, {
+                spendingVM.calculateSpendings(list: list)
             })
     }
     
     
     private func delete(at offsets: IndexSet) {
         for index in offsets {
-            if let itemToDelete = spendingVM.currentList.items?.sorted(by: { $0.due < $1.due })[index], let indexToDelete = spendingVM.currentList.items?.firstIndex(of: itemToDelete) {
-                spendingVM.currentList.items?.remove(at: indexToDelete)
+            if let itemToDelete = list.items?.sorted(by: { $0.due < $1.due })[index], let indexToDelete = list.items?.firstIndex(of: itemToDelete) {
+                list.items?.remove(at: indexToDelete)
             }
         }
     }

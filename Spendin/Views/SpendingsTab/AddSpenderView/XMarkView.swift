@@ -10,7 +10,7 @@ import SwiftUI
 struct XmarkView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     
     var body: some View {
         HStack {
@@ -22,7 +22,7 @@ struct XmarkView: View {
                 .foregroundColor(Color.init("Adapt Text"))
                 .onTapGesture {
                     presentationMode.wrappedValue.dismiss()
-                    viewModel.itemToSave = Item()
+                    spendingVM.itemToSave = Item()
                 }
         }
     }

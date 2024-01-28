@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SuggestionEditor: View {
     
+    @Environment(\.spendingVM) private var spendingVM
     @Environment(\.presentationMode) var presentationMode
     @Bindable var suggestion: Suggestion
     @State private var typeOptions = ["expense", "income"]
@@ -47,7 +48,7 @@ struct SuggestionEditor: View {
                 .onTapGesture {
                     suggestion.amount.removeAll()
                 }
-            CategoryPicker(category: $suggestion.category)
+            CategoryPicker(item: spendingVM.itemToSave)
             Picker("SD", selection: $suggestion.itemType) {
                 ForEach(typeOptions, id: \.self) { type in
                     Text(type)

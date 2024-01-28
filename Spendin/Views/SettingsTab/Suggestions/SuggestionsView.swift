@@ -10,7 +10,7 @@ import SwiftData
 
 struct SuggestionsView: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     @Query var incomeSuggestions: [Suggestion]
     @Query var expenseSuggestions: [Suggestion]
     
@@ -100,7 +100,7 @@ struct SuggestionsView: View {
 
 struct SuggestionSettingsCell: View {
     
-    @EnvironmentObject var spendingVM: SpendingVM
+    @Environment(\.spendingVM) private var spendingVM
     var suggestion: Suggestion
     var tapAction: (Suggestion) -> ()
     

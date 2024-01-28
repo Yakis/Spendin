@@ -9,11 +9,12 @@ import SwiftUI
 
 struct ItemTypePicker: View {
     
+    @Environment(\.spendingVM) private var spendingVM
     var itemTypes: [ItemType]
-    @Binding var selectedType: ItemType
+    @Bindable var item: Item
     
     var body: some View {
-        Picker(selection: $selectedType, label: Text("")) {
+        Picker(selection: $item.itemType, label: Text("")) {
             ForEach(itemTypes, id: \.self) { type in
                 Text(type.rawValue)
             }
