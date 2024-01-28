@@ -18,7 +18,7 @@ struct AddSpenderView: View {
     @State private var cancellable: AnyCancellable?
     @Binding var isUpdate: Bool
     @Binding var date: Date
-    @State private var itemTypes = ["expense", "income"]
+    @State private var itemTypes = ItemType.allCases
     @State private var showSuggestionEditor = false
     var list: ItemList
     @Bindable var item: Item
@@ -37,9 +37,10 @@ struct AddSpenderView: View {
                     CategoryPicker(category: $item.category)
                     ItemDatePicker(date: $date)
                     SaveButton(disabled: (item.name.isEmpty || item.amount.isEmpty), saveAction: {
-                        item.due = date.ISO8601Format()
+                        item.due = date
                         if !isUpdate {
                             list.items!.append(item)
+                            try? modelContext.save()
                         }
                         saveSuggestion(item)
                         presentationMode.wrappedValue.dismiss()
@@ -75,6 +76,7 @@ struct AddSpenderView: View {
         if !suggestions.contains(where: { $0.name == item.name }) {
             let suggestion = Suggestion(name: item.name, itemType: item.itemType, category: item.category, amount: item.amount, count: 0)
             modelContext.insert(suggestion)
+            try? modelContext.save()
         }
     }
     

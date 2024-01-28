@@ -11,14 +11,13 @@ import SwiftData
 @Model
 final class Suggestion {
     
-    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
-    var itemType: String = "expense"
-    var category: String = ""
-    var amount: String = "0"
+    var itemType: ItemType = ItemType.expense
+    var category: String = "cart.fill"
+    var amount: String = ""
     
     
-    init(name: String, itemType: String, category: String, amount: String, count: Int) {
+    init(name: String, itemType: ItemType, category: String, amount: String, count: Int) {
         self.name = name
         self.itemType = itemType
         self.category = category
@@ -28,7 +27,7 @@ final class Suggestion {
     
     init() {
         self.name = ""
-        self.itemType = ""
+        self.itemType = ItemType.expense
         self.category = ""
         self.amount = "0"
     }

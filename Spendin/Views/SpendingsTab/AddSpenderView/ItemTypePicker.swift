@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ItemTypePicker: View {
     
-    var itemTypes: [String]
-    @Binding var selectedType: String
+    var itemTypes: [ItemType]
+    @Binding var selectedType: ItemType
     
     var body: some View {
         Picker(selection: $selectedType, label: Text("")) {
             ForEach(itemTypes, id: \.self) { type in
-                Text(type)
+                Text(type.rawValue)
             }
         }.pickerStyle(SegmentedPickerStyle())
     }

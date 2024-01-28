@@ -42,7 +42,10 @@ struct SpendinApp: App {
     init() {
         _spendingVM = StateObject(wrappedValue: SpendingVM())
         do {
-            modelContainer = try ModelContainer(for: Item.self, ItemList.self, Suggestion.self)
+            let schema = Schema([ItemList.self, Item.self, Suggestion.self])
+            let storeURL = URL.documentsDirectory.appending(path: "spendin.store")
+            let config = ModelConfiguration.init(url: storeURL, cloudKitDatabase: .private("iCloud.Spendin"))
+            modelContainer = try ModelContainer(for: schema, configurations: [config])
         } catch {
             fatalError("Could not initialize ModelContainer: \(error)")
         }

@@ -11,20 +11,19 @@ import SwiftData
 @Model
 final class ItemList {
     
-    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
-    var createdAt: String = Date().ISO8601Format()
-    var items: [Item]? = []
+    var createdAt: Date = Date()
+    var items: [Item]?
     
     init() {
         self.name = ""
-        self.createdAt = ""
+        self.createdAt = Date()
         self.items = []
     }
     
     init(name: String) {
         self.name = name
-        self.createdAt = ""
+        self.createdAt = Date()
         self.items = []
     }
     

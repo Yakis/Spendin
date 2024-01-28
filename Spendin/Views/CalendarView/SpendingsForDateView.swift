@@ -18,7 +18,7 @@ struct SpendingsForDateView: View {
     @State private var item: Item = Item()
     
     var body: some View {
-        if let items = list.items?.filter({ calendar.compare($0.date, to: selectedDate, toGranularity: .day) == .orderedSame}) {
+        if let items = list.items?.filter({ calendar.compare($0.due, to: selectedDate, toGranularity: .day) == .orderedSame}) {
             VStack(alignment: .center) {
                 Text(selectedDate.shortString())
                     .font(.title2)

@@ -8,35 +8,35 @@
 import Foundation
 import SwiftData
 
+enum ItemType: String, CaseIterable, Codable {
+    case expense
+    case income
+}
+
 @Model
 final class Item {
     
-    @Attribute(.unique) var id: UUID = UUID()
     var name: String = ""
     var amount: String = ""
     var amountLeft: String = ""
-    var category: String = ""
-    var itemType: String = ""
-    var due: String = ""
+    var category: String = "cart.fill"
+    var itemType: ItemType = ItemType.expense
+    var due: Date = Date()
     
     @Relationship(inverse: \ItemList.items)
     var list: ItemList?
-    
-    var date: Date {
-        return due.isoToDate()
-    }
     
     init() {
         self.name = ""
         self.amount = "0"
         self.amountLeft = "0"
         self.category = "cart.fill"
-        self.itemType = "expense"
-        self.due = ""
+        self.itemType = .expense
+        self.due = Date()
     }
     
     
-    init(name: String, amount: String, category: String, due: String, itemType: String) {
+    init(name: String, amount: String, category: String, due: Date, itemType: ItemType) {
         self.name = name
         self.amount = amount
         self.amountLeft = "0"

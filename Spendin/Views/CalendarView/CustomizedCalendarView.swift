@@ -12,7 +12,7 @@ struct CustomizedCalendarView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
     
-    @State private var selectedList: UUID = UUID()
+    @State private var selectedList: String = ""
     
     @Environment(\.calendar) var calendar
     
@@ -33,7 +33,7 @@ struct CustomizedCalendarView: View {
                 ScrollViewReader { scroll in
                     VStack {
 //                        if let currentList = lists.first { $0.id == selectedList } {
-                        CalendarView(interval: year, list: lists.first { $0.id == selectedList } ?? ItemList(name: "")) { date in
+                        CalendarView(interval: year, list: lists.first { $0.name == selectedList } ?? ItemList(name: "")) { date in
                                 Text("30")
                                     .hidden()
                                     .padding(8)
@@ -51,14 +51,14 @@ struct CustomizedCalendarView: View {
                     .onAppear {
                         scroll.scrollTo(getCurrentMonth(), anchor: .top)
                         if let currentList = lists.first {
-                            self.selectedList = currentList.id
+                            self.selectedList = currentList.name
                         }
                     }
                 }
             }
             .background(AdaptColors.container)
             .padding(.bottom, 1)
-            .navigationTitle((lists.isEmpty ? "" : lists.first { $0.id == selectedList }?.name) ?? "")
+            .navigationTitle((lists.isEmpty ? "" : lists.first { $0.name == selectedList }?.name) ?? "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -75,8 +75,8 @@ struct CustomizedCalendarView: View {
                 }.disabled(lists.isEmpty)
                 }
             }
-            .onChange(of: selectedList) { key, value in
-                print("List changed: \(String(describing: lists.first {$0.id == selectedList}?.name))")
+            .onChange(of: selectedList) { oldValue, newValue in
+                print("List changed: \(String(describing: lists.first {$0.name == selectedList}?.name))")
             }
         }
     }

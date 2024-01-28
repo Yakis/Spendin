@@ -27,22 +27,22 @@ struct DetailedListItemCell: View {
                         .frame(width: 30)
                         .foregroundColor(AdaptColors.categoryIcon)
                         .padding(.trailing, 5)
-                        .offset(x: item.date.isToday() ? 16 : 0)
+                        .offset(x: item.due.isToday() ? 16 : 0)
                     VStack(alignment: .leading) {
                         Text(item.name)
                             .font(.title2)
                             .fontWeight(.thin)
                             .padding(.bottom, 1)
-                        Text((item.date.shortString()))
+                        Text((item.due.shortString()))
                             .font(.caption2)
                             .fontWeight(.thin)
-                    }.offset(x: item.date.isToday() ? 16 : 0)
+                    }.offset(x: item.due.isToday() ? 16 : 0)
                     Spacer()
                     VStack(alignment: .trailing) {
                         HStack {
-                            Image(systemName: item.itemType == "expense" ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
+                            Image(systemName: item.itemType == ItemType.expense ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
                                 .font(.caption2)
-                                .foregroundColor(item.itemType == "expense" ? .red : .green)
+                                .foregroundColor(item.itemType == ItemType.expense ? .red : .green)
                             Text(amountString(item: item))
                                 .font(.title3)
                                 .fontWeight(.thin)
@@ -66,11 +66,11 @@ struct DetailedListItemCell: View {
                 HStack {
                     Text("Due")
                         .font(.caption2)
-                        .frame(height: item.date.isToday() ? 16 : 0)
-                        .frame(width: item.date.isToday() ? 65 : 0)
+                        .frame(height: item.due.isToday() ? 16 : 0)
+                        .frame(width: item.due.isToday() ? 65 : 0)
                         .padding(3)
                         .background(AdaptColors.theOrange)
-                        .opacity(item.date.isToday() ? 1 : 0)
+                        .opacity(item.due.isToday() ? 1 : 0)
                         .rotationEffect(Angle(degrees: -90))
                         .position(x: -9, y: 60 / 2)
                 }
@@ -80,7 +80,7 @@ struct DetailedListItemCell: View {
     
     private func amountString(item: Item) -> String {
         switch item.itemType {
-        case "expense": return "\(spendingVM.currency) \(item.amount)"
+        case ItemType.expense: return "\(spendingVM.currency) \(item.amount)"
         default: return "\(spendingVM.currency) \(item.amount)"
         }
     }

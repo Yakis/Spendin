@@ -11,8 +11,26 @@ import SwiftData
 struct SuggestionsView: View {
     
     @EnvironmentObject var spendingVM: SpendingVM
-    @Query(filter: #Predicate<Suggestion> { $0.itemType == "income" }) private var incomeSuggestions: [Suggestion]
-    @Query(filter: #Predicate<Suggestion> { $0.itemType == "expense" }) private var expenseSuggestions: [Suggestion]
+    @Query var incomeSuggestions: [Suggestion]
+    @Query var expenseSuggestions: [Suggestion]
+    
+    
+    init() {
+        let expense = ItemType.expense.rawValue
+        let expenseFilter = #Predicate<Suggestion> { suggestion in
+            suggestion.itemType.rawValue == expense
+        }
+        _expenseSuggestions = Query(filter: expenseFilter)
+        
+        
+        let income = ItemType.income.rawValue
+        let incomeFilter = #Predicate<Suggestion> { suggestion in
+            suggestion.itemType.rawValue == income
+        }
+        _incomeSuggestions = Query(filter: incomeFilter)
+    }
+    
+    
     @State private var showSuggestionEditor = false
     @State private var columns = [
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3),
@@ -91,7 +109,7 @@ struct SuggestionSettingsCell: View {
             Label(suggestion.name, systemImage: suggestion.category)
                 .lineLimit(1)
                 .padding(8)
-                .background(suggestion.itemType == "expense" ? AdaptColors.theOrange : Color.green)
+                .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
                 .clipShape(Capsule())
         }
         .onTapGesture {
