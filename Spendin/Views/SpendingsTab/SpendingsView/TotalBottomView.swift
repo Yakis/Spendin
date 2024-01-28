@@ -32,6 +32,7 @@ struct TotalBottomView: View {
                 .onTapGesture {
                     isUpdate = false
                     showModal = true
+                    spendingVM.itemToSave = Item()
                 }
                 .sheet(isPresented: $showModal) {
                     AddSpenderView(isUpdate: $isUpdate, list: list)
