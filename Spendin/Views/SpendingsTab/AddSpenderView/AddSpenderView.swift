@@ -38,9 +38,7 @@ struct AddSpenderView: View {
                         item: spendingVM.itemToSave,
                         saveAction: {
                         if !isUpdate {
-//                            list.items!.append(spendingVM.itemToSave)
-                            spendingVM.itemToSave.list = list
-                            modelContext.insert(spendingVM.itemToSave)
+                            list.items!.append(spendingVM.itemToSave)
                             try? modelContext.save()
                         }
                         saveSuggestion(spendingVM.itemToSave)
