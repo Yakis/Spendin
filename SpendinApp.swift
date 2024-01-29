@@ -56,7 +56,7 @@ struct SpendinApp: App {
         do {
             let schema = Schema([ItemList.self, Item.self, Suggestion.self])
             let storeURL = URL.documentsDirectory.appending(path: "spendin.store")
-            let config = ModelConfiguration.init(url: storeURL, cloudKitDatabase: .private("iCloud.Spendin"))
+            let config = ModelConfiguration.init(url: storeURL, cloudKitDatabase: .private("iCloud.com.yakis.Spendin"))
             modelContainer = try ModelContainer(for: schema, configurations: [config])
         } catch {
             fatalError("Could not initialize ModelContainer: \(error)")
