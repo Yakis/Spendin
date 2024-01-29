@@ -11,24 +11,9 @@ import SwiftData
 struct SuggestionsView: View {
     
     @Environment(\.spendingVM) private var spendingVM
-    @Query var incomeSuggestions: [Suggestion]
-    @Query var expenseSuggestions: [Suggestion]
+    @Environment(\.modelContext) var modelContext
     
-    
-    init() {
-        let expense = ItemType.expense.rawValue
-        let expenseFilter = #Predicate<Suggestion> { suggestion in
-            suggestion.itemType.rawValue == expense
-        }
-        _expenseSuggestions = Query(filter: expenseFilter)
-        
-        
-        let income = ItemType.income.rawValue
-        let incomeFilter = #Predicate<Suggestion> { suggestion in
-            suggestion.itemType.rawValue == income
-        }
-        _incomeSuggestions = Query(filter: incomeFilter)
-    }
+    @Query var suggestions: [Suggestion]
     
     
     @State private var showSuggestionEditor = false
@@ -38,7 +23,6 @@ struct SuggestionsView: View {
         GridItem.init(.flexible(minimum: 80, maximum: 150), spacing: 3)
     ]
     
-    @State private var selectedSuggestion: Suggestion = Suggestion()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -54,7 +38,7 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(incomeSuggestions, id: \.self) { suggestion in
+                    ForEach(suggestions.filter { $0.itemType == .income }, id: \.name) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
                             spendingVM.selectedSuggestion = selected
                             self.showSuggestionEditor = true
@@ -70,9 +54,9 @@ struct SuggestionsView: View {
                     .foregroundColor(.gray)
                     .padding(.top, 16)
                 LazyVGrid(columns: columns, alignment: .leading, spacing: 16) {
-                    ForEach(expenseSuggestions, id: \.self) { suggestion in
+                    ForEach(suggestions.filter { $0.itemType == .expense }, id: \.name) { suggestion in
                         SuggestionSettingsCell(suggestion: suggestion, tapAction: { selected in
-                            self.selectedSuggestion = selected
+                            spendingVM.selectedSuggestion = selected
                             self.showSuggestionEditor = true
                         })
                     }
@@ -86,9 +70,9 @@ struct SuggestionsView: View {
             CloseableView {
                 SuggestionEditor(suggestion: spendingVM.selectedSuggestion,
                                  updateAction: {
-//                    spendingVM.updateSuggestion()
+                    try? modelContext.save()
                 }, deleteAction: {
-//                    spendingVM.deleteSuggestion()
+                    modelContext.delete(spendingVM.selectedSuggestion)
                 })
             }
         })

@@ -17,6 +17,7 @@ struct ItemTypePicker: View {
         Picker(selection: $item.itemType, label: Text("")) {
             ForEach(itemTypes, id: \.self) { type in
                 Text(type.rawValue)
+                    .tag(type.rawValue)
             }
         }.pickerStyle(SegmentedPickerStyle())
     }

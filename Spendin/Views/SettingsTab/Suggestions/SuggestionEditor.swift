@@ -12,7 +12,6 @@ struct SuggestionEditor: View {
     @Environment(\.spendingVM) private var spendingVM
     @Environment(\.presentationMode) var presentationMode
     @Bindable var suggestion: Suggestion
-    @State private var typeOptions = ["expense", "income"]
     @State private var showDeleteConfirmation = false
     var updateAction: () -> ()
     var deleteAction: () -> ()
@@ -48,11 +47,11 @@ struct SuggestionEditor: View {
                 .onTapGesture {
                     suggestion.amount.removeAll()
                 }
-            CategoryPicker(item: spendingVM.itemToSave)
+            SuggestionCategoryPicker(suggestion: suggestion)
             Picker("SD", selection: $suggestion.itemType) {
-                ForEach(typeOptions, id: \.self) { type in
-                    Text(type)
-                        .tag(type)
+                ForEach(ItemType.allCases, id: \.self) { type in
+                    Text(type.rawValue)
+                        .tag(type.rawValue)
                 }
             }
             .accentColor(AdaptColors.theOrange)

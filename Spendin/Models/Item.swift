@@ -8,9 +8,13 @@
 import Foundation
 import SwiftData
 
-enum ItemType: String, CaseIterable, Codable {
-    case expense
-    case income
+enum ItemType: String, CaseIterable, Codable, Identifiable {
+    case expense = "expense"
+    case income = "income"
+    
+    var id: String {
+        rawValue
+    }
 }
 
 @Model
