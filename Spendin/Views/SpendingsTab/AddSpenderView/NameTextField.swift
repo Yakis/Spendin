@@ -43,22 +43,27 @@ struct NameTextField: View {
 }
 
 
-@ViewBuilder
-func SuggestionsBand(suggestions: [Suggestion], onSuggestionTap: @escaping (Suggestion) -> ()) -> some View {
-    ScrollView(.horizontal, showsIndicators: false) {
-        LazyHGrid(rows: [GridItem.init(.flexible(minimum: 40, maximum: 100), spacing: 10, alignment: .center)]) {
-            ForEach(suggestions, id: \.name) { suggestion in
-                Text(suggestion.name)
-                    .font(.caption)
-                    .foregroundColor(AdaptColors.container)
-                    .padding(5)
-                    .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
-                    .clipShape(Capsule())
-                    .padding(5)
-                    .onTapGesture(perform: {
-                        onSuggestionTap(suggestion)
-                    })
-            }
-        }
-    }.frame(maxHeight: 40)
+struct SuggestionsBand: View {
+    
+    var suggestions: [Suggestion]
+    var onSuggestionTap: (Suggestion) -> ()
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(content: {
+                ForEach(suggestions, id: \.name) { suggestion in
+                    Text(suggestion.name)
+                        .font(.caption)
+                        .foregroundColor(AdaptColors.container)
+                        .padding(5)
+                        .background(suggestion.itemType == .expense ? AdaptColors.theOrange : Color.green)
+                        .clipShape(Capsule())
+                        .padding(5)
+                        .onTapGesture(perform: {
+                            onSuggestionTap(suggestion)
+                        })
+                }
+            })
+        }.frame(maxHeight: 40)
+    }
 }

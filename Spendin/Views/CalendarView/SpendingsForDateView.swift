@@ -25,7 +25,7 @@ struct SpendingsForDateView: View {
                     .padding()
                 List {
                     ForEach(items, id: \.id) { item in
-                        DetailedListItemCell(item: spendingVM.itemToSave, isUpdate: $isUpdate, showModal: $showModal)
+                        DetailedListItemCell(item: spendingVM.itemToSave!, isUpdate: $isUpdate, showModal: $showModal)
                     }
                     .listRowBackground(AdaptColors.cellBackground)
                 }

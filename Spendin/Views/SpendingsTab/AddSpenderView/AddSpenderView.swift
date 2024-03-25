@@ -25,23 +25,23 @@ struct AddSpenderView: View {
         NavigationView {
             VStack(alignment: .center, spacing: 20) {
                 ScrollView {
-                    ItemTypePicker(itemTypes: itemTypes, item: spendingVM.itemToSave)
+                    ItemTypePicker(itemTypes: itemTypes, item: spendingVM.itemToSave!)
                         .padding([.top, .bottom], 5)
                     NameTextField(
-                        item: spendingVM.itemToSave,
+                        item: spendingVM.itemToSave!,
                         onSuggestionTap: onSuggestionTap(_:)
                     )
-                    AmountTextField(item: spendingVM.itemToSave)
-                    CategoryPicker(item: spendingVM.itemToSave)
-                    ItemDatePicker(item: spendingVM.itemToSave)
+                    AmountTextField(item: spendingVM.itemToSave!)
+                    CategoryPicker(item: spendingVM.itemToSave!)
+                    ItemDatePicker(item: spendingVM.itemToSave!)
                     SaveButton(
-                        item: spendingVM.itemToSave,
+                        item: spendingVM.itemToSave!,
                         saveAction: {
                         if !isUpdate {
-                            list.items!.append(spendingVM.itemToSave)
+                            list.items!.append(spendingVM.itemToSave!)
                             try? modelContext.save()
                         }
-                        saveSuggestion(spendingVM.itemToSave)
+                        saveSuggestion(spendingVM.itemToSave!)
                         presentationMode.wrappedValue.dismiss()
                         spendingVM.calculateSpendings(list: list)
                     })
@@ -80,18 +80,12 @@ struct AddSpenderView: View {
     }
     
     
-    
-    private func onSuggestionTap(_ suggestion: Suggestion) {
-        var newItem = Item(name: suggestion.name, amount: suggestion.amount, category: suggestion.category, due: spendingVM.itemToSave.due, itemType: suggestion.itemType)
+    func onSuggestionTap(_ suggestion: Suggestion) {
+        let newItem = Item(name: suggestion.name, amount: suggestion.amount, category: suggestion.category, due: spendingVM.itemToSave!.due, itemType: suggestion.itemType)
         spendingVM.itemToSave = newItem
-        print("================================================")
-        print(spendingVM.itemToSave.name)
-        print(spendingVM.itemToSave.amount)
-        print(spendingVM.itemToSave.itemType)
-        print(spendingVM.itemToSave.category)
-        print(spendingVM.itemToSave.due)
-        print(spendingVM.itemToSave.amountLeft)
-        print("================================================")
     }
+    
+    
+    
     
 }

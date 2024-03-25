@@ -15,9 +15,25 @@ final class SpendingVM {
     var isLoading: Bool = false
     var suggestions = [Suggestion]()
     var amountList: Dictionary<String, String> = [:]
-    var itemToSave: Item = Item()
+    var itemToSave: Item?
     var selectedSuggestion = Suggestion()
             
+    
+    
+    func onSuggestionTap(_ suggestion: Suggestion) {
+//        var newItem = Item(name: suggestion.name, amount: suggestion.amount, category: suggestion.category, due: itemToSave.due, itemType: suggestion.itemType)
+//        itemToSave = newItem
+//        print("================================================")
+//        print(itemToSave.name)
+//        print(itemToSave.amount)
+//        print(itemToSave.itemType)
+//        print(itemToSave.category)
+//        print(itemToSave.due)
+//        print(itemToSave.amountLeft)
+        print("================================================")
+    }
+    
+    
     
     func calculateSpendings(list: ItemList) {
         var temp: Double = 0
